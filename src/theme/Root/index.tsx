@@ -16,7 +16,7 @@ export default function Root({ children }: Props): React.ReactNode {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+      <SuiClientProvider networks={networkConfig} defaultNetwork="devnet">
         <WalletProvider autoConnect>
           {children}
         </WalletProvider>

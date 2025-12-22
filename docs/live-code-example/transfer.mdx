@@ -1,0 +1,140 @@
+---
+title: Transfer
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Transfer
+
+After connecting a wallet, build a PTB that transfers SUI to the `to` address and execute it with `useSignAndExecuteTransaction`.
+
+> This example uses `devnet`.
+
+```jsx live noInline
+function Transfer() {
+  const account = useCurrentAccount();
+  const { mutate: signAndExecuteTransaction, isPending } = useSignAndExecuteTransaction();
+  const { data: balance } = useSuiClientQuery('getBalance', { owner: account?.address ?? '' }, { enabled: !!account });
+
+  const [to, setTo] = useState('');
+  const [mist, setMist] = useState('1000000');
+  const [digest, setDigest] = useState('');
+  const [error, setError] = useState('');
+
+  if (!account) {
+    return (
+      <div style={{ padding: 12, border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: 12 }}>
+        Connect your wallet first (top-right wallet icon).
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: 12, border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: 12 }}>
+      <div style={{ marginBottom: 12 }}>
+        <div>
+          <b>From</b>: <code>{account.address}</code>
+        </div>
+        {balance ? (
+          <div style={{ marginTop: 6 }}>
+            <b>Balance</b>: <code>{balance.totalBalance}</code> mist ({balance.coinObjectCount} coins)
+          </div>
+        ) : null}
+      </div>
+
+      <div style={{ display: 'grid', gap: 10, marginBottom: 12 }}>
+        <label style={{ display: 'grid', gap: 6 }}>
+          <span>To address</span>
+          <input
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            placeholder="0x..."
+            style={{
+              padding: '10px 12px',
+              borderRadius: 10,
+              border: '1px solid var(--ifm-color-emphasis-200)',
+              background: 'var(--ifm-background-surface-color)',
+              color: 'var(--ifm-font-color-base)',
+            }}
+          />
+        </label>
+
+        <label style={{ display: 'grid', gap: 6 }}>
+          <span>Amount (mist)</span>
+          <input
+            value={mist}
+            onChange={(e) => setMist(e.target.value)}
+            inputMode="numeric"
+            style={{
+              padding: '10px 12px',
+              borderRadius: 10,
+              border: '1px solid var(--ifm-color-emphasis-200)',
+              background: 'var(--ifm-background-surface-color)',
+              color: 'var(--ifm-font-color-base)',
+            }}
+          />
+        </label>
+      </div>
+
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+        <button
+          className="button button--primary"
+          disabled={isPending || !to || !mist}
+          onClick={() => {
+            setError('');
+            setDigest('');
+
+            if (!to.startsWith('0x')) {
+              setError('The "To address" must start with 0x.');
+              return;
+            }
+
+            const tx = new Transaction();
+            const [coin] = tx.splitCoins(tx.gas, [mist]);
+            tx.transferObjects([coin], to);
+
+            signAndExecuteTransaction(
+              { transaction: tx, chain: 'sui:devnet' },
+              {
+                onSuccess: (result) => setDigest(result.digest),
+                onError: (e) => {
+                  const message = e?.message ?? String(e);
+                  if (message.includes('No valid gas coins found')) {
+                    setError(
+                      'No gas coins found on Devnet for this address. Switch your wallet network to Devnet and request faucet SUI, then try again.',
+                    );
+                    return;
+                  }
+                  setError(message);
+                },
+              },
+            );
+          }}
+        >
+          {isPending ? 'Sending…' : 'Transfer'}
+        </button>
+
+        {digest ? (
+          <a
+            href={`https://suiexplorer.com/txblock/${digest}?network=devnet`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View: {digest.slice(0, 10)}…
+          </a>
+        ) : null}
+      </div>
+
+      {error ? (
+        <div style={{ marginTop: 12, color: 'var(--ifm-color-danger)' }}>
+          {error}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+render(<Transfer />);
+```
