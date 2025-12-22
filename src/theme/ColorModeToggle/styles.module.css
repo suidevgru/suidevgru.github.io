@@ -1,0 +1,39 @@
+/**
+ * Override: ensure only the active icon is visible.
+ * (Some third-party CSS can override the default display rules.)
+ */
+
+.toggle {
+  width: 2rem;
+  height: 2rem;
+}
+
+.toggleButton {
+  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: background var(--ifm-transition-fast);
+}
+
+.toggleButton:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.toggleIcon {
+  display: none !important;
+}
+
+[data-theme-choice='system'] .systemToggleIcon,
+[data-theme-choice='light'] .lightToggleIcon,
+[data-theme-choice='dark'] .darkToggleIcon {
+  display: initial !important;
+}
+
+.toggleButtonDisabled {
+  cursor: not-allowed;
+}
+

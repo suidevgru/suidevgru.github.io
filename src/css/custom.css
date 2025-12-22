@@ -1,4 +1,7 @@
 @import '../../node_modules/@mysten/dapp-kit/dist/esm/index.css';
+@import '@xyflow/react/dist/style.css';
+@import '@zktx.io/ptb-builder/index.css';
+@import '@zktx.io/ptb-builder/styles/themes-all.css';
 
 /**
  * Any CSS included here will be global. The classic template
@@ -29,4 +32,39 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure ColorModeToggle shows only the active icon (some CSS resets can override it). */
+[class*='toggleIcon_'] {
+  display: none !important;
+}
+[data-theme-choice='system'] [class*='systemToggleIcon_'],
+[data-theme-choice='light'] [class*='lightToggleIcon_'],
+[data-theme-choice='dark'] [class*='darkToggleIcon_'] {
+  display: initial !important;
+}
+
+/* Restore Infima button fill (can be overridden by global CSS resets from embedded apps). */
+.button.button--primary {
+  background-color: var(--ifm-color-primary) !important;
+  border-color: var(--ifm-color-primary) !important;
+  color: var(--ifm-color-white, #fff) !important;
+}
+.button.button--secondary {
+  background-color: var(--ifm-background-surface-color) !important;
+  border-color: var(--ifm-color-emphasis-300) !important;
+  color: var(--ifm-font-color-base) !important;
+}
+.button.button--warning {
+  background-color: var(--ifm-color-warning) !important;
+  border-color: var(--ifm-color-warning) !important;
+  color: var(--ifm-color-gray-900, #0b0b0b) !important;
+}
+.button.button--lg {
+  padding: 0.75rem 1.25rem !important;
+}
+.button:focus,
+.button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
