@@ -11,33 +11,69 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  /* Sui brand (starting from the official Sui blue used in `static/img/wallet.svg`). */
-  --ifm-color-primary: #4da2ff;
-  --ifm-color-primary-dark: #2f8fff;
-  --ifm-color-primary-darker: #1f86ff;
-  --ifm-color-primary-darkest: #006cf0;
-  --ifm-color-primary-light: #6bb5ff;
-  --ifm-color-primary-lighter: #7bbdff;
-  --ifm-color-primary-lightest: #a8d6ff;
+  /* Sui palette tokens (core + extended). */
+  --sui-blue-900: #00060f;
+  --sui-blue-800: #001129;
+  --sui-blue-700: #002e6a;
+  --sui-blue-600: #1759c4;
+  --sui-blue-500: #298dff; /* core */
+  --sui-blue-400: #5ca9ff;
+  --sui-blue-300: #8fcbff;
+  --sui-blue-200: #bce2ff;
+  --sui-blue-100: #ddf2ff;
+  --sui-blue-50: #f2faff;
 
-  --ifm-link-color: var(--ifm-color-primary);
-  --ifm-link-hover-color: var(--ifm-color-primary-dark);
+  --sui-gray-900: #131518;
+  --sui-gray-800: #222529;
+  --sui-gray-700: #343940;
+  --sui-gray-600: #4b515b;
+  --sui-gray-500: #6c7584; /* core */
+  --sui-gray-400: #89919f;
+  --sui-gray-300: #a1a7b2;
+  --sui-gray-200: #c2c6cd;
+  --sui-gray-100: #e0e2e6;
+  --sui-gray-50: #f4f5f7;
+
+  --sui-black: #000000;
+  --sui-white: #ffffff;
+
+  /*
+    Accessibility rules (WCAG AA):
+    - Avoid Blue 500 (#298DFF) as normal text on white (3.31:1 FAIL).
+    - Use Blue 600+ for normal text on light surfaces; use Blue 300/200 for normal text on dark surfaces.
+    - For primary buttons on Blue 500 in dark mode, use black text (white fails).
+  */
+
+  /* Infima primary is the "action" color. Keep it AA-safe across common uses. */
+  --ifm-color-primary: var(--sui-blue-600);
+  --ifm-color-primary-dark: var(--sui-blue-700);
+  --ifm-color-primary-darker: var(--sui-blue-700);
+  --ifm-color-primary-darkest: var(--sui-blue-800);
+  --ifm-color-primary-light: var(--sui-blue-500); /* accents only; avoid for body text on white */
+  --ifm-color-primary-lighter: var(--sui-blue-400);
+  --ifm-color-primary-lightest: var(--sui-blue-300);
+
+  /* Links must meet AA: use Blue 600 on light backgrounds. */
+  --ifm-link-color: var(--sui-blue-600);
+  --ifm-link-hover-color: var(--sui-blue-700);
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #6bb5ff;
-  --ifm-color-primary-dark: #4da2ff;
-  --ifm-color-primary-darker: #2f8fff;
-  --ifm-color-primary-darkest: #1f86ff;
-  --ifm-color-primary-light: #7bbdff;
-  --ifm-color-primary-lighter: #a8d6ff;
-  --ifm-color-primary-lightest: #d6ecff;
+  /* In dark mode, primary as text should be lighter to maintain AA on dark surfaces. */
+  --ifm-color-primary: var(--sui-blue-500);
+  --ifm-color-primary-dark: var(--sui-blue-600);
+  --ifm-color-primary-darker: var(--sui-blue-600);
+  --ifm-color-primary-darkest: var(--sui-blue-700);
+  --ifm-color-primary-light: var(--sui-blue-400);
+  --ifm-color-primary-lighter: var(--sui-blue-300);
+  --ifm-color-primary-lightest: var(--sui-blue-200);
 
-  --ifm-link-color: var(--ifm-color-primary);
-  --ifm-link-hover-color: var(--ifm-color-primary-lightest);
+  /* Links must meet AA on dark surfaces: use Blue 300+ (Blue 600 fails on dark). */
+  --ifm-link-color: var(--sui-blue-300);
+  --ifm-link-hover-color: var(--sui-blue-200);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
@@ -55,7 +91,15 @@
 .button.button--primary {
   background-color: var(--ifm-color-primary) !important;
   border-color: var(--ifm-color-primary) !important;
-  color: var(--ifm-color-white, #fff) !important;
+  color: var(--sui-white) !important;
+}
+[data-theme='dark'] .button.button--primary {
+  /* Blue 500 background: white text fails; black text passes. */
+  color: var(--sui-black) !important;
+}
+.button.button--primary:hover {
+  background-color: var(--ifm-color-primary-dark) !important;
+  border-color: var(--ifm-color-primary-dark) !important;
 }
 .button.button--secondary {
   background-color: var(--ifm-background-surface-color) !important;
@@ -69,6 +113,9 @@
 }
 .button.button--lg {
   padding: 0.75rem 1.25rem !important;
+}
+.button {
+  border-width: 1px !important;
 }
 .button:focus,
 .button:focus-visible {
