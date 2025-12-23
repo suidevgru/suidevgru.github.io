@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import type { Transaction } from '@mysten/sui/transactions';
@@ -106,6 +106,7 @@ export function PtbBuilderDemo({
   const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
   const theme = usePtbTheme();
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [lastTx, setLastTx] = useState<{ chain: Chain; digest: string } | null>(null);
 
   const selectedTemplate = useMemo(() => {
     return PTB_TEMPLATES.find((t) => t.id === templateId) ?? null;
@@ -126,17 +127,30 @@ export function PtbBuilderDemo({
           signAndExecuteTransaction(
             { transaction: jsonTx, chain },
             {
-              onSuccess: (result) => resolve({ digest: result.digest }),
-              onError: (error) => resolve({ error: error.message }),
+              onSuccess: (result) => {
+                setLastTx({ chain, digest: result.digest });
+                resolve({ digest: result.digest });
+              },
+              onError: (error) => {
+                setLastTx(null);
+                resolve({ error: error.message });
+              },
             },
           );
         });
       } catch (e: any) {
+        setLastTx(null);
         return { error: e?.message ?? 'Serialization failed.' };
       }
     },
     [account, signAndExecuteTransaction],
   );
+
+  const explorerUrl = useMemo(() => {
+    if (!lastTx) return null;
+    const network = lastTx.chain.replace('sui:', '');
+    return `https://suiexplorer.com/txblock/${lastTx.digest}?network=${network}`;
+  }, [lastTx]);
 
   const header = useMemo(() => {
     return (
@@ -147,9 +161,17 @@ export function PtbBuilderDemo({
         <div>
           <b>Address</b>: <code>{account?.address ?? '— (connect wallet)'}</code>
         </div>
+        {explorerUrl && lastTx ? (
+          <div>
+            <b>Last Tx</b>:{' '}
+            <a href={explorerUrl} target="_blank" rel="noreferrer">
+              {lastTx.digest.slice(0, 10)}…
+            </a>
+          </div>
+        ) : null}
       </div>
     );
-  }, [account?.address]);
+  }, [account?.address, explorerUrl, lastTx]);
 
   const docToLoad = useMemo<PTBDoc | Chain>(() => {
     if (!selectedTemplate) return 'sui:devnet' satisfies Chain;
