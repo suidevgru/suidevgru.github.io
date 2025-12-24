@@ -1,160 +1,213 @@
-# Sui初心者向けチュートリアルカリキュラム
+# Sui初心者チュートリアルカリキュラム
 
-## サマリー
+## コース概要
 
-Suiの基礎からdApp開発まで、段階的に学ぶカリキュラム。初心者トラック（Module 1-5）で「書く→デプロイ→実行→PTBで合成」の開発フローを1周体験し、上級トラック（Module 6）で高度なパターンを学びます。
+Suiの基礎からdApp公開まで、段階的に学ぶ初心者向けコース。**Sui Extension**と**PTB Builder**を活用した実務ワークフローを体験しながら、約12週間でdAppを公開できるスキルを身につけます。
 
-### 初心者トラック（Module 1-5）
+### 初心者コース（6 Unit・約12週間）
 
-| モジュール | 内容 | ゴール |
-|:--|:--|:--|
-| 1 | 環境構築（CLI・Wallet・VSCode） | 開発環境が整い、Devnetに接続できる |
-| 2 | Devnetでの実践 + PTB Builder | トランザクションの仕組みを体感し、PTB Builderで操作を合成できる |
-| 3 | Move最小限（書く→デプロイ→呼び出し） | 自分のコントラクトをpublishし、1回呼び出せる |
-| 4 | TypeScript SDK最小核 | TSでPTBを組み、署名→実行→結果確認ができる |
-| 5 | キャップストーン + Walrus Sites | Move + フロントを統合したdAppを公開できる |
-
-### 上級トラック（Module 6）
-
-| モジュール | 内容 |
-|:--|:--|
-| 6 | Advanced Move + SDK応用 |
+| Unit | 内容 | 成果物 | 期間 |
+|:--|:--|:--|:--|
+| 1 | 環境構築とDevnet接続 | Devnetに接続し、Faucetでトークンを取得できた | Week 1-2 |
+| 2 | トランザクションとPTB Builder | PTB Builderで2操作を合成したtxが成功 | Week 3-4 |
+| 3 | Moveをpublishする | 自分のコントラクトをpublishし、Explorerから呼び出し成功 | Week 5-6 |
+| 4 | TSでPTBを組む | TSでPTBを組み、署名→実行→結果確認成功 | Week 7-8 |
+| 5 | dapp-kitでUI完成 | ウォレット接続してUIで結果表示まで動く | Week 9-10 |
+| 6 | 公開と次のステップ | dAppを公開し、学習完了 | Week 11-12 |
 
 **前提ネットワーク:** Devnet
 
 ---
 
-## Module 1: 環境構築
+## Unit 1: 環境構築とDevnet接続
 
-開発に必要なツールをすべてセットアップし、Devnetに接続する。
+**成果物**: Devnetに接続し、Faucetでトークンを取得できた
 
-### 1.1 基礎概念
+### 基礎概念
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 1.1.1 | ブロックチェーンの基本 | 分散台帳、コンセンサス、トランザクションを理解する | 簡単な例で概念確認 |
-| 1.1.2 | Suiのオブジェクト中心モデル | Suiの所有権モデル（Address-owned / Shared / Immutable）を理解する | 所有権の例を確認 |
+Lessonを始める前に、以下の基礎概念を理解しましょう。
 
-### 1.2 開発環境セットアップ
+#### ブロックチェーンの基本
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 1.2.1 | Slush（ウォレット）導入 | ブラウザ拡張をインストールし、アドレスを作成する | 新規作成→バックアップ→Devnet切替 |
-| 1.2.2 | Sui CLI導入 | `suiup`でCLIをインストールし、初期設定を完了する | `suiup` → `sui --version` → `sui client` |
-| 1.2.3 | VSCode + Sui Extension | Move開発環境を整備する | Sui Extensionインストール→シンタックスハイライト確認 |
-| 1.2.4 | Devnet接続 | CLIをDevnetに接続する | `sui client switch --env devnet` → 確認 |
-| 1.2.5 | Faucetでトークン取得 | テストSUIを取得する | `sui client faucet` → `sui client gas` |
+- **分散台帳**: 複数のノードが同じデータを共有・検証する仕組み
+- **コンセンサス**: ノード間で合意を形成するアルゴリズム
+- **トランザクション**: ブロックチェーン上で状態を変更する操作の単位
 
-**Checkpoint:** `sui client active-env` が `devnet` を返し、残高が表示されればOK
+#### Suiのオブジェクト中心モデル
 
----
+Suiは他のブロックチェーンと異なり、**オブジェクト中心**のデータモデルを採用しています。
 
-## Module 2: Devnetでの実践
+- **Address-owned Object**: 特定のアドレスが所有するオブジェクト
+- **Shared Object**: 複数のユーザーがアクセスできる共有オブジェクト
+- **Immutable Object**: 一度作成されたら変更できない不変オブジェクト
 
-Devnet上でトランザクションを実行し、PTB Builderで操作を合成する体験をする。
+### Lessons
 
-### 2.1 トランザクションとオブジェクト
+| ID | Title | Goal | Do | Success Check | Tools | Next |
+|:--|:--|:--|:--|:--|:--|:--|
+| L1 | Slushウォレットを入れる | ウォレットをインストールする | 1.Chrome拡張インストール<br>2.アカウント作成<br>3.バックアップ確認 | ウォレットにアドレスが表示される | Slush | Devnetに切り替えよう |
+| L2 | Devnetに切り替える | ネットワークをDevnetに変更する | 1.設定を開く<br>2.Devnet選択 | ウォレットに「Devnet」と表示される | Slush | CLIも導入しよう |
+| L3 | Sui CLIをインストールする | コマンドラインツールを導入する | 1.suiupコマンド実行<br>2.バージョン確認 | `sui --version`が成功する | CLI | VSCodeで開発環境を整えよう |
+| L4 | VSCode + Sui Extension | Move開発環境を整える | 1.Sui Extensionインストール<br>2.設定確認 | .moveファイルでハイライト表示される | **Sui Extension** | CLIもDevnetに接続しよう |
+| L5 | CLIをDevnetに接続する | CLIのネットワーク設定を行う | 1.switchコマンド<br>2.確認 | `sui client active-env`がdevnetを返す | CLI, **Sui Extension** | テストトークンを取得しよう |
+| L6 | Faucetでトークンを取得する | テストSUIを入手する | 1.faucetコマンド<br>2.残高確認 | `sui client gas`で残高が表示される | CLI | Unit 1完了！次はtxを実行 |
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 2.1.1 | Explorerでtxを読む | トランザクションの入力/出力/オブジェクト変化を読めるようになる | 送金tx → Explorerで確認 |
-| 2.1.2 | 送金とガス | ガス費用の感覚をつかむ | 少額送金 → 残高差分を観察 |
+### Checkpoint
 
-### 2.2 PTB Builderで合成体験
+`sui client active-env` が `devnet` を返し、`sui client gas` で残高が表示されればOK
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 2.2.1 | PTB Builder入門 | GUIで複数操作を1txにまとめる方法を体験する | PTB Builderで送金+送金を合成→実行 |
-| 2.2.2 | PTB → TypeScript Export | GUIで作ったPTBをTSコードに変換する流れを理解する | Export → コードを確認 → Module 4で再現予告 |
+### Pitfalls
 
-**Checkpoint:** PTB Builderで2操作を合成したtxが成功すればOK
+- **CLI接続エラー**: ネットワーク設定を確認（`sui client switch --env devnet`）
+- **Faucet制限**: 短時間に複数回リクエストするとレート制限にかかる（数分待つ）
+- **Sui Extension非表示**: `.move`拡張子のファイルを開いて確認
 
 ---
 
-## Module 3: Move最小限
+## Unit 2: トランザクションとPTB Builder
 
-最短で「書く→デプロイ→呼び出し」を達成する。高度なパターンはModule 6へ。
+**成果物**: PTB Builderで2操作を合成したtxが成功
 
-### 3.1 はじめてのMove
+### Lessons
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 3.1.1 | Moveの概要 | リソース・モジュール・パッケージの考え方を掴む | 構造を読む |
-| 3.1.2 | プロジェクト作成 | Moveパッケージを作成できる | `sui move new` → `Move.toml`確認 |
-| 3.1.3 | 最小コントラクト実装 | struct / entry functionを実装できる | カウンター or Greeting を実装 |
-| 3.1.4 | ビルドとテスト | ローカルでビルド・テストできる | `sui move build` → `sui move test` |
+| ID | Title | Goal | Do | Success Check | Tools | Next |
+|:--|:--|:--|:--|:--|:--|:--|
+| L7 | 送金してみる | 最初のトランザクションを実行する | 1.CLIで送金<br>2.結果確認 | txハッシュが取得できる | CLI | Explorerでtxを確認しよう |
+| L8 | Explorerでtxを読む | トランザクションの中身を理解する | 1.Explorer開く<br>2.txを検索<br>3.詳細確認 | 入力/出力/ガスが読める | Explorer | PTB Builderに触れてみよう |
+| L9 | PTB Builderを開く | GUIツールに触れる | 1.PTB Builderにアクセス<br>2.UIを確認 | PTB Builderが開ける | **PTB Builder** | 2操作を合成してみよう |
+| L10 | 2操作を合成する | 複数操作を1txにまとめる | 1.送金+送金を設定<br>2.実行 | 1つのtxで2送金が成功する | **PTB Builder**, Slush | TSコードに変換してみよう |
+| L11 | PTB → TS Exportを確認する | GUIからコード出力を体験する | 1.Exportボタン<br>2.TSコードを確認 | TSコードが表示される（Unit 4で再現） | **PTB Builder** | Unit 2完了！次は自分のコントラクト |
 
-### 3.2 デプロイと呼び出し
+### Checkpoint
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 3.2.1 | Devnetにpublish | コントラクトをデプロイし、Package IDを取得できる | `sui client publish` → Explorer確認 |
-| 3.2.2 | Explorerから関数を呼び出す | GUIでコントラクトの関数を実行できる | ExplorerでPackage ID検索 → Execute → 結果確認 |
-| 3.2.3 | CLIから関数を呼び出す | CLIでコントラクトの関数を実行できる | `sui client call` → 結果確認 |
+PTB Builderで2操作を合成したtxが成功すればOK
 
-**Checkpoint:** 自分のコントラクトをpublishし、Explorer・CLI両方から呼び出しが成功すればOK
+### Pitfalls
 
----
-
-## Module 4: TypeScript SDK最小核
-
-PTBをTSで組み、署名→実行→結果確認までを達成する。高度な機能はModule 6へ。
-
-### 4.1 SDK基礎
-
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 4.1.1 | SDKの全体像 | `@mysten/sui`と`@mysten/dapp-kit`の役割を理解する | パッケージ構成を確認 |
-| 4.1.2 | SuiClientで接続 | ネットワーク接続とデータ取得ができる | `getBalance`をlive実行 |
-| 4.1.3 | Transactionクラス | PTBをTSで構築できる | Module 2のPTBをTSで再現 |
-
-### 4.2 署名と実行
-
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 4.2.1 | Provider構成 | dApp Kitの基盤を理解する | Provider階層を確認 |
-| 4.2.2 | ウォレット接続 | ConnectButtonでウォレット連携できる | 接続→アドレス表示 |
-| 4.2.3 | tx署名と実行 | フロントからtxを署名・送信できる | `useSignAndExecuteTransaction`でModule 3のコントラクト呼び出し |
-| 4.2.4 | 結果確認 | tx結果をUIに反映できる | 成功/失敗をUIに表示 |
-
-**Checkpoint:** TSで組んだtxがウォレット署名→実行→結果表示まで動けばOK
+- **送金先アドレス間違い**: 自分の別アドレスに送金してテスト
+- **ガス不足**: Faucetで追加取得
+- **PTB Builder接続エラー**: ウォレットの接続を確認
 
 ---
 
-## Module 5: キャップストーン
+## Unit 3: Moveをpublishする
 
-Move + フロントを統合したdAppをWalrus Sitesで公開する。
+**成果物**: 自分のコントラクトをpublishし、Explorerから呼び出し成功
 
-### 5.1 dApp統合
+### Lessons
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 5.1.1 | プロジェクト設計 | Move + フロントの全体像を整理する | 構成を確認 |
-| 5.1.2 | 統合実装 | Module 3のコントラクト + Module 4のフロントを統合する | ローカルで動作確認 |
+| ID | Title | Goal | Do | Success Check | Tools | Next |
+|:--|:--|:--|:--|:--|:--|:--|
+| L12 | Moveの仕組みを理解する | リソース/モジュール/パッケージの概念を掴む | 1.概念図を読む<br>2.サンプルコード確認 | 3つの概念を説明できる | 読み物 | プロジェクトを作ろう |
+| L13 | Moveプロジェクトを作成する | 新規パッケージを作る | 1.sui move new<br>2.フォルダ構成確認 | Move.tomlが生成される | CLI, **Sui Extension** | コントラクトを書こう |
+| L14 | 最小コントラクトを書く | struct + entry functionを実装する | 1.カウンターを実装<br>2.シンタックス確認 | ビルドエラーなし | **Sui Extension** | ビルドとテストしよう |
+| L15 | ビルド＆テストする | ローカルで検証する | 1.sui move build<br>2.sui move test | テストがパスする | CLI, **Sui Extension** | Devnetにデプロイしよう |
+| L16 | Devnetにpublishする | コントラクトをデプロイする | 1.sui client publish<br>2.Package ID取得 | Package IDがExplorerで確認できる | CLI, Explorer | Explorerから呼び出そう |
+| L17 | Explorerから関数を呼び出す | GUIでコントラクトを操作する | 1.Package ID検索<br>2.Execute<br>3.結果確認 | 関数が正常に実行される | Explorer, Slush | Unit 3完了！次はTSで操作 |
 
-### 5.2 Walrus Sitesデプロイ
+### Checkpoint
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 5.2.1 | site-builderセットアップ | デプロイツールを準備する | site-builder導入 |
-| 5.2.2 | デプロイと公開 | ビルドしたフロントを公開する | `site-builder deploy` → URL確認 |
+自分のコントラクトをpublishし、Explorerから呼び出しが成功すればOK
 
-### 5.3 完了と次のステップ
+### Pitfalls
 
-| ページID | タイトル | 学習目標 | ハンズオン |
-|:--|:--|:--|:--|
-| 5.3.1 | 振り返り | 学んだ内容を整理する | チェックリスト確認 |
-| 5.3.2 | 上級トラックへ | Module 6で学ぶ内容を把握する | 目次確認 |
-
-**Checkpoint:** dAppがWalrus SitesのURLで動作すればOK
+- **ビルドエラー**: Sui Extensionのエラー表示を確認
+- **publish失敗**: ガス残高を確認、コード構文を確認
+- **Package ID紛失**: Explorerの履歴から検索可能
 
 ---
 
-## Module 6: Advanced Move + SDK応用（上級トラック）
+## Unit 4: TSでPTBを組む
 
-Module 3・4から移動した高度なトピックを扱う。
+**成果物**: TSでPTBを組み、署名→実行→結果確認成功
 
-### 6.1 Move高度なパターン
+### Lessons
+
+| ID | Title | Goal | Do | Success Check | Tools | Next |
+|:--|:--|:--|:--|:--|:--|:--|
+| L18 | SDK構成を理解する | @mysten/suiと@mysten/dapp-kitの役割を理解 | 1.パッケージ確認<br>2.ドキュメント参照 | 2つの役割を説明できる | 読み物 | SuiClientで接続しよう |
+| L19 | SuiClientで接続する | ネットワーク接続とデータ取得 | 1.getBalance実行<br>2.結果確認 | 残高が取得できる | TS, **Sui Extension** | TSでPTBを組もう |
+| L20 | Transactionクラスを使う | PTBをTSで構築する | 1.Unit 2のPTBをTSで再現<br>2.実行 | 同じ結果が得られる | TS, **PTB Builder参照** | dapp-kitを設定しよう |
+| L21 | dapp-kit Providerを設定する | フロント基盤を構築する | 1.Provider階層設定<br>2.動作確認 | エラーなく起動する | dapp-kit | ウォレット接続を作ろう |
+| L22 | ウォレット接続ボタンを作る | ConnectButtonでウォレット連携 | 1.ConnectButton配置<br>2.接続テスト | ウォレットが接続される | dapp-kit, Slush, **Sui Extension** | txを署名・実行しよう |
+| L23 | tx署名と実行 | フロントからtxを署名・送信する | 1.useSignAndExecuteTransaction<br>2.L16のコントラクト呼び出し | txが成功する | dapp-kit, Slush | 結果をUIに表示しよう |
+| L24 | 結果をUIに表示する | tx結果をUIに反映する | 1.成功/失敗判定<br>2.表示 | UIに結果が表示される | dapp-kit | Unit 4完了！次は統合 |
+
+### Checkpoint
+
+TSで組んだtxがウォレット署名→実行→結果表示まで動けばOK
+
+### Pitfalls
+
+- **Provider設定ミス**: 階層順序を確認（QueryClientProvider → SuiClientProvider → WalletProvider）
+- **型エラー**: @mysten/suiのバージョンを確認
+- **ウォレット未接続**: useCurrentAccountの戻り値を確認
+
+---
+
+## Unit 5: dapp-kitでUI完成
+
+**成果物**: ウォレット接続してUIで結果表示まで動く
+
+### Lessons
+
+| ID | Title | Goal | Do | Success Check | Tools | Next |
+|:--|:--|:--|:--|:--|:--|:--|
+| L25 | プロジェクト全体設計 | Move + フロントの統合構成を整理 | 1.ディレクトリ構成確認<br>2.依存関係確認 | 全体像を把握できる | **Sui Extension** | 統合実装に進もう |
+| L26 | コントラクトとフロントを統合 | L16のコントラクト + L24のフロントを連携 | 1.Package IDを設定<br>2.呼び出しテスト | ローカルで動作する | dapp-kit, **Sui Extension** | UIを仕上げよう |
+| L27 | UIを仕上げる | ユーザー体験を整える | 1.スタイル調整<br>2.エラーハンドリング | 使いやすいUIになる | dapp-kit | Unit 5完了！次は公開 |
+
+### Checkpoint
+
+ウォレット接続してUIで結果表示まで動けばOK
+
+### Pitfalls
+
+- **Package ID不一致**: 環境変数でPackage IDを管理
+- **CORS問題**: ローカル開発サーバーの設定を確認
+- **状態更新遅延**: useSuiClientQueryのrefetch設定を確認
+
+---
+
+## Unit 6: 公開と次のステップ
+
+**成果物**: dAppを公開し、学習完了
+
+### Lessons
+
+| ID | Title | Goal | Do | Success Check | Tools | Next |
+|:--|:--|:--|:--|:--|:--|:--|
+| L28 | ホスティング方法を選ぶ | 公開先を決定する | 1.Walrus Sites（推奨）vs GitHub Pages<br>2.選択 | 方針が決まる | 読み物 | デプロイしよう |
+| L29 | ビルドとデプロイ | フロントを公開する | 1.ビルド<br>2.デプロイ<br>3.URL確認 | 公開URLでアクセスできる | site-builder or GitHub | 動作確認しよう |
+| L30 | 動作確認 | 公開dAppをテストする | 1.ウォレット接続<br>2.tx実行<br>3.結果確認 | 全機能が動作する | 公開dApp, Slush | 振り返りしよう |
+| L31 | 振り返り | 学んだ内容を整理する | 1.チェックリスト確認<br>2.達成項目確認 | 全項目クリア | 読み物 | 次のステップへ |
+| L32 | 次のステップ | 上級コースへの案内 | 1.Advanced Courseを確認<br>2.興味のある分野を選ぶ | 次の学習目標が決まる | 読み物 | 初心者コース完了！ |
+
+### ホスティング選択肢
+
+| 選択肢 | 特徴 | 推奨度 |
+|:--|:--|:--|
+| **Walrus Sites** | Sui上の分散ストレージ、Web3ネイティブ | 推奨 |
+| **GitHub Pages** | 無料、設定が簡単、高速 | 代替 |
+| **Vercel / Netlify** | CI/CD統合、プレビュー機能 | 代替 |
+
+### Checkpoint
+
+dAppがWalrus SitesまたはGitHub PagesのURLで動作すればOK
+
+### Pitfalls
+
+- **ビルド失敗**: 環境変数の設定を確認
+- **404エラー**: SPAのルーティング設定を確認
+- **ウォレット接続不可**: HTTPSでホスティングされているか確認
+
+---
+
+## Advanced Course（上級トラック）
+
+初心者コース修了後に挑戦できる高度なトピックです。
+
+### Move高度なパターン
 
 - **Ability詳細** - copy / drop / store / key の組み合わせパターン
 - **Generics** - 型パラメータ、phantom type
@@ -171,7 +224,7 @@ Module 3・4から移動した高度なトピックを扱う。
 - **BCS** - バイナリシリアライゼーション
 - **Enum / Match** - Move 2024新機能
 
-### 6.2 SDK応用
+### SDK応用
 
 - **Dry Run** - トランザクションシミュレーション
 - **イベントクエリ** - `queryEvents`
@@ -182,7 +235,7 @@ Module 3・4から移動した高度なトピックを扱う。
 - **BCS (SDK)** - フロントエンド⇔コントラクト連携
 - **Multisig** - マルチシグウォレット
 
-### 6.3 Sui Stack
+### Sui Stack
 
 - **Walrus** - 分散ストレージ詳細
 - **Seal** - 暗号化
@@ -192,11 +245,28 @@ Module 3・4から移動した高度なトピックを扱う。
 
 ---
 
-## 付録: ページ構成
+## 付録: Lesson構成
 
-各ページは以下の形式で統一：
+各Lessonは以下のフィールドで構成されています：
 
-1. **Concept** - 概念説明（短く）
-2. **Hands-on** - 手を動かすステップ
-3. **Checkpoint** - 成功確認方法
-4. **Pitfalls** - よくあるエラーと解決策
+| フィールド | 説明 |
+|:--|:--|
+| ID | レッスン番号（L1〜L32） |
+| Title | レッスンタイトル |
+| Goal | 1行ゴール |
+| Do | やること（1〜3点） |
+| Success Check | 成功条件（1行） |
+| Tools | 使用ツール |
+| Next | 次に進む理由 |
+
+### ツール一覧
+
+| ツール | 説明 |
+|:--|:--|
+| **Sui Extension** | VSCodeのMove開発拡張 |
+| **PTB Builder** | GUIでPTBを合成するツール |
+| Slush | Suiウォレット（ブラウザ拡張） |
+| CLI | Sui CLI（コマンドラインツール） |
+| Explorer | Sui Explorer（トランザクション確認） |
+| dapp-kit | @mysten/dapp-kit（React向けSDK） |
+| TS | TypeScript + @mysten/sui |
