@@ -1,0 +1,100 @@
+name: "Lesson"
+description: "Create a new lesson"
+labels: ["type:tutorial"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Overview"
+
+  - type: input
+    id: lesson-id
+    attributes:
+      label: "Lesson ID"
+      placeholder: "1"
+    validations:
+      required: true
+
+  - type: input
+    id: goal
+    attributes:
+      label: Goal
+      placeholder: "Install the wallet"
+    validations:
+      required: true
+
+  - type: textarea
+    id: do
+    attributes:
+      label: Do
+      placeholder: |
+        1. Install Chrome extension
+        2. Create account
+        3. Confirm backup
+    validations:
+      required: true
+
+  - type: input
+    id: success-check
+    attributes:
+      label: Success Check
+      placeholder: "Wallet shows your address"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tools
+    attributes:
+      label: Tools
+      multiple: true
+      options:
+        - Slush
+        - CLI
+        - Sui Extension
+        - PTB Builder
+        - Explorer
+        - dapp-kit
+        - TypeScript
+
+  - type: markdown
+    attributes:
+      value: "---\n## Files"
+
+  - type: textarea
+    id: file-create
+    attributes:
+      label: Create
+      placeholder: |
+        - docs/beginner/unit-1-setup/L01-install-slush.mdx
+        - docs/beginner/unit-1-setup/L02-switch-devnet.mdx
+    validations:
+      required: true
+
+  - type: textarea
+    id: file-edit
+    attributes:
+      label: Edit
+      placeholder: |
+        - docs/beginner/unit-1-setup/index.md
+        - sidebars.ts
+
+  - type: textarea
+    id: file-images
+    attributes:
+      label: Images
+      placeholder: |
+        - static/img/beginner/unit-1/l01-wallet.png
+        - static/img/beginner/unit-1/l01-backup.png
+
+  - type: markdown
+    attributes:
+      value: "---"
+
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      placeholder: |
+        - [ ] Screenshots added
+        - [ ] Link to next lesson
+    validations:
+      required: true
