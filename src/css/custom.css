@@ -4,51 +4,11 @@
  * work well for content-centric websites.
  */
 
-/* Restore Docusaurus markdown styles after CSS resets from external libraries (dapp-kit, ptb-builder) */
-.theme-doc-markdown h1,
-.theme-doc-markdown h2,
-.theme-doc-markdown h3,
-.theme-doc-markdown h4,
-.theme-doc-markdown h5,
-.theme-doc-markdown h6 {
-  font-weight: var(--ifm-heading-font-weight);
-}
-
-.theme-doc-markdown h1 {
-  font-size: 2rem;
-}
-
-.theme-doc-markdown h2 {
-  font-size: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.theme-doc-markdown h3 {
-  font-size: 1.25rem;
-}
-
-.theme-doc-markdown ul,
-.theme-doc-markdown ol {
-  padding-left: 2rem;
-  margin-bottom: 1rem;
-}
-
-.theme-doc-markdown ul {
-  list-style-type: disc;
-}
-
-.theme-doc-markdown ol {
-  list-style-type: decimal;
-}
-
-.theme-doc-markdown ul ul {
-  list-style-type: circle;
-}
-
-.theme-doc-markdown li {
-  margin-bottom: 0.25rem;
-}
+/* NOTE: ptb-builder CSS is imported in src/components/PtbBuilderDemo.tsx (co-located with the component).
+   Currently disabled pending upstream fix for CSS scoping.
+   See: https://github.com/zktx-io/ptb-builder-monorepo/issues/4
+*/
+/* NOTE: @mysten/dapp-kit CSS is imported in src/theme/Root/index.tsx (co-located with the provider). */
 
 /* Prevent horizontal overflow and layout "jitter" between pages with/without a scrollbar. */
 html {
