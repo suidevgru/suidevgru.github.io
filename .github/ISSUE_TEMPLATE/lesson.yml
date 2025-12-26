@@ -9,8 +9,8 @@ body:
   - type: input
     id: lesson-id
     attributes:
-      label: Lesson ID
-      placeholder: "L1"
+      label: "Lesson ID"
+      placeholder: "1"
     validations:
       required: true
 
@@ -41,28 +41,47 @@ body:
     validations:
       required: true
 
-  - type: input
+  - type: dropdown
     id: tools
     attributes:
       label: Tools
-      placeholder: "Slush, CLI, Sui Extension"
+      multiple: true
+      options:
+        - Slush
+        - CLI
+        - Sui Extension
+        - PTB Builder
+        - Explorer
+        - dapp-kit
+        - TypeScript
+
+  - type: markdown
+    attributes:
+      value: "---\n## Files"
+
+  - type: input
+    id: file-create
+    attributes:
+      label: Create
+      placeholder: "docs/beginner/unit-1-setup/L01-install-slush.mdx"
+    validations:
+      required: true
+
+  - type: input
+    id: file-edit
+    attributes:
+      label: Edit
+      placeholder: "docs/beginner/unit-1-setup/index.md"
+
+  - type: input
+    id: file-images
+    attributes:
+      label: Images
+      placeholder: "static/img/beginner/unit-1/l01-wallet.png"
 
   - type: markdown
     attributes:
       value: "---"
-
-  - type: textarea
-    id: files
-    attributes:
-      label: Files
-      value: |
-        **Create:**
-        - [ ] `docs/beginner/unit-X-slug/LXX-slug.mdx`
-
-        **Edit:**
-        - [ ] `docs/beginner/unit-X-slug/index.md`
-    validations:
-      required: true
 
   - type: textarea
     id: done-when
