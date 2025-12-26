@@ -1,0 +1,75 @@
+name: "Lesson"
+description: "Create a new lesson"
+labels: ["type:tutorial"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Overview"
+
+  - type: input
+    id: lesson-id
+    attributes:
+      label: Lesson ID
+      placeholder: "L1"
+    validations:
+      required: true
+
+  - type: input
+    id: goal
+    attributes:
+      label: Goal
+      placeholder: "Install the wallet"
+    validations:
+      required: true
+
+  - type: textarea
+    id: do
+    attributes:
+      label: Do
+      placeholder: |
+        1. Install Chrome extension
+        2. Create account
+        3. Confirm backup
+    validations:
+      required: true
+
+  - type: input
+    id: success-check
+    attributes:
+      label: Success Check
+      placeholder: "Wallet shows your address"
+    validations:
+      required: true
+
+  - type: input
+    id: tools
+    attributes:
+      label: Tools
+      placeholder: "Slush, CLI, Sui Extension"
+
+  - type: markdown
+    attributes:
+      value: "---"
+
+  - type: textarea
+    id: files
+    attributes:
+      label: Files
+      value: |
+        **Create:**
+        - [ ] `docs/beginner/unit-X-slug/LXX-slug.mdx`
+
+        **Edit:**
+        - [ ] `docs/beginner/unit-X-slug/index.md`
+    validations:
+      required: true
+
+  - type: textarea
+    id: done-when
+    attributes:
+      label: Done when
+      placeholder: |
+        - [ ] Screenshots added
+        - [ ] Link to next lesson
+    validations:
+      required: true
