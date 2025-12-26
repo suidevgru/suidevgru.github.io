@@ -59,25 +59,31 @@ body:
     attributes:
       value: "---\n## Files"
 
-  - type: input
+  - type: textarea
     id: file-create
     attributes:
       label: Create
-      placeholder: "docs/beginner/unit-1-setup/L01-install-slush.mdx"
+      placeholder: |
+        - docs/beginner/unit-1-setup/L01-install-slush.mdx
+        - docs/beginner/unit-1-setup/L02-switch-devnet.mdx
     validations:
       required: true
 
-  - type: input
+  - type: textarea
     id: file-edit
     attributes:
       label: Edit
-      placeholder: "docs/beginner/unit-1-setup/index.md"
+      placeholder: |
+        - docs/beginner/unit-1-setup/index.md
+        - sidebars.ts
 
-  - type: input
+  - type: textarea
     id: file-images
     attributes:
       label: Images
-      placeholder: "static/img/beginner/unit-1/l01-wallet.png"
+      placeholder: |
+        - static/img/beginner/unit-1/l01-wallet.png
+        - static/img/beginner/unit-1/l01-backup.png
 
   - type: markdown
     attributes:
