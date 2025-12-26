@@ -1,12 +1,54 @@
-@import '../../node_modules/@mysten/dapp-kit/dist/esm/index.css';
-@import '@zktx.io/ptb-builder/index.css';
-@import '@zktx.io/ptb-builder/styles/themes-all.css';
-
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
  */
+
+/* Restore Docusaurus markdown styles after CSS resets from external libraries (dapp-kit, ptb-builder) */
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  font-weight: var(--ifm-heading-font-weight);
+}
+
+.theme-doc-markdown h1 {
+  font-size: 2rem;
+}
+
+.theme-doc-markdown h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.theme-doc-markdown h3 {
+  font-size: 1.25rem;
+}
+
+.theme-doc-markdown ul,
+.theme-doc-markdown ol {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.theme-doc-markdown ul {
+  list-style-type: disc;
+}
+
+.theme-doc-markdown ol {
+  list-style-type: decimal;
+}
+
+.theme-doc-markdown ul ul {
+  list-style-type: circle;
+}
+
+.theme-doc-markdown li {
+  margin-bottom: 0.25rem;
+}
 
 /* Prevent horizontal overflow and layout "jitter" between pages with/without a scrollbar. */
 html {
