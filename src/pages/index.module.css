@@ -3,21 +3,21 @@
  * and scoped locally.
  */
 
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+:global(html.homePage main.container) {
+  margin: 0;
+  padding: 0;
+  max-width: none;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+:global(html.homePage article) {
+  margin: 0;
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+:global(html.homePage),
+:global(html.homePage body) {
+  overflow-x: hidden;
+}
+
+.page {
+  width: 100%;
 }

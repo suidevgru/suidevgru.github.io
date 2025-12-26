@@ -10,7 +10,7 @@ Docusaurus has **much more to offer**!
 
 Have **5 more minutes**? Take a look at **[versioning](../tutorial-extras/manage-docs-versions)** and **[i18n](../tutorial-extras/translate-your-site)**.
 
-Anything **unclear** or **buggy** in this tutorial? [Please report it!](https://github.com/facebook/docusaurus/discussions/4610)
+Anything **unclear** or **buggy** in this tutorial? [Please report it!](https://github.com/suidevgru/suidevgru.github.io/issues)
 
 ## What's next?
 

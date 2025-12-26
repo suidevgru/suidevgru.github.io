@@ -1,5 +1,4 @@
 @import '../../node_modules/@mysten/dapp-kit/dist/esm/index.css';
-@import '@xyflow/react/dist/style.css';
 @import '@zktx.io/ptb-builder/index.css';
 @import '@zktx.io/ptb-builder/styles/themes-all.css';
 
@@ -8,6 +7,27 @@
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
  */
+
+/* Prevent horizontal overflow and layout "jitter" between pages with/without a scrollbar. */
+html {
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+body {
+  overflow-x: hidden;
+}
+
+/* Keep external-link icon on the same line as link text in the footer. */
+.footer__link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.footer__link-item [class*='iconExternalLink'] {
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin-left: 0 !important;
+}
 
 /* You can override the default Infima variables here. */
 :root {
