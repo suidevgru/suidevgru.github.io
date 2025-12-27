@@ -1,0 +1,123 @@
+---
+sidebar_position: 1
+title: "Install Slush Wallet"
+description: "Install the Slush wallet Chrome extension and create an account"
+---
+
+# Install Slush Wallet
+
+The first step to using the Sui blockchain is to install the Slush wallet.
+
+## Overview
+
+| Item | Content |
+|:--|:--|
+| **Goal** | Install the wallet |
+| **Time** | ~5 minutes |
+| **Tools** | Slush (Chrome Extension) |
+| **Success Check** | Wallet shows your address |
+
+## What is Slush Wallet?
+
+Slush (formerly known as "Sui Wallet") is a browser wallet for the Sui blockchain, developed by Mysten Labs. It provides the following features:
+
+- Generate and manage accounts (addresses)
+- Sign transactions
+- Connect to dApps
+- Switch between networks (Mainnet/Testnet, etc.)
+
+:::tip Why Slush?
+There are several wallets available for Sui, but this tutorial uses Slush. It's close to an official wallet and supports Sui-specific features like sponsored transactions.
+:::
+
+---
+
+## Step 1: Install Chrome Extension
+
+1. Go to the Chrome Web Store
+   - [Slush - Chrome Web Store](https://chromewebstore.google.com/detail/slush-a-sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil)
+
+2. Verify that the developer is "✓ slush.app" before adding
+
+   ![Chrome Web Store](./img/L1_slush-chrome-store_en.png)
+
+3. Click the "Add to Chrome" button
+
+4. Click "Add extension" in the confirmation dialog
+
+:::note
+Pin the extension to your toolbar for quick access.
+:::
+
+---
+
+## Step 2: Create Account
+
+Slush offers two account creation methods: "Social Login" (Google/Apple/Facebook/Twitch) and "Passphrase". In this lesson, we'll use the **Passphrase Account** method, which makes it easier to migrate to other wallets later.
+
+1. After installation, the Slush welcome screen will automatically open
+
+2. Click "More options" at the bottom
+
+   ![Slush Welcome Screen](./img/L1_create-wallet-1.png)
+
+3. Select "Create a passphrase account"
+
+   ![Create Passphrase Account](./img/L1_create-wallet-2.png)
+
+---
+
+## Step 3: Store Passphrase
+
+1. A passphrase (12 words) will be displayed
+
+2. Write down the displayed passphrase
+
+:::danger Keep your passphrase safe
+Never share your passphrase with anyone. Anyone with this phrase can access your wallet. We recommend writing it down on paper and storing it in a safe place.
+:::
+
+## Step 4: Password and Security Settings
+
+1. Set a password
+   - Follow the on-screen requirements (alphanumeric + symbols recommended, longer is better)
+
+2. "Protect your wallet with additional security" screen appears
+   - **Unlock your wallet**: Set auto-lock timeout (15min to 1 day)
+   - **Confirm transactions**: Require password for transactions
+   - Configure as preferred and click "Next"
+
+3. Once confirmed, the wallet main screen will be displayed
+
+---
+
+## Success Check
+
+You have succeeded if your **address** is displayed in the wallet `Settings`.
+
+![Wallet Address](./img/L1_confarm-address.png)
+
+The address is a long hexadecimal string starting with `0x` (typically `0x` + 64 digits, e.g., `0x1234...abcd`).
+
+:::tip Copy Address
+Click on the address to copy it to your clipboard. You'll use this in later lessons.
+:::
+
+---
+
+## What's Next?
+
+Wallet installation is complete. In the next lesson, you'll switch the network to Devnet.
+
+**Next Lesson**: [Switch to Devnet](./L02-switch-devnet.mdx)
+
+---
+
+## Summary
+
+What you learned in this lesson:
+
+- [x] Installed Slush wallet on Chrome
+- [x] Created a new account
+- [x] Backed up the passphrase
+- [x] Confirmed your wallet address

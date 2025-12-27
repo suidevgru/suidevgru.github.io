@@ -53,19 +53,10 @@ function GroupCard({card}: {card: Card}): ReactNode {
 export default function HomepageLanding(): ReactNode {
   const cards: Card[] = [
     {
-      title: 'Developers',
+      title: 'Beginner',
       links: [
-        {label: 'Getting Started', to: '/docs/intro'},
-        {label: 'Markdown Features', to: '/docs/tutorial-basics/markdown-features'},
-        {label: 'Create a Document', to: '/docs/tutorial-basics/create-a-document'},
-      ],
-    },
-    {
-      title: 'Guides',
-      links: [
-        {label: 'Deploy your site', to: '/docs/tutorial-basics/deploy-your-site'},
-        {label: 'Translate your site', to: '/docs/tutorial-extras/translate-your-site'},
-        {label: 'Docs versioning', to: '/docs/tutorial-extras/manage-docs-versions'},
+        {label: 'Slushウォレットを入れる', to: '/docs/beginner/unit-1-setup/L01-install-slush'},
+        {label: 'Devnetに切り替える', to: '/docs/beginner/unit-1-setup/L02-switch-devnet'},
       ],
     },
     {
@@ -112,7 +103,7 @@ export default function HomepageLanding(): ReactNode {
             {'A lightweight landing page for docs, guides, and references.'}
           </p>
           <div className={styles.ctaRow}>
-            <Link className="button button--primary button--lg" to="/docs/intro">
+            <Link className="button button--primary button--lg" to="/docs/beginner/unit-1-setup">
               {'Get started'}
             </Link>
           </div>
@@ -125,7 +116,7 @@ export default function HomepageLanding(): ReactNode {
 
           <div className={styles.cardShell}>
             <div className={styles.ctaCard}>
-              <Link className={styles.ctaCardLink} to="/docs/intro">
+              <Link className={styles.ctaCardLink} to="/docs/beginner/unit-1-setup">
                 <span>{'Build with DevGru'}</span>
                 <ArrowRightIcon />
               </Link>
