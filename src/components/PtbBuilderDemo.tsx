@@ -1,9 +1,5 @@
-// TODO: ptb-builder CSS imports are temporarily disabled.
-// The upstream fix (CSS scoping with [data-ptb-builder] selector) is being implemented.
-// See: https://github.com/zktx-io/ptb-builder-monorepo/issues/4
-// Once released, uncomment these imports:
-// import '@zktx.io/ptb-builder/index.css';
-// import '@zktx.io/ptb-builder/styles/themes-all.css';
+import '@zktx.io/ptb-builder/index.css';
+import '@zktx.io/ptb-builder/styles/themes-all.css';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';

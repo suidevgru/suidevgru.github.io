@@ -22,7 +22,7 @@
     "@mysten/dapp-kit": "^0.19.11",
     "@mysten/sui": "^1.45.2",
     "@tanstack/react-query": "^5.90.12",
-    "@zktx.io/ptb-builder": "^0.3.28",
+    "@zktx.io/ptb-builder": "^0.3.29",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
