@@ -19,12 +19,12 @@ The first step to using the Sui blockchain is to install the Slush wallet.
 
 ## What is Slush Wallet?
 
-Slush is a browser wallet for the Sui blockchain. It provides the following features:
+Slush (formerly known as "Sui Wallet") is a browser wallet for the Sui blockchain, developed by Mysten Labs. It provides the following features:
 
 - Generate and manage accounts (addresses)
 - Sign transactions
 - Connect to dApps
-- Switch between networks (Mainnet/Testnet/Devnet)
+- Switch between networks (Mainnet/Testnet, etc.)
 
 :::tip Why Slush?
 There are several wallets available for Sui, but this tutorial uses Slush. It's close to an official wallet and supports Sui-specific features like sponsored transactions.
@@ -37,9 +37,11 @@ There are several wallets available for Sui, but this tutorial uses Slush. It's 
 1. Go to the Chrome Web Store
    - [Slush - Chrome Web Store](https://chromewebstore.google.com/detail/slush-a-sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil)
 
-2. Click the "Add to Chrome" button
+2. Verify that the developer is "Mysten Labs" before adding
 
-3. Click "Add extension" in the confirmation dialog
+3. Click the "Add to Chrome" button
+
+4. Click "Add extension" in the confirmation dialog
 
 ![Install Chrome Extension](pathname:///img/beginner/unit-1/l01-chrome-extension.png)
 
@@ -51,12 +53,14 @@ Pin the extension to your toolbar for quick access.
 
 ## Step 2: Create Account
 
+Slush offers two account creation methods: "Social Login" (Google/Apple/Facebook/Twitch) and "Recovery Phrase". In this lesson, we'll use the **Recovery Phrase (Passphrase Account)** method, which makes it easier to migrate to other wallets later.
+
 1. After installation, click the Slush icon to launch it
 
 2. Select "Create New Wallet"
 
 3. Set a password
-   - Use a strong password with at least 8 characters
+   - Follow the on-screen requirements (alphanumeric + symbols recommended, longer is better)
 
 4. A recovery phrase (12 words) will be displayed
 
@@ -84,7 +88,7 @@ You have succeeded if your **address** is displayed on the wallet main screen.
 
 ![Wallet Address](pathname:///img/beginner/unit-1/l01-wallet-address.png)
 
-The address is a 64-character hexadecimal string starting with `0x` (e.g., `0x1234...abcd`).
+The address is a long hexadecimal string starting with `0x` (typically `0x` + 64 digits, e.g., `0x1234...abcd`).
 
 :::tip Copy Address
 Click on the address to copy it to your clipboard. You'll use this in later lessons.
@@ -108,9 +112,9 @@ Click on the address to copy it to your clipboard. You'll use this in later less
 **Cause**: Password doesn't meet requirements
 
 **Solution**:
-- At least 8 characters
+- Follow the on-screen requirements
 - Include letters and numbers
-- Add special characters
+- Add special characters for extra security
 
 ### "Recovery phrase verification failed"
 
