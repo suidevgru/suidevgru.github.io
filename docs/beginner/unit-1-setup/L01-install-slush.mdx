@@ -39,11 +39,11 @@ There are several wallets available for Sui, but this tutorial uses Slush. It's 
 
 2. Verify that the developer is "✓ slush.app" before adding
 
+   ![Chrome Web Store](./img/L1_slush-chrome-store_en.png)
+
 3. Click the "Add to Chrome" button
 
 4. Click "Add extension" in the confirmation dialog
-
-![Install Chrome Extension](pathname:///img/beginner/unit-1/l01-chrome-extension.png)
 
 :::note
 Pin the extension to your toolbar for quick access.
@@ -53,30 +53,39 @@ Pin the extension to your toolbar for quick access.
 
 ## Step 2: Create Account
 
-Slush offers two account creation methods: "Social Login" (Google/Apple/Facebook/Twitch) and "Recovery Phrase". In this lesson, we'll use the **Recovery Phrase (Passphrase Account)** method, which makes it easier to migrate to other wallets later.
+Slush offers two account creation methods: "Social Login" (Google/Apple/Facebook/Twitch) and "Passphrase". In this lesson, we'll use the **Passphrase Account** method, which makes it easier to migrate to other wallets later.
 
-1. After installation, click the Slush icon to launch it
+1. After installation, the Slush welcome screen will automatically open
 
-2. Select "Create New Wallet"
+2. Click "More options" at the bottom
 
-3. Set a password
-   - Follow the on-screen requirements (alphanumeric + symbols recommended, longer is better)
+   ![Slush Welcome Screen](./img/L1_create-wallet-1.png)
 
-4. A recovery phrase (12 words) will be displayed
+3. Select "Create a passphrase account"
 
-![Create Account](pathname:///img/beginner/unit-1/l01-create-account.png)
-
-:::danger Keep your recovery phrase safe
-Never share your recovery phrase with anyone. Anyone with this phrase can access your wallet. We recommend writing it down on paper and storing it in a safe place.
-:::
+   ![Create Passphrase Account](./img/L1_create-wallet-2.png)
 
 ---
 
-## Step 3: Confirm Backup
+## Step 3: Store Passphrase
 
-1. Write down the displayed recovery phrase
+1. A passphrase (12 words) will be displayed
 
-2. Click "Next" and enter the phrase in the correct order on the confirmation screen
+2. Write down the displayed passphrase
+
+:::danger Keep your passphrase safe
+Never share your passphrase with anyone. Anyone with this phrase can access your wallet. We recommend writing it down on paper and storing it in a safe place.
+:::
+
+## Step 4: Password and Security Settings
+
+1. Set a password
+   - Follow the on-screen requirements (alphanumeric + symbols recommended, longer is better)
+
+2. "Protect your wallet with additional security" screen appears
+   - **Unlock your wallet**: Set auto-lock timeout (15min to 1 day)
+   - **Confirm transactions**: Require password for transactions
+   - Configure as preferred and click "Next"
 
 3. Once confirmed, the wallet main screen will be displayed
 
@@ -84,9 +93,9 @@ Never share your recovery phrase with anyone. Anyone with this phrase can access
 
 ## Success Check
 
-You have succeeded if your **address** is displayed on the wallet main screen.
+You have succeeded if your **address** is displayed in the wallet `Settings`.
 
-![Wallet Address](pathname:///img/beginner/unit-1/l01-wallet-address.png)
+![Wallet Address](./img/L1_confarm-address.png)
 
 The address is a long hexadecimal string starting with `0x` (typically `0x` + 64 digits, e.g., `0x1234...abcd`).
 
@@ -96,42 +105,11 @@ Click on the address to copy it to your clipboard. You'll use this in later less
 
 ---
 
-## Common Errors and Solutions
-
-### "Extension won't install"
-
-**Cause**: Chrome version is old, or conflict with other extensions
-
-**Solution**:
-1. Update Chrome to the latest version
-2. Try in incognito mode
-3. Temporarily disable other wallet extensions
-
-### "Can't set password"
-
-**Cause**: Password doesn't meet requirements
-
-**Solution**:
-- Follow the on-screen requirements
-- Include letters and numbers
-- Add special characters for extra security
-
-### "Recovery phrase verification failed"
-
-**Cause**: Wrong word order or spelling mistake
-
-**Solution**:
-1. Check the phrase again
-2. Pay attention to spaces between words
-3. Verify case (all lowercase)
-
----
-
 ## What's Next?
 
 Wallet installation is complete. In the next lesson, you'll switch the network to Devnet.
 
-**Next Lesson**: [L2 - Switch to Devnet](./L02-switch-devnet.mdx)
+**Next Lesson**: [Switch to Devnet](./L02-switch-devnet.mdx)
 
 ---
 
@@ -141,5 +119,5 @@ What you learned in this lesson:
 
 - [x] Installed Slush wallet on Chrome
 - [x] Created a new account
-- [x] Backed up the recovery phrase
+- [x] Backed up the passphrase
 - [x] Confirmed your wallet address

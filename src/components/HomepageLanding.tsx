@@ -73,7 +73,6 @@ export default function HomepageLanding(): ReactNode {
       links: [
         {label: 'PTB Builder', to: '/docs/live-code-example/ptb-builder'},
         {label: 'Transfer', to: '/docs/live-code-example/transfer'},
-        {label: 'Curriculum (EN)', to: '/docs/curriculum/curriculum_en'},
       ],
     },
     {
