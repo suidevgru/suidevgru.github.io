@@ -1,0 +1,8 @@
+{
+  "label": "초급 코스",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Sui 블록체인 개발을 시작하기 위한 초급 코스입니다."
+  }
+}

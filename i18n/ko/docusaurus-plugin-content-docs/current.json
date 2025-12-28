@@ -3,6 +3,14 @@
     "message": "Next",
     "description": "The label for version current"
   },
+  "sidebar.tutorialSidebar.category.Beginner Course": {
+    "message": "초급 코스",
+    "description": "The label for category 'Beginner Course' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Unit 1: Environment Setup": {
+    "message": "Unit 1: 환경 설정",
+    "description": "The label for category 'Unit 1: Environment Setup' in sidebar 'tutorialSidebar'"
+  },
   "sidebar.tutorialSidebar.category.Tutorial Basics": {
     "message": "Tutorial Basics",
     "description": "The label for category 'Tutorial Basics' in sidebar 'tutorialSidebar'"

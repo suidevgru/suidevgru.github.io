@@ -1,0 +1,123 @@
+---
+sidebar_position: 1
+title: "Slush 지갑 설치하기"
+description: "Chrome 확장 버전 Slush 지갑을 설치하고 계정을 만듭니다"
+---
+
+# Slush 지갑 설치하기
+
+Sui 블록체인을 사용하기 위한 첫 번째 단계로 Slush 지갑을 설치합니다.
+
+## 개요
+
+| 항목 | 내용 |
+|:--|:--|
+| **Goal** | 지갑을 설치합니다 |
+| **소요 시간** | 약 5분 |
+| **사용 도구** | Slush (Chrome 확장) |
+| **Success Check** | 지갑에 주소가 표시됩니다 |
+
+## Slush 지갑이란
+
+Slush(이전 명칭 "Sui Wallet")는 Mysten Labs에서 제공하는 Sui 블록체인용 브라우저 지갑입니다. 다음과 같은 기능을 제공합니다:
+
+- 계정(주소) 생성 및 관리
+- 트랜잭션 서명
+- dApp과의 연결
+- 네트워크(Mainnet/Testnet 등) 전환
+
+:::tip Slush를 사용하는 이유
+Sui에는 여러 지갑이 있지만, 이 튜토리얼에서는 Slush를 사용합니다. 공식에 가까운 지갑으로 Sui 고유의 기능(스폰서 트랜잭션 등)을 지원합니다.
+:::
+
+---
+
+## Step 1: Chrome 확장 설치
+
+1. Chrome Web Store에 접속합니다
+   - [Slush - Chrome Web Store](https://chromewebstore.google.com/detail/slush-a-sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil)
+
+2. 개발자가 "✓ slush.app"인지 확인한 후 추가합니다
+
+   ![Chrome Web Store](./img/L1_slush-chrome-store_ja.png)
+
+3. "Chrome에 추가" 버튼을 클릭합니다
+
+4. 확인 대화상자에서 "확장 프로그램 추가"를 클릭합니다
+
+:::note
+확장 프로그램을 고정하면 도구 모음에서 바로 접근할 수 있습니다.
+:::
+
+---
+
+## Step 2: 계정 만들기
+
+Slush에는 "소셜 로그인"(Google/Apple/Facebook/Twitch)과 "패스프레이즈" 두 가지 방식이 있습니다. 이 레슨에서는 나중에 다른 지갑으로 이전하기 쉬운 "패스프레이즈 방식"으로 진행합니다.
+
+1. 설치 후 Slush 환영 화면이 자동으로 열립니다
+
+2. 화면 하단의 "More options"를 클릭합니다
+
+   ![Slush 환영 화면](./img/L1_create-wallet-1.png)
+
+3. "Create a passphrase account"를 선택합니다
+
+   ![패스프레이즈 계정 만들기](./img/L1_create-wallet-2.png)
+
+---
+
+## Step 3: 패스프레이즈 저장
+
+1. 패스프레이즈(12단어)가 표시됩니다
+
+2. 표시된 패스프레이즈를 적어둡니다
+
+:::danger 패스프레이즈를 안전하게 보관하세요
+패스프레이즈는 절대로 다른 사람에게 알려주지 마세요. 이것이 있으면 누구나 당신의 지갑에 접근할 수 있습니다. 종이에 적어서 안전한 장소에 보관하는 것을 권장합니다.
+:::
+
+## Step 4: 지갑 비밀번호 설정 및 보안 설정
+
+1. 비밀번호를 설정합니다
+   - 화면의 요구 사항을 충족하는 비밀번호를 설정합니다(영숫자+기호, 길게 권장)
+
+2. "Protect your wallet with additional security" 화면이 표시됩니다
+   - **Unlock your wallet**: 자동 잠금까지의 시간(15분~1일) 설정
+   - **Confirm transactions**: 트랜잭션 시 비밀번호 요구
+   - 원하는 대로 설정하고 "Next"를 클릭합니다
+
+3. 확인이 완료되면 지갑 메인 화면이 표시됩니다
+
+---
+
+## Success Check
+
+지갑의 `Settings`에 주소가 표시되어 있으면 성공입니다.
+
+![지갑 주소 표시](./img/L1_confarm-address.png)
+
+주소는 `0x`로 시작하는 긴 16진수 문자열입니다(대부분 `0x` + 64자리, 예: `0x1234...abcd`).
+
+:::tip 주소 복사
+주소를 클릭하면 클립보드에 복사됩니다. 다음 레슨에서 사용합니다.
+:::
+
+---
+
+## What's Next?
+
+지갑 설치가 완료되었습니다. 다음 레슨에서는 네트워크를 Devnet으로 전환합니다.
+
+**Next Lesson**: [Devnet으로 전환하기](./L02-switch-devnet.mdx)
+
+---
+
+## Summary
+
+이 레슨에서 배운 것:
+
+- [x] Slush 지갑을 Chrome에 설치
+- [x] 새 계정 만들기
+- [x] 패스프레이즈 백업
+- [x] 지갑 주소 확인
