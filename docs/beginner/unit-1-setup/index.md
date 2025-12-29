@@ -1,46 +1,40 @@
 ---
 sidebar_position: 0
-title: "Unit 1: Environment Setup"
+title: "Getting Started"
 description: "Set up your Sui development environment and connect to Devnet"
 ---
 
-# Unit 1: Environment Setup
+# Getting Started
 
-Set up your Sui development environment, connect to Devnet, and get test tokens from the Faucet.
+Welcome! In this section, you'll set up everything you need to start building on Sui. Don't worry—each step is straightforward, and we'll guide you through it.
 
-## Goal
+## What you'll learn
 
-After completing this unit, you will be able to:
+By the end of this section, you'll have:
 
-- Install and set up Slush wallet with your address displayed
-- Connect your wallet to Devnet
-- Install Sui CLI and connect it to Devnet
-- Get test tokens from the Faucet
+- A Slush wallet installed with your address displayed
+- Your wallet connected to Devnet
+- Sui CLI installed and connected to Devnet
+- Test tokens from the Faucet
 
-## Lessons
+## Lessons in this section
 
-| Lesson | Title | Goal |
-|:--|:--|:--|
-| [L1](./L01-install-slush.mdx) | Install Slush Wallet | Install the wallet |
-| L2 | Switch to Devnet | Change network to Devnet |
-| L3 | Install Sui CLI | Install command line tools |
-| L4 | VSCode + Sui Extension | Set up Move development environment |
-| L5 | Connect CLI to Devnet | Configure CLI network settings |
-| L6 | Get Tokens from Faucet | Get test SUI tokens |
+1. [**Install Slush Wallet**](./L01-install-slush.mdx) – Get your first Sui wallet up and running
+2. **Switch to Devnet** – Connect to the development network
+3. **Install Sui CLI** – Set up command line tools
+4. **VSCode + Sui Extension** – Prepare your Move development environment
+5. **Connect CLI to Devnet** – Configure your CLI network settings
+6. **Get Tokens from Faucet** – Grab some test SUI to play with
 
-## Checkpoint
+## How to know you're done
 
-Unit 1 is complete when you can verify the following:
+You've completed this section when:
 
 - `sui client active-env` returns `devnet`
 - `sui client gas` shows your balance
 
-## Tools Used
+## Tools you'll use
 
 - **Slush**: Sui wallet (browser extension)
 - **Sui CLI**: Command line tools
 - **Sui Extension**: VSCode extension for Move development
-
----
-
-**Next**: [L1 - Install Slush Wallet](./L01-install-slush.mdx)
