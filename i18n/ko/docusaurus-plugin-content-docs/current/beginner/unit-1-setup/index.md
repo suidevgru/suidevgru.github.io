@@ -35,6 +35,6 @@ description: "Sui 개발 환경을 구축하고 Devnet에 연결합니다"
 
 ## 사용하는 도구
 
-- **Slush**: Sui 지갑 (브라우저 확장)
+- **Slush**: Sui 지갑 (브라우저 확장 프로그램)
 - **Sui CLI**: 커맨드라인 도구
-- **Sui Extension**: VSCode의 Move 개발 확장
+- **Sui Extension**: VSCode의 Move 개발 확장 프로그램
