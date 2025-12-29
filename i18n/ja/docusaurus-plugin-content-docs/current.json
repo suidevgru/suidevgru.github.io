@@ -7,6 +7,10 @@
     "message": "初心者コース",
     "description": "The label for category 'Beginner Course' in sidebar 'tutorialSidebar'"
   },
+  "sidebar.tutorialSidebar.category.Getting Started": {
+    "message": "はじめに",
+    "description": "The label for category 'Getting Started' in sidebar 'tutorialSidebar'"
+  },
   "sidebar.tutorialSidebar.category.Unit 1: Environment Setup": {
     "message": "Unit 1: 環境構築",
     "description": "The label for category 'Unit 1: Environment Setup' in sidebar 'tutorialSidebar'"

@@ -7,6 +7,10 @@
     "message": "초급 코스",
     "description": "The label for category 'Beginner Course' in sidebar 'tutorialSidebar'"
   },
+  "sidebar.tutorialSidebar.category.Getting Started": {
+    "message": "시작하기",
+    "description": "The label for category 'Getting Started' in sidebar 'tutorialSidebar'"
+  },
   "sidebar.tutorialSidebar.category.Unit 1: Environment Setup": {
     "message": "Unit 1: 환경 설정",
     "description": "The label for category 'Unit 1: Environment Setup' in sidebar 'tutorialSidebar'"
