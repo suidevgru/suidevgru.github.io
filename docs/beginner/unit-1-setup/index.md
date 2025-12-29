@@ -1,46 +1,46 @@
 ---
 sidebar_position: 0
-title: "Unit 1: 環境構築"
-description: "Suiの開発環境を構築し、Devnetに接続します"
+title: "Unit 1: Environment Setup"
+description: "Set up your Sui development environment and connect to Devnet"
 ---
 
-# Unit 1: 環境構築
+# Unit 1: Environment Setup
 
-Suiの開発環境を構築し、Devnetに接続してFaucetでテストトークンを取得するまでを学びます。
+Set up your Sui development environment, connect to Devnet, and get test tokens from the Faucet.
 
 ## Goal
 
-このUnitを完了すると、以下ができるようになります：
+After completing this unit, you will be able to:
 
-- Slushウォレットがインストールされ、アドレスが表示される
-- ウォレットがDevnetに接続されている
-- Sui CLIがインストールされ、Devnetに接続されている
-- Faucetからテストトークンを取得できる
+- Install and set up Slush wallet with your address displayed
+- Connect your wallet to Devnet
+- Install Sui CLI and connect it to Devnet
+- Get test tokens from the Faucet
 
 ## Lessons
 
 | Lesson | Title | Goal |
 |:--|:--|:--|
-| [L1](./L01-install-slush.mdx) | Slushウォレットを入れる | ウォレットをインストールする |
-| L2 | Devnetに切り替える | ネットワークをDevnetに変更する |
-| L3 | Sui CLIをインストールする | コマンドラインツールを導入する |
-| L4 | VSCode + Sui Extension | Move開発環境を整える |
-| L5 | CLIをDevnetに接続する | CLIのネットワーク設定を行う |
-| L6 | Faucetでトークンを取得する | テストSUIを入手する |
+| [L1](./L01-install-slush.mdx) | Install Slush Wallet | Install the wallet |
+| L2 | Switch to Devnet | Change network to Devnet |
+| L3 | Install Sui CLI | Install command line tools |
+| L4 | VSCode + Sui Extension | Set up Move development environment |
+| L5 | Connect CLI to Devnet | Configure CLI network settings |
+| L6 | Get Tokens from Faucet | Get test SUI tokens |
 
 ## Checkpoint
 
-以下を確認できればUnit 1は完了です：
+Unit 1 is complete when you can verify the following:
 
-- `sui client active-env` が `devnet` を返す
-- `sui client gas` で残高が表示される
+- `sui client active-env` returns `devnet`
+- `sui client gas` shows your balance
 
-## 使用ツール
+## Tools Used
 
-- **Slush**: Suiウォレット（ブラウザ拡張）
-- **Sui CLI**: コマンドラインツール
-- **Sui Extension**: VSCodeのMove開発拡張
+- **Slush**: Sui wallet (browser extension)
+- **Sui CLI**: Command line tools
+- **Sui Extension**: VSCode extension for Move development
 
 ---
 
-**Next**: [L1 - Slushウォレットを入れる](./L01-install-slush.mdx)
+**Next**: [L1 - Install Slush Wallet](./L01-install-slush.mdx)
