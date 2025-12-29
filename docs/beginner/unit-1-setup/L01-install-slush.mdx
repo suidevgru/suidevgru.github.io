@@ -6,12 +6,11 @@ description: "Install the Slush wallet Chrome extension and create an account"
 
 # Install Slush Wallet
 
-The first step to using Sui is installing a wallet. Don't worry—it's super easy! Just follow the clicks and you'll be done in about 5 minutes.
+The first step to using Sui is installing a wallet. It's straightforward—just follow the on-screen instructions and you'll be done in about 5 minutes.
 
-## What's Slush Wallet?
+## What is Slush Wallet?
 
-Slush (formerly "Sui Wallet") is a browser wallet for Sui, made by Mysten Labs. With this, you can do all sorts of things.<br/>
-For example:
+Slush (formerly "Sui Wallet") is a browser wallet for Sui, made by Mysten Labs. With Slush, you can:
 
 - Create and manage accounts (addresses)
 - Sign transactions
@@ -19,14 +18,14 @@ For example:
 - Switch between networks (Mainnet/Testnet, etc.)
 
 :::tip Why Slush?
-There are several wallets for Sui, but we'll use Slush in this tutorial! It's close to an official wallet and supports Sui-specific features like sponsored transactions.
+There are several wallets for Sui, but this tutorial uses Slush. It's close to an official wallet and supports Sui-specific features like sponsored transactions.
 :::
 
 ---
 
-## Let's Install the Chrome Extension
+## Install the Chrome Extension
 
-First, let's add Slush to Chrome.
+First, add Slush to Chrome.
 
 1. Go to the Chrome Web Store
    - [Slush - Chrome Web Store](https://chromewebstore.google.com/detail/slush-a-sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil)
@@ -38,14 +37,14 @@ First, let's add Slush to Chrome.
 3. Click "Add extension" in the confirmation dialog
 
 :::note
-Pin it to your toolbar for quick access!
+Pin it to your toolbar for quick access.
 :::
 
 ---
 
-## Let's Create an Account
+## Create an Account
 
-Slush has two methods: "Social Login" (Google/Apple/Facebook/Twitch) and "Passphrase". Here, we'll use the **Passphrase method** since it's easier to migrate to other wallets later.
+Slush has two methods: "Social Login" (Google/Apple/Facebook/Twitch) and the recovery phrase method. Here, we'll use the **recovery phrase method** (Passphrase account) since it's easier to migrate to other wallets later.
 
 1. After installation, the Slush welcome screen opens automatically
 
@@ -55,23 +54,27 @@ Slush has two methods: "Social Login" (Google/Apple/Facebook/Twitch) and "Passph
 
 3. Select "Create a passphrase account"
 
-   ![Create Passphrase Account](./img/L1_create-wallet-2.png)
+   ![Create Recovery Phrase Account](./img/L1_create-wallet-2.png)
 
 ---
 
-## Let's Save Your Passphrase
+## Save Your Recovery Phrase
 
-1. You'll see 12 English words (your passphrase)
+1. You'll see 12 English words (your recovery phrase, also called seed phrase)
 
-2. Write them down on paper
+2. Write them down on paper and store them safely
 
-:::danger Keep your passphrase safe!
-Never share your passphrase with anyone! If someone has it, they can access your wallet. Write it down on paper and keep it somewhere safe.
+:::danger Keep your recovery phrase safe
+Your recovery phrase (seed phrase) is the "key" to your wallet.
+
+- Never share it with anyone.
+- Do not take screenshots or store it in chats, emails, or cloud notes.
+- Write it down on paper and store it offline in a safe place.
 :::
 
 ---
 
-## Let's Set Up Password & Security
+## Set Up Password and Security
 
 1. Set a password
    - Use alphanumeric characters + symbols, and make it as long as possible
@@ -81,20 +84,20 @@ Never share your passphrase with anyone! If someone has it, they can access your
    - **Unlock your wallet**: Auto-lock timeout (15min to 1 day)
    - **Confirm transactions**: Require password for each transaction
 
-3. Now the wallet main screen appears!
+3. Once setup is complete, the wallet main screen will appear.
 
 ---
 
-## Did It Work?
+## Verify Success
 
-Open `Settings` in your wallet—if you see your **address**, you're all set!
+Open `Settings` in your wallet—if you see your **address**, you're all set.
 
 ![Wallet Address](./img/L1_confarm-address.png)
 
 Your address is a long string starting with `0x` (e.g., `0x1234...abcd`).
 
 :::tip Copy your address
-Click the copy button next to your address to copy it. You'll need it in later lessons, so keep it handy!
+Click the copy button next to your address to copy it. You'll need it in later lessons, so keep it handy.
 :::
 
 ---
@@ -103,5 +106,5 @@ Click the copy button next to your address to copy it. You'll need it in later l
 
 - [x] Installed Slush wallet on Chrome
 - [x] Created a new account
-- [x] Backed up your passphrase
+- [x] Backed up your recovery phrase
 - [x] Confirmed your wallet address
