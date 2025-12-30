@@ -1,8 +1,4 @@
 {
   "label": "はじめに",
-  "position": 1,
-  "link": {
-    "type": "doc",
-    "id": "getting-started/index"
-  }
+  "position": 1
 }
