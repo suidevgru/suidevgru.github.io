@@ -1,0 +1,8 @@
+{
+  "label": "初心者コース",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Sui初心者のためのステップバイステップコース。環境構築からdAppデプロイまで学べます。"
+  }
+}

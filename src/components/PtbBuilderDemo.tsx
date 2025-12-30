@@ -1,3 +1,6 @@
+import '@zktx.io/ptb-builder/index.css';
+import '@zktx.io/ptb-builder/styles/themes-all.css';
+
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';

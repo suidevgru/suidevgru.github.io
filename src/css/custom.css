@@ -1,12 +1,14 @@
-@import '../../node_modules/@mysten/dapp-kit/dist/esm/index.css';
-@import '@zktx.io/ptb-builder/index.css';
-@import '@zktx.io/ptb-builder/styles/themes-all.css';
-
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
  */
+
+/* NOTE: ptb-builder CSS is imported in src/components/PtbBuilderDemo.tsx (co-located with the component).
+   Currently disabled pending upstream fix for CSS scoping.
+   See: https://github.com/zktx-io/ptb-builder-monorepo/issues/4
+*/
+/* NOTE: @mysten/dapp-kit CSS is imported in src/theme/Root/index.tsx (co-located with the provider). */
 
 /* Prevent horizontal overflow and layout "jitter" between pages with/without a scrollbar. */
 html {

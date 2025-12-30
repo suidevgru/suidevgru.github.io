@@ -1,0 +1,8 @@
+{
+  "label": "고급 코스",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "경험 많은 Sui 개발자를 위한 고급 주제."
+  }
+}

@@ -1,3 +1,5 @@
+import '@mysten/dapp-kit/dist/index.css';
+
 import React, { useMemo } from 'react';
 import type { Props } from '@theme/Root';
 import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';

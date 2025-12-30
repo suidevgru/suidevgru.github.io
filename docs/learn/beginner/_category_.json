@@ -1,0 +1,8 @@
+{
+  "label": "Beginner Course",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "A step-by-step course for Sui beginners. Learn from environment setup to dApp deployment."
+  }
+}
