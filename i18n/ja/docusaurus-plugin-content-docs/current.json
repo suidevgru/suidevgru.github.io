@@ -26,5 +26,13 @@
   "sidebar.tutorialSidebar.category.Live Code Example": {
     "message": "Live Code Example",
     "description": "The label for category 'Live Code Example' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Learn": {
+    "message": "学習",
+    "description": "The label for category 'Learn' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Advanced Course": {
+    "message": "上級コース",
+    "description": "The label for category 'Advanced Course' in sidebar 'tutorialSidebar'"
   }
 }

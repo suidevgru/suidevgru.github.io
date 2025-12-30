@@ -1,0 +1,8 @@
+{
+  "label": "学習",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "あなたの経験レベルに合った学習パスを選んでください。"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "Advanced Course",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Advanced topics for experienced Sui developers."
+  }
+}

@@ -55,8 +55,8 @@ export default function HomepageLanding(): ReactNode {
     {
       title: 'Beginner',
       links: [
-        {label: 'Slushウォレットを入れる', to: '/docs/beginner/unit-1-setup/L01-install-slush'},
-        {label: 'Devnetに切り替える', to: '/docs/beginner/unit-1-setup/L02-switch-devnet'},
+        {label: 'Slushウォレットを入れる', to: '/docs/getting-started/L01-install-slush'},
+        {label: 'Devnetに切り替える', to: '/docs/getting-started/L02-switch-devnet'},
       ],
     },
     {
@@ -103,7 +103,7 @@ export default function HomepageLanding(): ReactNode {
             {'A lightweight landing page for docs, guides, and references.'}
           </p>
           <div className={styles.ctaRow}>
-            <Link className="button button--primary button--lg" to="/docs/beginner/unit-1-setup">
+            <Link className="button button--primary button--lg" to="/docs/getting-started">
               {'Get started'}
             </Link>
           </div>
@@ -116,7 +116,7 @@ export default function HomepageLanding(): ReactNode {
 
           <div className={styles.cardShell}>
             <div className={styles.ctaCard}>
-              <Link className={styles.ctaCardLink} to="/docs/beginner/unit-1-setup">
+              <Link className={styles.ctaCardLink} to="/docs/getting-started">
                 <span>{'Build with DevGru'}</span>
                 <ArrowRightIcon />
               </Link>

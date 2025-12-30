@@ -1,0 +1,8 @@
+{
+  "label": "학습",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "자신의 경험 수준에 맞는 학습 경로를 선택하세요."
+  }
+}
