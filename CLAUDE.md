@@ -56,6 +56,7 @@ When creating articles in `docs/`:
 - English: Use friendly, conversational tone
 - Follow [specs/translation-glossary.md](specs/translation-glossary.md) for consistent terminology
 - Use tables only where they serve a clear technical purpose (e.g., API references, command options). Avoid tables for simple explanations—they can make pages feel stiff.
+- Do not add "Next lesson" sections or navigation links within articles—Docusaurus automatically provides previous/next navigation at the bottom of each page.
 
 ## i18n Guidelines
 
