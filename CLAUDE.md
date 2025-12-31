@@ -55,6 +55,7 @@ When creating articles in `docs/`:
 - Korean: Use polite form (합니다/습니다체)
 - English: Use friendly, conversational tone
 - Follow [specs/translation-glossary.md](specs/translation-glossary.md) for consistent terminology
+- Use tables only where they serve a clear technical purpose (e.g., API references, command options). Avoid tables for simple explanations—they can make pages feel stiff.
 
 ## i18n Guidelines
 
