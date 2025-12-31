@@ -54,6 +54,7 @@ When creating articles in `docs/`:
 - Japanese: Use polite form (です・ます調)
 - Korean: Use polite form (합니다/습니다체)
 - English: Use friendly, conversational tone
+- Follow [specs/translation-glossary.md](specs/translation-glossary.md) for consistent terminology
 
 ## i18n Guidelines
 
