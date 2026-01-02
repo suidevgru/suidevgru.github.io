@@ -181,7 +181,9 @@ export function MovePlayground() {
     appendOutput('Publishing transaction...');
 
     const tx = new Transaction();
-    const modules = compiled.modules.map((mod) => Array.from(fromBase64(mod)));
+    const modules: number[][] = compiled.modules.map((mod) =>
+      Array.from(fromBase64(mod)) as number[],
+    );
     const [upgradeCap] = tx.publish({
       modules,
       dependencies: compiled.dependencies ?? [],
