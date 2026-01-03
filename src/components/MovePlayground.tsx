@@ -24,6 +24,45 @@ type BuildSuccess = BuildResult & {
   digest?: string;
 };
 
+type AnsiColorMap = Record<number, string>;
+const ANSI_REGEX = /\x1b\[[0-9;]*m/g;
+const ANSI_COLORS_LIGHT: AnsiColorMap = {
+  30: '#0f172a',
+  31: '#b91c1c',
+  32: '#166534',
+  33: '#b45309',
+  34: '#1d4ed8',
+  35: '#7e22ce',
+  36: '#0f766e',
+  37: '#334155',
+  90: '#64748b',
+  91: '#dc2626',
+  92: '#16a34a',
+  93: '#f59e0b',
+  94: '#2563eb',
+  95: '#a855f7',
+  96: '#14b8a6',
+  97: '#1e293b',
+};
+const ANSI_COLORS_DARK: AnsiColorMap = {
+  30: '#e2e8f0',
+  31: '#f87171',
+  32: '#4ade80',
+  33: '#fbbf24',
+  34: '#60a5fa',
+  35: '#c084fc',
+  36: '#2dd4bf',
+  37: '#cbd5f5',
+  90: '#94a3b8',
+  91: '#fca5a5',
+  92: '#86efac',
+  93: '#fde047',
+  94: '#93c5fd',
+  95: '#e9d5ff',
+  96: '#5eead4',
+  97: '#f8fafc',
+};
+
 export function MovePlayground() {
   const template = MoveTemplate_Intro_HelloWorld;
   const templateFiles = useMemo(
@@ -87,6 +126,26 @@ export function MovePlayground() {
     [colorMode],
   );
 
+  const ansiColorMap = useMemo(
+    () => (colorMode === 'dark' ? ANSI_COLORS_DARK : ANSI_COLORS_LIGHT),
+    [colorMode],
+  );
+  const outputStyles = useMemo(
+    () => ({
+      minHeight: 220,
+      padding: 12,
+      borderRadius: 12,
+      background: colorMode === 'dark' ? '#0b0f16' : '#f8fafc',
+      color: colorMode === 'dark' ? '#e2e8f0' : '#0f172a',
+      border: '1px solid var(--ifm-color-emphasis-200)',
+      fontSize: 12,
+      overflow: 'auto',
+      whiteSpace: 'pre-wrap' as const,
+      fontFamily: 'var(--ifm-font-family-monospace)',
+    }),
+    [colorMode],
+  );
+
   const baseExtensions = useMemo(() => [EditorView.lineWrapping], []);
   const tomlExtensions = useMemo(() => [yaml(), ...baseExtensions], [baseExtensions]);
   const moveExtensions = useMemo(() => [rust(), ...baseExtensions], [baseExtensions]);
@@ -145,6 +204,7 @@ export function MovePlayground() {
       const result = await buildMovePackage({
         files: resolvedFiles,
         dependencies: resolvedDependencies,
+        ansiColor: true,
       });
       const end = performance.now();
 
@@ -297,17 +357,9 @@ export function MovePlayground() {
           Output
         </div>
         <pre
-          style={{
-            minHeight: 220,
-            padding: 12,
-            borderRadius: 12,
-            background: '#0f0f0f',
-            color: '#f1f1f1',
-            fontSize: 12,
-            overflow: 'auto',
-          }}
+          style={outputStyles}
         >
-          {output || 'Ready.'}
+          {output ? renderAnsiToReact(output, ansiColorMap) : 'Ready.'}
         </pre>
       </div>
     </div>
@@ -411,6 +463,59 @@ function FileTree({
       })}
     </div>
   );
+}
+
+function renderAnsiToReact(text: string, colorMap: AnsiColorMap) {
+  const nodes: React.ReactNode[] = [];
+  let currentColor: string | null = null;
+  let isBold = false;
+  let lastIndex = 0;
+  let key = 0;
+
+  const flushText = (chunk: string) => {
+    if (!chunk) return;
+    const style: React.CSSProperties = {};
+    if (currentColor) style.color = currentColor;
+    if (isBold) style.fontWeight = 600;
+    const parts = chunk.split('\n');
+    parts.forEach((part, index) => {
+      if (part) {
+        nodes.push(
+          <span key={`ansi-${key++}`} style={style}>
+            {part}
+          </span>,
+        );
+      }
+      if (index < parts.length - 1) {
+        nodes.push(<br key={`ansi-br-${key++}`} />);
+      }
+    });
+  };
+
+  for (const match of text.matchAll(ANSI_REGEX)) {
+    const idx = match.index ?? 0;
+    flushText(text.slice(lastIndex, idx));
+    const codeStr = match[0].slice(2, -1);
+    const codes = codeStr ? codeStr.split(';').map(Number) : [0];
+    for (const code of codes) {
+      if (code === 0) {
+        currentColor = null;
+        isBold = false;
+      } else if (code === 1) {
+        isBold = true;
+      } else if (code === 22) {
+        isBold = false;
+      } else if (code === 39) {
+        currentColor = null;
+      } else if (colorMap[code]) {
+        currentColor = colorMap[code];
+      }
+    }
+    lastIndex = idx + match[0].length;
+  }
+
+  flushText(text.slice(lastIndex));
+  return nodes;
 }
 
 function FolderIcon() {
