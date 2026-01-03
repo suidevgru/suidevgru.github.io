@@ -27,7 +27,7 @@ A beginner-friendly course to learn Sui from the basics to dApp deployment in st
 
 | ID | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|
-| L1 | Install Slush Wallet | Install the wallet | 1. Install Chrome extension<br/>2. Create account<br/>3. Verify backup | Address is displayed in the wallet | Slush | Let's switch to Devnet |
+| L1 | Install Slush Wallet | Install the wallet | 1. Install Chrome extension<br/>2. Create account<br/>3. Store recovery phrase<br/>4. Set password | Address is displayed in settings | Slush | Let's switch to Devnet |
 | L2 | Switch to Devnet | Change network to Devnet | 1. Open settings<br/>2. Select Devnet | Wallet displays "Devnet" | Slush | Let's introduce the CLI |
 | L3 | Install Sui CLI | Install command line tools | 1. Run suiup command<br/>2. Verify version | `sui --version` succeeds | CLI | Setup development in VSCode |
 | L4 | VSCode + Sui Extension | Setup Move dev environment | 1. Install Sui Extension<br/>2. Verify settings | .move files show syntax highlighting | **Sui Extension** | Connect CLI to Devnet |
@@ -56,7 +56,7 @@ Success if `sui client active-env` returns `devnet` and `sui client gas` display
 |:--|:--|:--|:--|:--|:--|:--|
 | L7 | Connect Wallet to PTB Builder | Link PTB Builder and Slush | 1. Access PTB Builder<br/>2. Connect Wallet<br/>3. Approve in Slush | "Connected" status appears | **PTB Builder**, Slush | Check tx in Explorer |
 | L8 | Read tx in Explorer | Understand transaction contents | 1. Open Explorer<br/>2. Search for tx<br/>3. Check details | Can read Input/Output/Gas | Explorer | Try sending via CLI |
-| L9 | Try Transfer via CLI | Execute tx via command line | 1. Transfer via CLI<br/>2. Verify result | Tx hash is obtained | CLI | Combine 2 operations |
+| L9 | Transfer via CLI | Execute tx via command line | 1. Transfer via CLI<br/>2. Verify result | Tx hash is obtained | CLI | Combine 2 operations |
 | L10 | Combine 2 Operations | Group multiple actions into 1 tx | 1. Set Transfer + Transfer<br/>2. Execute | 2 transfers succeed in 1 tx | **PTB Builder**, Slush | Convert to TS code |
 | L11 | Verify PTB → TS Export | Experience code output from GUI | 1. Click Export button<br/>2. Check TS code | TS code is displayed (reproduce in Unit 4) | **PTB Builder** | Unit 2 Clear! Next: Own contract |
 
@@ -81,7 +81,7 @@ Success if a tx combining 2 operations in PTB Builder is successful.
 | ID | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|
 | L12 | Create Move Project | Create a new package | 1. sui move new<br/>2. Verify folder structure | Move.toml is generated | CLI, **Sui Extension** | Understand Move mechanics |
-| L13 | Understand Move Mechanics | Grasp Resource/Module/Package | 1. Read conceptual diagram<br/>2. Check sample code | Can explain the 3 concepts | Reading | Let's write the contract |
+| L13 | Learn Move Mechanics | Grasp Resource/Module/Package | 1. Read conceptual diagram<br/>2. Check sample code | Can explain the 3 concepts | Reading | Let's write the contract |
 | L14 | Write Minimal Contract | Implement struct + entry function | 1. Implement a counter<br/>2. Verify syntax | No build errors | **Sui Extension** | Build and test |
 | L15 | Build & Test | Verify locally | 1. sui move build<br/>2. sui move test | Tests pass | CLI, **Sui Extension** | Deploy to Devnet |
 | L16 | Publish to Devnet | Deploy the contract | 1. sui client publish<br/>2. Obtain Package ID | Package ID found on Explorer | CLI, Explorer | Call from Explorer |
@@ -107,7 +107,7 @@ Success if your own contract is published and called successfully from the Explo
 
 | ID | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|
-| L18 | Understand SDK Structure | Roles of @mysten/sui & @mysten/dapp-kit | 1. Check packages<br/>2. Refer to docs | Can explain both roles | Reading | Connect with SuiClient |
+| L18 | Learn SDK Structure | Roles of @mysten/sui & @mysten/dapp-kit | 1. Check packages<br/>2. Refer to docs | Can explain both roles | Reading | Connect with SuiClient |
 | L19 | Connect with SuiClient | Network connection & data fetch | 1. Run getBalance<br/>2. Verify result | Balance is retrieved | TS | Build PTB in TS |
 | L20 | Use Transaction Class | Construct PTB with TS | 1. Recreate Unit 2 PTB in TS<br/>2. Execute | Obtain same result | TS, **PTB Builder Ref** | Setup dapp-kit |
 | L21 | Setup dapp-kit Provider | Build frontend foundation | 1. Set Provider hierarchy<br/>2. Verify operation | Boots without errors | dapp-kit | Create wallet connection |
@@ -249,7 +249,7 @@ Each Lesson consists of the following fields:
 |:--|:--|
 | **Sui Extension** | Move development extension for VSCode |
 | **PTB Builder** | Tool for composing PTBs via GUI |
-| Slush | Sui wallet extension (Browser, Signing/Connection) |
+| Slush | Slush wallet (Chrome extension, Signing/Connection) |
 | CLI | Sui CLI (Command line tool) |
 | Explorer | Sui Explorer (Transaction verification) |
 | dapp-kit | @mysten/dapp-kit (SDK for React) |

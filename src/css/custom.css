@@ -144,3 +144,9 @@ body {
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* Limit image height in documentation articles (prevents oversized wallet screenshots) */
+article img {
+  max-height: 500px;
+  width: auto;
+}
