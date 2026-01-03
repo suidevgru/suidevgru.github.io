@@ -6,7 +6,7 @@ import { useColorMode } from '@docusaurus/theme-common';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import type { Transaction } from '@mysten/sui/transactions';
 import { PTBBuilder, type Chain, type PTBDoc, type ToastVariant, usePTB } from '@zktx.io/ptb-builder';
-import { PTB_TEMPLATES } from '../ptb/templates';
+import { PTB_TEMPLATES } from '../templates/ptb';
 
 function usePtbTheme() {
   const { colorMode } = useColorMode();
