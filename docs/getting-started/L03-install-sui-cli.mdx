@@ -1,0 +1,150 @@
+---
+sidebar_position: 3
+title: "Install Sui CLI"
+description: "Set up the command-line tools"
+---
+
+# Install Sui CLI
+
+Let's install the Sui CLI (command-line tools). **It's not difficult**—just follow the steps.
+
+## What is Sui CLI?
+
+Sui CLI is a tool for interacting with the Sui blockchain from your terminal.
+
+- Build and deploy Move contracts
+- Send transactions
+- Inspect objects
+- Get test tokens from the Faucet
+
+It handles everything you need for development.
+
+---
+
+## Install Suiup
+
+We'll use **Suiup**, the official Sui CLI version manager. It works like `rustup` for Rust, making it easy to manage multiple versions.
+
+<details>
+<summary>macOS / Linux</summary>
+
+1. **Open your terminal and run the following command**
+
+   ```bash
+   curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
+   ```
+
+2. **Restart your terminal or run the following to apply the path**
+
+   ```bash
+   source ~/.bashrc   # for bash
+   source ~/.zshrc    # for zsh (macOS default)
+   ```
+
+3. **Verify the installation**
+
+   ```bash
+   suiup --version
+   ```
+
+</details>
+
+<details>
+<summary>Windows (PowerShell)</summary>
+
+On Windows, you download `suiup.exe` from Releases and place it in a folder that's in your PATH.
+
+1. **Download `suiup`**
+
+   Go to [Suiup Releases](https://github.com/MystenLabs/suiup/releases) and download the Windows zip file.
+   - Example: `suiup-Windows-msvc-x86_64.zip` / `suiup-Windows-msvc-arm64.zip`
+
+2. **Extract the zip and get `suiup.exe`**
+
+   Right-click the downloaded zip → **Extract All**.
+
+3. **Create a `bin` folder (destination)**
+
+   Run in PowerShell
+
+   ```powershell
+   New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\bin"
+   ```
+
+4. **Move `suiup.exe` to `bin`**
+
+   Copy/move `suiup.exe` from the extracted folder to `%USERPROFILE%\bin`.
+
+5. **Add to PATH (via command)**
+
+   You can add it from PowerShell without opening System Settings
+
+   ```powershell
+   $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+   if ($userPath -notlike "*$env:USERPROFILE\bin*") {
+     [Environment]::SetEnvironmentVariable("Path", "$userPath;$env:USERPROFILE\bin", "User")
+   }
+   ```
+
+   Close and reopen PowerShell, then verify
+
+   ```powershell
+   suiup --version
+   ```
+
+</details>
+
+---
+
+## Install Sui CLI
+
+Once Suiup is ready, install Sui CLI. Since we're using Devnet in this tutorial, install the Devnet version.
+
+```bash
+suiup install sui@devnet
+```
+
+:::tip Network-specific versions
+Suiup lets you install different versions for each network.
+- `sui@devnet` — For development (used in this tutorial)
+- `sui@testnet` — For testing
+- `sui@mainnet` — For production
+:::
+
+---
+
+## Verify Installation
+
+After installation, check the version.
+
+```bash
+sui --version
+```
+
+If you see a version number, you're all set.
+
+```
+sui 1.x.x-xxxxxxx
+```
+
+You can also check installed versions with `suiup show`.
+
+```bash
+suiup show
+```
+
+<!-- Image: Terminal showing sui --version result -->
+<!-- ![Version check](./img/L03_version-check.png) -->
+
+:::warning If the version doesn't show
+If you see `command not found`, try closing and reopening your terminal. If that doesn't work, check your path settings.
+:::
+
+---
+
+## What You Did
+
+- [x] Understood what Sui CLI does
+- [x] Installed Suiup
+- [x] Installed Sui CLI (Devnet version)
+- [x] Verified installation with `sui --version`

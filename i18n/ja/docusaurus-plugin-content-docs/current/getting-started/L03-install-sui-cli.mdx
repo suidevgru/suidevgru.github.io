@@ -1,0 +1,150 @@
+---
+sidebar_position: 3
+title: "Sui CLIをインストールする"
+description: "コマンドラインツールを導入します"
+---
+
+# Sui CLIをインストールする
+
+Sui CLI（コマンドラインツール）をインストールしましょう。**難しくありません**—手順どおりに進めるだけです。
+
+## Sui CLIとは？
+
+Sui CLIは、ターミナルからSuiブロックチェーンを操作するためのツールです。
+
+- Moveコントラクトのビルド・デプロイ
+- トランザクションの送信
+- オブジェクトの確認
+- Faucetからテストトークンを取得
+
+など、開発に必要な操作がすべてできます。
+
+---
+
+## Suiupをインストールする
+
+Sui公式のCLIバージョン管理ツール「**Suiup**」を使ってSuiCLIをインストールします。Rustの`rustup`と同じような仕組みで、複数バージョンの管理も簡単にできます。
+
+<details>
+<summary>macOS / Linux</summary>
+
+1. **ターミナルを開き、以下のコマンドを実行します**
+
+   ```bash
+   curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
+   ```
+
+2. **ターミナルを再起動するか、以下を実行してパスを反映させます**
+
+   ```bash
+   source ~/.bashrc   # bashの場合
+   source ~/.zshrc    # zshの場合（macOSデフォルト）
+   ```
+
+3. **インストールを確認します**
+
+   ```bash
+   suiup --version
+   ```
+
+</details>
+
+<details>
+<summary>Windows（PowerShell）</summary>
+
+Windows は「Releasesから `suiup.exe` を落として、PATHの通ったフォルダに置く」方式です。
+
+1. **`suiup` をダウンロード**
+
+   [Suiup Releases](https://github.com/MystenLabs/suiup/releases) を開き、Windows 用の zip をダウンロードします。
+   - 例: `suiup-Windows-msvc-x86_64.zip` / `suiup-Windows-msvc-arm64.zip`
+
+2. **zip を展開して `suiup.exe` を取り出す**
+
+   ダウンロードした zip を右クリック → **すべて展開**。
+
+3. **`bin` フォルダを作る（置き場所）**
+
+   PowerShellで実行
+
+   ```powershell
+   New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\bin"
+   ```
+
+4. **`suiup.exe` を `bin` に移動**
+
+   展開したフォルダ内の `suiup.exe` を、`%USERPROFILE%\bin` にコピー/移動します。
+
+5. **PATH を追加（コマンドで完結）**
+
+   システム設定を開かなくても、PowerShellから追加できます
+
+   ```powershell
+   $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+   if ($userPath -notlike "*$env:USERPROFILE\bin*") {
+     [Environment]::SetEnvironmentVariable("Path", "$userPath;$env:USERPROFILE\bin", "User")
+   }
+   ```
+
+   PowerShellを一度閉じて開き直したら、確認します
+
+   ```powershell
+   suiup --version
+   ```
+
+</details>
+
+---
+
+## Sui CLIをインストールする
+
+Suiupの準備ができたら、Sui CLIをインストールします。このチュートリアルではDevnetを使うので、Devnet版をインストールします。
+
+```bash
+suiup install sui@devnet
+```
+
+:::tip ネットワーク別のバージョン
+Suiupでは、ネットワークごとに異なるバージョンをインストールできます。
+- `sui@devnet` — 開発用（このチュートリアルで使用）
+- `sui@testnet` — テスト用
+- `sui@mainnet` — 本番用
+:::
+
+---
+
+## 成功の確認
+
+インストールが完了したら、バージョンを確認します。
+
+```bash
+sui --version
+```
+
+バージョン番号が表示されれば成功です。
+
+```
+sui 1.x.x-xxxxxxx
+```
+
+`suiup show` でインストール済みのバージョン一覧も確認できます。
+
+```bash
+suiup show
+```
+
+<!-- 画像: ターミナルでsui --versionを実行した結果 -->
+<!-- ![バージョン確認](./img/L03_version-check.png) -->
+
+:::warning バージョンが表示されない場合
+`command not found` と表示される場合は、ターミナルを一度閉じて開き直してください。それでも解決しない場合は、パスの設定を確認してください。
+:::
+
+---
+
+## このレッスンでやったこと
+
+- [x] Sui CLIが何をするツールか理解した
+- [x] Suiupをインストールした
+- [x] Sui CLI（Devnet版）をインストールした
+- [x] `sui --version` でインストールを確認した
