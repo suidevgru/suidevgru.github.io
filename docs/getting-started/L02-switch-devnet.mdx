@@ -6,21 +6,73 @@ description: "Change your wallet network to Devnet"
 
 # Switch to Devnet
 
-:::note Coming Soon
-This lesson is under construction. Please check back later.
+Once your wallet is ready, let's switch to a development network. This is a quick setup that takes less than 2 minutes.
+
+## What is Devnet?
+
+Sui has multiple networks:
+
+- **Mainnet** — The production environment. Handles real assets.
+- **Testnet** — The staging environment. Ideal for pre-production verification and integration testing.
+- **Devnet** — The development environment. Ideal for experimenting and iterating freely.
+
+In this tutorial, we'll use **Devnet**.
+
+Devnet is a network designed for development and learning, where you can get **free test SUI (gas) as many times as you need**.
+You can experiment hands-on and learn through trial and error, making it perfect for beginners exploring Sui for the first time.
+
+Note that **Mainnet** is the production environment that handles real SUI with actual value.
+We won't use Mainnet in this tutorial, so feel free to proceed with Devnet.
+
+:::tip Why use Devnet?
+Devnet is great for learning because you can easily get test SUI (gas) from the Faucet via Sui CLI.<br/>
+(Testnet's Faucet can sometimes have delays due to heavy traffic or rate limiting.)<br/>
+Note: Devnet is reset relatively frequently. Use Testnet if you need to preserve work long-term.
 :::
 
-## Overview
+## What is the Faucet?
 
-| Item | Content |
-|:--|:--|
-| **Goal** | Change network to Devnet |
-| **Time** | ~2 minutes |
-| **Tools** | Slush |
-| **Success Check** | Wallet shows "Devnet" |
+A **Faucet** is a service that provides free test tokens for gas fees on Devnet and Testnet.
+You can get them from the [Sui Faucet](https://faucet.sui.io/) or via CLI.
+
+We'll cover how to use the Faucet in detail in [Get Test Tokens](./L06-get-test-tokens).
 
 ---
 
-**Previous Lesson**: [L1 - Install Slush Wallet](./L01-install-slush.mdx)
+## Switch to Devnet
 
-**Next Lesson**: L3 - Install Sui CLI (Coming Soon)
+Let's switch the network in your Slush wallet.
+
+### 1. Open Settings
+
+1. Click the Slush icon in your browser toolbar to open the wallet<br/>
+(enter your password if prompted)
+
+2. Click the user icon at the bottom right to open the "**Settings**" screen
+
+![Settings menu](./img/L2_wallet_userbotton.png)
+
+### 2. Select Devnet
+
+1. Click "**Network**"
+
+2. Select "**Devnet**"
+
+![Select Devnet](./img/L2_select-devnet.png)
+
+---
+
+## Verify Success
+
+Return to the wallet's main screen. If you see "**Devnet**" displayed at the top, you're all set!
+
+![Devnet confirmed](./img/L2_devnet-confirmed.png)
+
+---
+
+## What You Did in This Lesson
+
+- [x] Learned about Devnet
+- [x] Switched your wallet network to Devnet
+- [x] Confirmed the switch to Devnet
+
