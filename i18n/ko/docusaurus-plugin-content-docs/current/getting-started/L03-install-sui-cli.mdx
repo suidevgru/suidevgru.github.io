@@ -34,12 +34,9 @@ Sui 공식 CLI 버전 관리 도구인 **Suiup**을 사용하여 Sui CLI를 설�
    curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
    ```
 
-2. **터미널을 재시작하거나 다음을 실행하여 경로를 반영합니다**
+2. **터미널을 닫고 다시 엽니다**
 
-   ```bash
-   source ~/.bashrc   # bash의 경우
-   source ~/.zshrc    # zsh의 경우 (macOS 기본)
-   ```
+   (`suiup`이 찾을 수 없다면, `~/.local/bin`이 PATH에 있는지 확인하세요)
 
 3. **설치를 확인합니다**
 
@@ -56,16 +53,17 @@ Windows는 Releases에서 `suiup.exe`를 다운로드하여 PATH가 설정된 �
 
 1. **`suiup` 다운로드**
 
-   [Suiup Releases](https://github.com/MystenLabs/suiup/releases)를 열고 Windows용 zip을 다운로드합니다.
-   - 예: `suiup-Windows-msvc-x86_64.zip` / `suiup-Windows-msvc-arm64.zip`
+    [Suiup Releases](https://github.com/MystenLabs/suiup/releases)를 열고 Windows용 zip을 다운로드합니다.
+    ※ **CPU 종류에 맞게 선택합니다** (대부분의 PC는 `x86_64`, Surface 등 일부는 `arm64`).
+
+    - 예: `suiup-Windows-msvc-x86_64.zip` / `suiup-Windows-msvc-arm64.zip`
+
 
 2. **zip을 압축 해제하고 `suiup.exe`를 꺼냅니다**
 
-   다운로드한 zip을 우클릭 → **모두 압축 풀기**.
+3. **`bin` 폴더 만들기**
 
-3. **`bin` 폴더 만들기 (저장 위치)**
-
-   PowerShell에서 실행
+    다음 명령어를 실행합니다.
 
    ```powershell
    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\bin"
@@ -73,21 +71,21 @@ Windows는 Releases에서 `suiup.exe`를 다운로드하여 PATH가 설정된 �
 
 4. **`suiup.exe`를 `bin`으로 이동**
 
-   압축 해제한 폴더 내의 `suiup.exe`를 `%USERPROFILE%\bin`으로 복사/이동합니다.
+5. **PATH 추가**
 
-5. **PATH 추가 (명령어로 완료)**
-
-   시스템 설정을 열지 않고 PowerShell에서 추가할 수 있습니다
+    다음 명령어를 실행합니다.
 
    ```powershell
    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+   if (-not $userPath) { $userPath = "" }
    if ($userPath -notlike "*$env:USERPROFILE\bin*") {
      [Environment]::SetEnvironmentVariable("Path", "$userPath;$env:USERPROFILE\bin", "User")
    }
    ```
 
-   PowerShell을 닫았다가 다시 열고 확인합니다
+6. **PowerShell을 닫고 다시 엽니다**
 
+7. **설치를 확인합니다**
    ```powershell
    suiup --version
    ```
@@ -101,14 +99,15 @@ Windows는 Releases에서 `suiup.exe`를 다운로드하여 PATH가 설정된 �
 Suiup 준비가 되면 Sui CLI를 설치합니다. 이 튜토리얼에서는 Devnet을 사용하므로 Devnet 버전을 설치합니다.
 
 ```bash
-suiup install sui@devnet
+suiup install sui@devnet -y
 ```
 
-:::tip 네트워크별 버전
-Suiup에서는 네트워크별로 다른 버전을 설치할 수 있습니다.
+:::tip 네트워크별 설치 예
 - `sui@devnet` — 개발용 (이 튜토리얼에서 사용)
 - `sui@testnet` — 테스트용
 - `sui@mainnet` — 프로덕션용
+
+※ `suiup install sui`처럼 생략하면 기본적으로 testnet이 선택됩니다.
 :::
 
 ---
@@ -132,9 +131,6 @@ sui 1.x.x-xxxxxxx
 ```bash
 suiup show
 ```
-
-<!-- 이미지: 터미널에서 sui --version을 실행한 결과 -->
-<!-- ![버전 확인](./img/L03_version-check.png) -->
 
 :::warning 버전이 표시되지 않는 경우
 `command not found`가 표시되면 터미널을 닫았다가 다시 열어보세요. 그래도 해결되지 않으면 경로 설정을 확인하세요.

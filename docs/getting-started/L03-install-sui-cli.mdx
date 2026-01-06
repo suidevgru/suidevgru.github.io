@@ -34,12 +34,9 @@ We'll use **Suiup**, the official Sui CLI version manager. It works like `rustup
    curl -sSfL https://raw.githubusercontent.com/MystenLabs/suiup/main/install.sh | sh
    ```
 
-2. **Restart your terminal or run the following to apply the path**
+2. **Close and reopen your terminal**
 
-   ```bash
-   source ~/.bashrc   # for bash
-   source ~/.zshrc    # for zsh (macOS default)
-   ```
+   (If `suiup` is not found, check that `~/.local/bin` is in your PATH)
 
 3. **Verify the installation**
 
@@ -56,16 +53,17 @@ On Windows, you download `suiup.exe` from Releases and place it in a folder that
 
 1. **Download `suiup`**
 
-   Go to [Suiup Releases](https://github.com/MystenLabs/suiup/releases) and download the Windows zip file.
-   - Example: `suiup-Windows-msvc-x86_64.zip` / `suiup-Windows-msvc-arm64.zip`
+    Go to [Suiup Releases](https://github.com/MystenLabs/suiup/releases) and download the Windows zip file.
+    Choose the correct version for your CPU (most PCs are `x86_64`, some like Surface are `arm64`).
+
+    - Example: `suiup-Windows-msvc-x86_64.zip` / `suiup-Windows-msvc-arm64.zip`
+
 
 2. **Extract the zip and get `suiup.exe`**
 
-   Right-click the downloaded zip → **Extract All**.
+3. **Create a `bin` folder**
 
-3. **Create a `bin` folder (destination)**
-
-   Run in PowerShell
+    Run the following command.
 
    ```powershell
    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\bin"
@@ -73,21 +71,21 @@ On Windows, you download `suiup.exe` from Releases and place it in a folder that
 
 4. **Move `suiup.exe` to `bin`**
 
-   Copy/move `suiup.exe` from the extracted folder to `%USERPROFILE%\bin`.
+5. **Add to PATH**
 
-5. **Add to PATH (via command)**
-
-   You can add it from PowerShell without opening System Settings
+    Run the following command.
 
    ```powershell
    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+   if (-not $userPath) { $userPath = "" }
    if ($userPath -notlike "*$env:USERPROFILE\bin*") {
      [Environment]::SetEnvironmentVariable("Path", "$userPath;$env:USERPROFILE\bin", "User")
    }
    ```
 
-   Close and reopen PowerShell, then verify
+6. **Close and reopen PowerShell**
 
+7. **Verify the installation**
    ```powershell
    suiup --version
    ```
@@ -101,14 +99,15 @@ On Windows, you download `suiup.exe` from Releases and place it in a folder that
 Once Suiup is ready, install Sui CLI. Since we're using Devnet in this tutorial, install the Devnet version.
 
 ```bash
-suiup install sui@devnet
+suiup install sui@devnet -y
 ```
 
 :::tip Network-specific versions
-Suiup lets you install different versions for each network.
 - `sui@devnet` — For development (used in this tutorial)
 - `sui@testnet` — For testing
 - `sui@mainnet` — For production
+
+Note: If you omit the version like `suiup install sui`, testnet is selected by default.
 :::
 
 ---
@@ -132,9 +131,6 @@ You can also check installed versions with `suiup show`.
 ```bash
 suiup show
 ```
-
-<!-- Image: Terminal showing sui --version result -->
-<!-- ![Version check](./img/L03_version-check.png) -->
 
 :::warning If the version doesn't show
 If you see `command not found`, try closing and reopening your terminal. If that doesn't work, check your path settings.
