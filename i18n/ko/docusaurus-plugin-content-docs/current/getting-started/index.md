@@ -20,8 +20,8 @@ description: "Sui 개발 환경을 구축하고 Devnet에 연결합니다"
 ## 이 섹션의 레슨
 
 1. [**Slush 지갑 설치하기**](./L01-install-slush.mdx) – 첫 번째 Sui 지갑을 설정
-2. **Devnet으로 전환하기** – 개발 네트워크에 연결
-3. **Sui CLI 설치하기** – 커맨드라인 도구를 설치
+2. [**Devnet으로 전환하기**](./L02-switch-devnet.mdx) – 개발 네트워크에 연결
+3. [**Sui CLI 설치하기**](./L03-install-sui-cli.mdx) – 커맨드라인 도구를 설치
 4. **VSCode + Sui Extension** – Move 개발 환경을 설정
 5. **CLI를 Devnet에 연결하기** – CLI 네트워크 설정을 수행
 6. **Faucet에서 토큰 받기** – 테스트 SUI를 받기
