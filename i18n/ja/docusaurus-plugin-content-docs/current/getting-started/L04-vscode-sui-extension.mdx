@@ -1,10 +1,10 @@
 ---
 sidebar_position: 4
-title: "VSCode + Sui Extensionでエディタを設定する"
+title: "VSCodeにSui Extensionを導入する"
 description: "Move開発環境を整えます"
 ---
 
-# VSCode + Sui Extensionでエディタを設定する
+# VSCodeにSui Extensionを導入する
 
 VSCodeに**Sui Extension**をインストールして、Move開発環境を整えましょう。この拡張機能を使うと、コントラクトのコンパイル・デプロイ・テストがVSCode内で完結します。
 
@@ -17,8 +17,8 @@ Sui Extensionは、[zktx.io](https://zktx.io/)が開発したVSCode向けのSui�
 - **zkLoginウォレット** — Googleアカウントでウォレットを作成（Devnet/Testnet対応）
 - **コンパイル・デプロイ・テスト** — VSCode内でMoveプロジェクトを管理
 - **Package Explorer** — デプロイ済みコントラクトの確認・操作
-- **Object Explorer** — Suiオブジェクトの検査
-- **PTB-Builder** — ビジュアルでトランザクションを構築
+- **Object Explorer** — Suiオブジェクトの確認
+- **PTB-Builder** — 視覚的にトランザクションを構築
 - **テンプレート** — 30以上のMoveテンプレートでプロジェクトを素早く開始
 
 このチュートリアルでは、Sui Extensionを使ってコントラクトをデプロイしたり、テストしたりしていきます。
@@ -57,8 +57,7 @@ L01-L02でセットアップした**Slush**と、この拡張機能の**zkLogin�
 4. **「Sui Extension」（zktx.io製）を探してインストール**
    - 発行元が「zktx.io」であることを確認してください
 
-<!-- 画像: 拡張機能の検索画面でSui Extensionを検索している様子 -->
-<!-- ![Sui Extension検索](./img/L04_extension_search.png) -->
+![Sui Extension検索](./img/L04_extension_search.png)
 
 インストールが完了すると、左側のアクティビティバー（縦に並んだアイコン）にSuiのアイコンが追加されます。
 
@@ -74,8 +73,7 @@ L01-L02でセットアップした**Slush**と、この拡張機能の**zkLogin�
 
    サイドバーにSui Extensionのパネルが表示されます。
 
-<!-- 画像: Sui Extensionのパネルが表示された状態 -->
-<!-- ![Sui Extensionパネル](./img/L04_panel.png) -->
+![Sui Extensionパネル](./img/L04_panel.png)
 
 ---
 
@@ -95,8 +93,7 @@ L01-L02でセットアップした**Slush**と、この拡張機能の**zkLogin�
 
    認証が完了すると、パネルにウォレットアドレス（`0x...`）が表示されます。
 
-<!-- 画像: zkLoginでウォレットが作成された状態 -->
-<!-- ![zkLoginウォレット成功](./img/L04_wallet_success.png) -->
+![zkLoginウォレット成功](./img/L04_wallet_success.png)
 
 :::warning セッションの有効期限
 zkLoginウォレットには有効期限があります。期限が切れたら再度「Google Login」でログインしてください。
