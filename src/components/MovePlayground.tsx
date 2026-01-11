@@ -9,9 +9,8 @@ import { Transaction } from '@mysten/sui/transactions';
 import { fromBase64 } from '@mysten/sui/utils';
 import {
   buildMovePackage,
-  GitHubFetcher,
   initMoveCompiler,
-  resolve,
+  resolveDependencies,
 } from '@zktx.io/sui-move-builder';
 
 import { MoveTemplate_Intro_HelloWorld } from '@site/src/templates/move/moveTemplate_01_hello';
@@ -161,9 +160,6 @@ export function MovePlayground() {
     setOutput((prev) => `${prev}${line}\n`);
   };
 
-  const isBuildSuccess = (result: BuildResult): result is BuildSuccess =>
-    result.success === true && 'modules' in result;
-
   const ensureCompiler = async () => {
     if (!compilerInitRef.current) {
       setStatus('Initializing WASM...');
@@ -180,35 +176,37 @@ export function MovePlayground() {
     setPublishDigest('');
     setPublishPackageId('');
 
+    const start = performance.now();
+    const resolvedDependencies = await resolveDependencies({
+      files,
+      ansiColor: true,
+      network: 'devnet',
+    });
+
     try {
       await ensureCompiler();
 
-      const moveToml = files['Move.toml'] ?? '';
-      const rootFiles = {
+      const sourceFiles = {
         ...Object.fromEntries(
           Object.entries(files).filter(([path]) => path === 'Move.toml' || path.endsWith('.move')),
         ),
       };
 
-      const fetcher = new GitHubFetcher();
-      const start = performance.now();
-      const resolution = await resolve(moveToml, rootFiles, fetcher);
-      const resolvedFiles =
-        typeof resolution.files === 'string' ? JSON.parse(resolution.files) : resolution.files;
-      const resolvedDependencies =
-        typeof resolution.dependencies === 'string'
-          ? JSON.parse(resolution.dependencies)
-          : resolution.dependencies;
-
       setStatus('Compiling...');
       const result = await buildMovePackage({
-        files: resolvedFiles,
-        dependencies: resolvedDependencies,
+        files: sourceFiles,
+        resolvedDependencies,
         ansiColor: true,
+        network: 'devnet',
       });
       const end = performance.now();
 
-      if (isBuildSuccess(result)) {
+      if ("error" in result) {
+        appendOutput('Compilation failed.');
+        const errorMessage = 'error' in result ? result.error : undefined;
+        appendOutput(errorMessage ?? 'Unknown error.');
+        setCompiled(null);
+      } else {
         appendOutput(`Success in ${(end - start).toFixed(2)} ms`);
         appendOutput(`Digest: ${result.digest ?? '-'}`);
         appendOutput(`Dependencies: ${result.dependencies?.length ?? 0}`);
@@ -216,11 +214,6 @@ export function MovePlayground() {
           appendOutput(`Module ${index + 1}: ${mod.slice(0, 80)}...`);
         });
         setCompiled(result);
-      } else {
-        appendOutput('Compilation failed.');
-        const errorMessage = 'error' in result ? result.error : undefined;
-        appendOutput(errorMessage ?? 'Unknown error.');
-        setCompiled(null);
       }
 
       setStatus('Done.');
@@ -234,19 +227,19 @@ export function MovePlayground() {
   };
 
   const onPublish = () => {
-    if (!compiled || !isBuildSuccess(compiled) || !account || !compiled.modules.length) return;
+    if (!compiled || !compiled || !account || ( "modules" in compiled && !compiled.modules.length)) return;
     setStatus('Publishing...');
     setPublishDigest('');
     setPublishPackageId('');
     appendOutput('Publishing transaction...');
 
     const tx = new Transaction();
-    const modules: number[][] = compiled.modules.map((mod) =>
+    const modules: number[][] = (compiled as BuildSuccess).modules.map((mod) =>
       Array.from(fromBase64(mod)) as number[],
     );
     const [upgradeCap] = tx.publish({
       modules,
-      dependencies: compiled.dependencies ?? [],
+      dependencies: (compiled as BuildSuccess).dependencies ?? [],
     });
     tx.transferObjects([upgradeCap], tx.pure.address(account.address));
 
@@ -339,7 +332,7 @@ export function MovePlayground() {
           <button
             className="button button--warning"
             onClick={onPublish}
-            disabled={!compiled || !isBuildSuccess(compiled) || !account || isPublishing}
+            disabled={!compiled || !account || isPublishing}
           >
             {isPublishing ? 'Publishing…' : 'Publish'}
           </button>
