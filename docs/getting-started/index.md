@@ -22,7 +22,7 @@ By the end of this section, you'll have:
 1. [**Install Slush Wallet**](./L01-install-slush.mdx) – Get your first Sui wallet up and running
 2. [**Switch to Devnet**](./L02-switch-devnet.mdx) – Connect to the development network
 3. [**Install Sui CLI**](./L03-install-sui-cli.mdx) – Set up command line tools
-4. **VSCode + Sui Extension** – Prepare your Move development environment
+4. [**vscode-sui-extension**](./L04-vscode-sui-extension.mdx)
 5. **Connect CLI to Devnet** – Configure your CLI network settings
 6. **Get Tokens from Faucet** – Grab some test SUI to play with
 
@@ -38,3 +38,4 @@ You've completed this section when:
 - **Slush**: Sui wallet (browser extension)
 - **Sui CLI**: Command line tools
 - **Sui Extension**: VSCode extension for Move development
+
