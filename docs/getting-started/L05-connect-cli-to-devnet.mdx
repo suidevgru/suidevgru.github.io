@@ -1,29 +1,118 @@
 ---
 sidebar_position: 5
-title: "[DRAFT] connect-cli-to-devnet"
-description: "Placeholder page generated while drafting Japanese."
+title: "Connect CLI to Devnet"
+description: "Connect Sui CLI to Devnet and create an account"
 ---
 
-# [DRAFT] connect-cli-to-devnet
+# Connect CLI to Devnet
 
-In this lesson, you'll TODO. It's not difficult—follow the steps and you’ll be done in a few minutes.
+Let's connect the Sui CLI you installed in [Install Sui CLI](./L03-install-sui-cli.mdx) to Devnet. **It's not difficult**—just run a few commands and you're done.
+
+:::info
+You only need to do this setup once.
+:::
+
+## Initial Sui CLI Setup
+
+When using Sui CLI for the first time, you need to run the initial setup. Running `sui client` will automatically start the setup process.
+
+```bash
+sui client
+```
+
+On the first run, you'll see the following prompt:
+
+```
+Config file ["/home/user/.sui/sui_config/client.yaml"] doesn't exist, do you want to connect to a Sui Full node server [y/N]?
+```
+
+Type **`y`** and press Enter.
+
+Next, you'll be asked to choose a network:
+
+```
+Sui Full node server URL (Defaults to Sui Devnet if not specified) :
+```
+
+**Just press Enter** here (Devnet is selected by default).
+
+Then, choose a key type:
+
+```
+Select key scheme to generate keypair (0 for ed25519, 1 for secp256k1, 2 for secp256r1):
+```
+
+Type **`0`** (ed25519) and press Enter.
+
+The initial setup is now complete, and a new address has been automatically created.
 
 ---
 
-## Steps
+## Connect to Devnet
 
-### 1. TODO
+After the initial setup, let's verify that you're connected to Devnet.
 
-TODO
+```bash
+sui client active-env
+```
+
+If it shows `devnet`, you're already connected to Devnet.
+
+If a different network is shown (e.g., `testnet`), switch to Devnet with the following command:
+
+```bash
+sui client switch --env devnet
+```
+
+:::tip View available networks
+Use `sui client envs` to see all configured networks.
+
+```bash
+sui client envs
+```
+
+```
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
+│ testnet │ https://fullnode.testnet.sui.io:443 │        │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+:::
+
+---
+
+## Check Your Address
+
+Let's check the address associated with your CLI.
+
+```bash
+sui client active-address
+```
+
+You'll see an address starting with `0x`:
+
+```
+0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+```
+
+This is your Sui CLI wallet address.
 
 ---
 
 ## Verify Success
 
-TODO
+You're all set if you can confirm the following:
+
+- `sui client active-env` returns `devnet`
+- `sui client active-address` shows an address (`0x...`)
 
 ---
 
 ## What You Did in This Lesson
 
-- [x] TODO
+- [x] Completed Sui CLI initial setup
+- [x] Connected to Devnet
+- [x] Verified your CLI address

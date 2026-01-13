@@ -1,0 +1,118 @@
+---
+sidebar_position: 5
+title: "CLI를 Devnet에 연결하기"
+description: "Sui CLI를 Devnet에 연결하고 계정을 생성합니다"
+---
+
+# CLI를 Devnet에 연결하기
+
+[Sui CLI 설치하기](./L03-install-sui-cli.mdx)에서 설치한 Sui CLI를 Devnet에 연결해 봅시다. **어렵지 않습니다**. 몇 가지 명령어만 실행하면 완료됩니다.
+
+:::info
+이 설정은 한 번만 하면 됩니다.
+:::
+
+## Sui CLI 초기 설정
+
+Sui CLI를 처음 사용할 때는 초기 설정이 필요합니다. `sui client` 명령어를 실행하면 자동으로 설정이 시작됩니다.
+
+```bash
+sui client
+```
+
+처음 실행하면 다음과 같은 질문이 표시됩니다.
+
+```
+Config file ["/home/user/.sui/sui_config/client.yaml"] doesn't exist, do you want to connect to a Sui Full node server [y/N]?
+```
+
+**`y`**를 입력하고 Enter를 누릅니다.
+
+다음으로, 연결할 네트워크를 선택하는 화면이 나타납니다.
+
+```
+Sui Full node server URL (Defaults to Sui Devnet if not specified) :
+```
+
+여기서는 **그냥 Enter**를 누르면 됩니다 (기본값으로 Devnet이 선택됩니다).
+
+그 다음, 키 유형을 선택합니다.
+
+```
+Select key scheme to generate keypair (0 for ed25519, 1 for secp256k1, 2 for secp256r1):
+```
+
+**`0`** (ed25519)을 입력하고 Enter를 누릅니다.
+
+이제 초기 설정이 완료되었고, 새로운 주소가 자동으로 생성되었습니다.
+
+---
+
+## Devnet에 연결하기
+
+초기 설정이 완료되면 Devnet에 연결되어 있는지 확인해 봅시다.
+
+```bash
+sui client active-env
+```
+
+`devnet`이 표시되면 이미 Devnet에 연결되어 있습니다.
+
+만약 다른 네트워크(예: `testnet`)가 표시되면 다음 명령어로 Devnet으로 전환합니다.
+
+```bash
+sui client switch --env devnet
+```
+
+:::tip 네트워크 목록 확인하기
+`sui client envs`로 설정된 네트워크 목록을 확인할 수 있습니다.
+
+```bash
+sui client envs
+```
+
+```
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
+│ testnet │ https://fullnode.testnet.sui.io:443 │        │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+:::
+
+---
+
+## 주소 확인하기
+
+CLI에 연결된 주소를 확인해 봅시다.
+
+```bash
+sui client active-address
+```
+
+`0x`로 시작하는 주소가 표시됩니다.
+
+```
+0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+```
+
+이 주소가 여러분의 Sui CLI 지갑 주소입니다.
+
+---
+
+## 성공 확인
+
+다음을 확인할 수 있으면 성공입니다.
+
+- `sui client active-env`가 `devnet`을 반환
+- `sui client active-address`로 주소(`0x...`)가 표시됨
+
+---
+
+## 이 레슨에서 한 것
+
+- [x] Sui CLI 초기 설정을 완료했습니다
+- [x] Devnet에 연결했습니다
+- [x] CLI 주소를 확인했습니다
