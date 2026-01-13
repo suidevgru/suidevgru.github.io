@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './HomepageLanding.module.css';
 
-type LogoSize = 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'navbar';
+type LogoSize = 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'hero' | 'navbar';
 
 interface SuiDevgruLogoProps {
   size?: LogoSize;

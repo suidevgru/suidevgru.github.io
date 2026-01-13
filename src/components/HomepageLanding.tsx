@@ -74,10 +74,12 @@ export default function HomepageLanding(): ReactNode {
       <div className="container">
         <div className={styles.hero}>
           <Heading as="h1" className={styles.title}>
-            <SuiDevgruLogo size="xxlarge" />
+            <span className={styles.heroLogo}>
+              <SuiDevgruLogo size="hero" />
+            </span>
           </Heading>
           <p className={styles.subtitle}>
-            {'Execution-first, hands-on Sui developer education.'}
+            <strong>{'Learn. Execute.'}</strong>
           </p>
           <div className={styles.ctaRow}>
             <Link className="button button--primary button--lg" to="/docs/getting-started">

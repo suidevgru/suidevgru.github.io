@@ -4,12 +4,12 @@
 
 .root {
   min-height: calc(100vh - var(--ifm-navbar-height));
-  padding: 3.5rem 0 4.5rem;
+  padding: 1.75rem 0 2.5rem;
 }
 
 .hero {
   text-align: center;
-  margin: 0 auto 3rem;
+  margin: 0 auto 1.5rem;
   max-width: 56rem;
 }
 
@@ -46,14 +46,14 @@
 }
 
 .subtitle {
-  margin: 1.25rem auto 0;
+  margin: clamp(0.25rem, 1.2vw, 0.45rem) auto 0;
   color: var(--ifm-color-emphasis-600);
-  font-size: 1.125rem;
-  max-width: 42rem;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  max-width: 63rem;
 }
 
 .ctaRow {
-  margin-top: 1.75rem;
+  margin-top: 3rem;
   display: flex;
   justify-content: center;
   gap: 0.75rem;
@@ -68,16 +68,16 @@
   gap: 1rem;
   max-width: 1066px;
   margin: 0 auto;
-  padding: 1rem 0 4rem;
+  padding: 0.5rem 0 2.5rem;
 }
 
 @media (max-width: 996px) {
   .root {
-    padding: 2.5rem 0 3.5rem;
+    padding: 1.25rem 0 2rem;
   }
   .cardsWrap {
     justify-content: center;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -225,6 +225,43 @@
 
 .xxlarge {
   font-size: clamp(3rem, 9vw, 4.5rem);
+}
+
+.hero {
+  font-size: clamp(3.5rem, 11vw, 5.25rem);
+}
+
+.heroLogo {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(0.35rem, 3vw, 1.25rem) clamp(0.5rem, 4vw, 1.25rem);
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: min(100%, 24ch);
+}
+
+@media (max-width: 600px) {
+  .hero {
+    max-width: 100%;
+  }
+  .heroLogo {
+    max-width: min(100%, 20ch);
+  }
+  .hero {
+    font-size: clamp(3rem, 10vw, 3.75rem);
+  }
+}
+
+@media (max-width: 420px) {
+  .heroLogo {
+    padding: 0.35rem 0.5rem;
+    max-width: 100%;
+  }
+  .hero {
+    font-size: clamp(2.6rem, 9vw, 3.2rem);
+  }
 }
 
 .navbar {
