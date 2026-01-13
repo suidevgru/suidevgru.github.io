@@ -2,6 +2,7 @@ import React, {type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
 import styles from './HomepageLanding.module.css';
+import SuiDevgruLogo from './SuiDevgruLogo';
 
 type CardLink = {label: string} & ({to: string} | {href: string});
 
@@ -55,8 +56,8 @@ export default function HomepageLanding(): ReactNode {
     {
       title: 'Beginner',
       links: [
-        {label: 'Slushウォレットを入れる', to: '/docs/getting-started/L01-install-slush'},
-        {label: 'Devnetに切り替える', to: '/docs/getting-started/L02-switch-devnet'},
+        {label: 'Install Slush Wallet', to: '/docs/getting-started/L01-install-slush'},
+        {label: 'Switch to Devnet', to: '/docs/getting-started/L02-switch-devnet'},
       ],
     },
     {
@@ -66,41 +67,17 @@ export default function HomepageLanding(): ReactNode {
         {label: 'Transfer', to: '/docs/live-code-example/transfer'},
       ],
     },
-    {
-      title: 'References',
-      links: [
-        {label: 'Docusaurus Docs', href: 'https://docusaurus.io/docs'},
-        {label: 'Sui Docs', href: 'https://docs.sui.io/'},
-        {label: 'Sui GitHub', href: 'https://github.com/MystenLabs/sui'},
-        {label: 'DevGru Repo', href: 'https://github.com/suidevgru/suidevgru.github.io'},
-      ],
-    },
-    {
-      title: 'Resources',
-      links: [
-        {label: 'Issues', href: 'https://github.com/suidevgru/suidevgru.github.io/issues'},
-        {label: 'Discussions', href: 'https://github.com/suidevgru/suidevgru.github.io/discussions'},
-        {label: 'Releases', href: 'https://github.com/suidevgru/suidevgru.github.io/releases'},
-        {label: 'Pull requests', href: 'https://github.com/suidevgru/suidevgru.github.io/pulls'},
-      ],
-    },
   ];
 
   return (
     <div className={styles.root}>
       <div className="container">
         <div className={styles.hero}>
-          <div className={styles.statusRow}>
-            <span className={styles.statusPill}>{'WIP'}</span>
-            <span className={styles.statusText}>
-              {'Homepage content is a draft. Links will be curated.'}
-            </span>
-          </div>
           <Heading as="h1" className={styles.title}>
-            {'DevGru'}
+            <SuiDevgruLogo size="xxlarge" />
           </Heading>
           <p className={styles.subtitle}>
-            {'A lightweight landing page for docs, guides, and references.'}
+            {'Execution-first, hands-on Sui developer education.'}
           </p>
           <div className={styles.ctaRow}>
             <Link className="button button--primary button--lg" to="/docs/getting-started">
