@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'DevGru',
   tagline: 'DevGru',
-  favicon: 'img/sui-black.svg',
+  favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -77,17 +77,15 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: 'img/sui-devgru-banner.png',
+    metadata: [
+      { name: 'description', content: 'Execution-first, hands-on Sui developer education. Learn by building real projects and executing real code through open-source practice.' },
+    ],
     colorMode: {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'DevGru',
-      logo: {
-        alt: 'DevGru Logo',
-        src: 'img/sui-black.svg',
-        srcDark: 'img/sui-white.svg',
-      },
       items: [
+        ({type: 'custom-devgru-logo', position: 'left'} as any),
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',

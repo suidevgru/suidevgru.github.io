@@ -1,3 +1,7 @@
+/**
+ * 홈 히어로 섹션과 카드 레이아웃 스타일.
+ */
+
 .root {
   min-height: calc(100vh - var(--ifm-navbar-height));
   padding: 3.5rem 0 4.5rem;
@@ -192,4 +196,89 @@
 .ctaCardLink:hover {
   text-decoration: none;
   color: var(--ifm-link-color);
+}
+
+/* SuiDevgruLogo 전용 스타일 (홈 히어로에서 재사용) */
+.logo {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 로고 크기 */
+.small {
+  font-size: 18px;
+}
+
+.medium {
+  font-size: 24px;
+}
+
+.large {
+  font-size: 32px;
+}
+
+.xlarge {
+  font-size: 48px;
+}
+
+.xxlarge {
+  font-size: clamp(3rem, 9vw, 4.5rem);
+}
+
+.navbar {
+  font-size: var(--ifm-navbar-item-font-size);
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 라이트 테마 색상 (기본) */
+.sui {
+  color: #4da2ff;
+}
+
+.prompt {
+  color: #6b7280;
+}
+
+.devgru {
+  color: #1a1a2e;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.1em;
+  height: 0.9em;
+  background-color: #4da2ff;
+  margin-left: 2px;
+  vertical-align: baseline;
+  animation: blink 1s step-end infinite;
+}
+
+/* 다크 테마 색상 */
+:global([data-theme='dark']) .sui {
+  color: #4da2ff;
+}
+
+:global([data-theme='dark']) .prompt {
+  color: #6b7280;
+}
+
+:global([data-theme='dark']) .devgru {
+  color: #ffffff;
+}
+
+:global([data-theme='dark']) .cursor {
+  background-color: #4da2ff;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
 }
