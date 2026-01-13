@@ -1,0 +1,118 @@
+---
+sidebar_position: 5
+title: "CLIをDevnetに接続する"
+description: "Sui CLIでDevnetに接続し、アカウントを作成する"
+---
+
+# CLIをDevnetに接続する
+
+[Sui CLIをインストールする](./L03-install-sui-cli.mdx)でインストールしたSui CLIを、Devnetに接続しましょう。**難しくありません**。コマンドをいくつか実行するだけで完了します。
+
+:::info
+この設定は一度行えば、以降は不要です。
+:::
+
+## Sui CLIの初期設定
+
+Sui CLIを初めて使うときは、初期設定が必要です。`sui client` コマンドを実行すると、自動でセットアップが始まります。
+
+```bash
+sui client
+```
+
+初回実行時に、以下のような質問が表示されます。
+
+```
+Config file ["/home/user/.sui/sui_config/client.yaml"] doesn't exist, do you want to connect to a Sui Full node server [y/N]?
+```
+
+**`y`** を入力してEnterを押します。
+
+次に、接続するネットワークを選ぶ画面が表示されます。
+
+```
+Sui Full node server URL (Defaults to Sui Devnet if not specified) :
+```
+
+ここは**そのままEnter**を押します（デフォルトでDevnetが選ばれます）。
+
+続いて、鍵のタイプを選びます。
+
+```
+Select key scheme to generate keypair (0 for ed25519, 1 for secp256k1, 2 for secp256r1):
+```
+
+**`0`**（ed25519）を入力してEnterを押します。
+
+これで初期設定が完了し、新しいアドレスが自動的に作成されます。
+
+---
+
+## Devnetに接続する
+
+初期設定が完了したら、Devnetに接続されているか確認しましょう。
+
+```bash
+sui client active-env
+```
+
+`devnet` と表示されれば、すでにDevnetに接続されています。
+
+もし別のネットワーク（例: `testnet`）が表示された場合は、以下のコマンドでDevnetに切り替えます。
+
+```bash
+sui client switch --env devnet
+```
+
+:::tip ネットワークの一覧を確認する
+`sui client envs` で、設定済みのネットワーク一覧を確認できます。
+
+```bash
+sui client envs
+```
+
+```
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
+│ testnet │ https://fullnode.testnet.sui.io:443 │        │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+:::
+
+---
+
+## アドレスを確認する
+
+CLIに紐づいているアドレスを確認しましょう。
+
+```bash
+sui client active-address
+```
+
+`0x` で始まるアドレスが表示されます。
+
+```
+0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+```
+
+このアドレスが、あなたのSui CLIウォレットのアドレスです。
+
+---
+
+## 成功の確認
+
+以下が確認できれば成功です。
+
+- `sui client active-env` が `devnet` を返す
+- `sui client active-address` でアドレス（`0x...`）が表示される
+
+---
+
+## このレッスンでやったこと
+
+- [x] Sui CLIの初期設定を完了した
+- [x] Devnetに接続した
+- [x] CLIのアドレスを確認した
