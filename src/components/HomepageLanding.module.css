@@ -224,7 +224,7 @@
 }
 
 .xxlarge {
-  font-size: 64px;
+  font-size: clamp(3rem, 9vw, 4.5rem);
 }
 
 .navbar {
