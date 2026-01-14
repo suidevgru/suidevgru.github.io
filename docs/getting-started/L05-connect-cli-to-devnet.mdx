@@ -1,0 +1,133 @@
+---
+sidebar_position: 5
+title: "Connect CLI to Devnet"
+description: "Connect Sui CLI to Devnet and create an account"
+---
+
+# Connect CLI to Devnet
+
+Let's connect the Sui CLI you installed in [Install Sui CLI](./L03-install-sui-cli.mdx) to Devnet. **It's not difficult**—just run a few commands and you're done.
+
+:::info
+You only need to do this setup once.
+:::
+
+## Initial Sui CLI Setup
+
+When using Sui CLI for the first time, you need to run the initial setup. Run the following command:
+
+```bash
+sui client envs
+```
+
+### First-Time Setup (No Config File)
+
+If you see the following message, initial setup is required:
+
+```
+No sui config found in `/home/user/.sui/sui_config/client.yaml`, create one [Y/n]?
+```
+
+Type **`y`** and press Enter. A keypair (address) will be automatically generated and the setup will complete.
+
+```
+y
+Generated new keypair and alias for address with scheme "ed25519" [alias: 0x...]
+  secret recovery phrase : [word1 word2 word3 ...]
+Created "/home/user/.sui/sui_config/client.yaml"
+Set active environment to testnet
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ testnet │ https://fullnode.testnet.sui.io:443 │ *      │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+│ devnet  │ https://fullnode.devnet.sui.io:443  │        │
+│ local   │ http://127.0.0.1:9000               │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+
+:::danger Keep your recovery phrase safe
+Your `secret recovery phrase` (also called seed phrase) is the "key" to your wallet.
+
+- Never share it with anyone.
+- Do not take screenshots or store it in chats, emails, or cloud notes.
+- Write it down on paper and store it offline in a safe place.
+:::
+
+### If Already Configured
+
+If the network list appears without any prompt, the initial setup is already complete. Proceed to the next section.
+
+---
+
+## Connect to Devnet
+
+The default after initial setup is **testnet**. Let's switch to Devnet.
+
+```bash
+sui client switch --env devnet
+```
+
+On success, you'll see:
+
+```
+Active environment switched to [devnet]
+```
+
+Verify the switch:
+
+```bash
+sui client active-env
+```
+
+If it shows `devnet`, you're all set.
+
+:::tip View available networks
+Use `sui client envs` to see all configured networks. The `*` in the `active` column indicates the current network.
+
+```
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ testnet │ https://fullnode.testnet.sui.io:443 │        │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
+│ local   │ http://127.0.0.1:9000               │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+:::
+
+---
+
+## Check Your Address
+
+Let's check the address associated with your CLI.
+
+```bash
+sui client active-address
+```
+
+You'll see an address starting with `0x`:
+
+```
+0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+```
+
+This is your Sui CLI wallet address.
+
+---
+
+## Verify Success
+
+You're all set if you can confirm the following:
+
+- `sui client active-env` returns `devnet`
+- `sui client active-address` shows an address (`0x...`)
+
+---
+
+## What You Did in This Lesson
+
+- [x] Completed Sui CLI initial setup
+- [x] Connected to Devnet
+- [x] Verified your CLI address
