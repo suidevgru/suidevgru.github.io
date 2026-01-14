@@ -14,70 +14,81 @@ description: "Sui CLIでDevnetに接続し、アカウントを作成する"
 
 ## Sui CLIの初期設定
 
-Sui CLIを初めて使うときは、初期設定が必要です。`sui client` コマンドを実行すると、自動でセットアップが始まります。
-
-```bash
-sui client
-```
-
-初回実行時に、以下のような質問が表示されます。
-
-```
-Config file ["/home/user/.sui/sui_config/client.yaml"] doesn't exist, do you want to connect to a Sui Full node server [y/N]?
-```
-
-**`y`** を入力してEnterを押します。
-
-次に、接続するネットワークを選ぶ画面が表示されます。
-
-```
-Sui Full node server URL (Defaults to Sui Devnet if not specified) :
-```
-
-ここは**そのままEnter**を押します（デフォルトでDevnetが選ばれます）。
-
-続いて、鍵のタイプを選びます。
-
-```
-Select key scheme to generate keypair (0 for ed25519, 1 for secp256k1, 2 for secp256r1):
-```
-
-**`0`**（ed25519）を入力してEnterを押します。
-
-これで初期設定が完了し、新しいアドレスが自動的に作成されます。
-
----
-
-## Devnetに接続する
-
-初期設定が完了したら、Devnetに接続されているか確認しましょう。
-
-```bash
-sui client active-env
-```
-
-`devnet` と表示されれば、すでにDevnetに接続されています。
-
-もし別のネットワーク（例: `testnet`）が表示された場合は、以下のコマンドでDevnetに切り替えます。
-
-```bash
-sui client switch --env devnet
-```
-
-:::tip ネットワークの一覧を確認する
-`sui client envs` で、設定済みのネットワーク一覧を確認できます。
+Sui CLIを初めて使うときは、初期設定が必要です。以下のコマンドを実行しましょう。
 
 ```bash
 sui client envs
 ```
 
+### 初回の場合（設定ファイルがない場合）
+
+以下のようなメッセージが表示されたら、初期設定が必要です。
+
+```
+No sui config found in `/home/user/.sui/sui_config/client.yaml`, create one [Y/n]?
+```
+
+**`y`** を入力してEnterを押すと、自動的にキーペア（アドレス）が生成され、設定が完了します。
+
+```
+y
+Generated new keypair and alias for address with scheme "ed25519" [alias: 0x...]
+  secret recovery phrase : [word1 word2 word3 ...]
+Created "/home/user/.sui/sui_config/client.yaml"
+Set active environment to testnet
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ testnet │ https://fullnode.testnet.sui.io:443 │ *      │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+│ devnet  │ https://fullnode.devnet.sui.io:443  │        │
+│ local   │ http://127.0.0.1:9000               │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+
+:::warning リカバリーフレーズを保存
+`secret recovery phrase` は、ウォレットを復元するための重要な情報です。安全な場所に保管してください。
+:::
+
+### 既に設定済みの場合
+
+プロンプトが表示されずにネットワーク一覧が表示された場合は、すでに初期設定が完了しています。そのまま次のセクションに進んでください。
+
+---
+
+## Devnetに接続する
+
+初期設定後のデフォルトは **testnet** です。Devnetに切り替えましょう。
+
+```bash
+sui client switch --env devnet
+```
+
+切り替えが成功すると、以下のように表示されます。
+
+```
+Active environment switched to [devnet]
+```
+
+正しく切り替わったか確認しましょう。
+
+```bash
+sui client active-env
+```
+
+`devnet` と表示されれば成功です。
+
+:::tip ネットワークの一覧を確認する
+`sui client envs` で、設定済みのネットワーク一覧を確認できます。`active` 列に `*` がついているのが現在のネットワークです。
+
 ```
 ╭─────────┬─────────────────────────────────────┬────────╮
 │ alias   │ url                                 │ active │
 ├─────────┼─────────────────────────────────────┼────────┤
-│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
 │ testnet │ https://fullnode.testnet.sui.io:443 │        │
 │ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
+│ local   │ http://127.0.0.1:9000               │        │
 ╰─────────┴─────────────────────────────────────┴────────╯
 ```
 :::

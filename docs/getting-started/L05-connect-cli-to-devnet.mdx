@@ -14,70 +14,81 @@ You only need to do this setup once.
 
 ## Initial Sui CLI Setup
 
-When using Sui CLI for the first time, you need to run the initial setup. Running `sui client` will automatically start the setup process.
-
-```bash
-sui client
-```
-
-On the first run, you'll see the following prompt:
-
-```
-Config file ["/home/user/.sui/sui_config/client.yaml"] doesn't exist, do you want to connect to a Sui Full node server [y/N]?
-```
-
-Type **`y`** and press Enter.
-
-Next, you'll be asked to choose a network:
-
-```
-Sui Full node server URL (Defaults to Sui Devnet if not specified) :
-```
-
-**Just press Enter** here (Devnet is selected by default).
-
-Then, choose a key type:
-
-```
-Select key scheme to generate keypair (0 for ed25519, 1 for secp256k1, 2 for secp256r1):
-```
-
-Type **`0`** (ed25519) and press Enter.
-
-The initial setup is now complete, and a new address has been automatically created.
-
----
-
-## Connect to Devnet
-
-After the initial setup, let's verify that you're connected to Devnet.
-
-```bash
-sui client active-env
-```
-
-If it shows `devnet`, you're already connected to Devnet.
-
-If a different network is shown (e.g., `testnet`), switch to Devnet with the following command:
-
-```bash
-sui client switch --env devnet
-```
-
-:::tip View available networks
-Use `sui client envs` to see all configured networks.
+When using Sui CLI for the first time, you need to run the initial setup. Run the following command:
 
 ```bash
 sui client envs
 ```
 
+### First-Time Setup (No Config File)
+
+If you see the following message, initial setup is required:
+
+```
+No sui config found in `/home/user/.sui/sui_config/client.yaml`, create one [Y/n]?
+```
+
+Type **`y`** and press Enter. A keypair (address) will be automatically generated and the setup will complete.
+
+```
+y
+Generated new keypair and alias for address with scheme "ed25519" [alias: 0x...]
+  secret recovery phrase : [word1 word2 word3 ...]
+Created "/home/user/.sui/sui_config/client.yaml"
+Set active environment to testnet
+╭─────────┬─────────────────────────────────────┬────────╮
+│ alias   │ url                                 │ active │
+├─────────┼─────────────────────────────────────┼────────┤
+│ testnet │ https://fullnode.testnet.sui.io:443 │ *      │
+│ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+│ devnet  │ https://fullnode.devnet.sui.io:443  │        │
+│ local   │ http://127.0.0.1:9000               │        │
+╰─────────┴─────────────────────────────────────┴────────╯
+```
+
+:::warning Save Your Recovery Phrase
+The `secret recovery phrase` is crucial for recovering your wallet. Store it in a safe place.
+:::
+
+### If Already Configured
+
+If the network list appears without any prompt, the initial setup is already complete. Proceed to the next section.
+
+---
+
+## Connect to Devnet
+
+The default after initial setup is **testnet**. Let's switch to Devnet.
+
+```bash
+sui client switch --env devnet
+```
+
+On success, you'll see:
+
+```
+Active environment switched to [devnet]
+```
+
+Verify the switch:
+
+```bash
+sui client active-env
+```
+
+If it shows `devnet`, you're all set.
+
+:::tip View available networks
+Use `sui client envs` to see all configured networks. The `*` in the `active` column indicates the current network.
+
 ```
 ╭─────────┬─────────────────────────────────────┬────────╮
 │ alias   │ url                                 │ active │
 ├─────────┼─────────────────────────────────────┼────────┤
-│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
 │ testnet │ https://fullnode.testnet.sui.io:443 │        │
 │ mainnet │ https://fullnode.mainnet.sui.io:443 │        │
+│ devnet  │ https://fullnode.devnet.sui.io:443  │ *      │
+│ local   │ http://127.0.0.1:9000               │        │
 ╰─────────┴─────────────────────────────────────┴────────╯
 ```
 :::
