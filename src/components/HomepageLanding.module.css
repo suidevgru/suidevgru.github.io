@@ -1,5 +1,5 @@
 /**
- * 홈 히어로 섹션과 카드 레이아웃 스타일.
+ * Home hero section and card layout styles.
  */
 
 .root {
@@ -198,15 +198,16 @@
   color: var(--ifm-link-color);
 }
 
-/* SuiDevgruLogo 전용 스타일 (홈 히어로에서 재사용) */
+/* SuiDevgruLogo styles (reused on the home hero). */
 .logo {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  /* Use shared stack with CJK-safe fallbacks to keep the logo consistent across locales. */
+  font-family: 'JetBrains Mono', 'Noto Sans JP', 'Noto Sans', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Segoe UI', system-ui, -apple-system, monospace;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
 }
 
-/* 로고 크기 */
+/* Logo sizes */
 .small {
   font-size: 18px;
 }

@@ -84,6 +84,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
+      title: '',
       items: [
         ({type: 'custom-devgru-logo', position: 'left'} as any),
         {

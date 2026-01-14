@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&display=swap');
+
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
@@ -17,6 +19,30 @@ html {
 }
 body {
   overflow-x: hidden;
+}
+
+/* Keep navbar text consistent across locales (JP would otherwise fall back to a different system font). */
+:root {
+  --devgru-navbar-font: 'Inter', 'Noto Sans JP', 'Noto Sans', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-base: var(--devgru-navbar-font);
+  --ifm-heading-font-family: var(--devgru-navbar-font);
+}
+.navbar__items,
+.navbar__brand,
+.navbar__item,
+.navbar__link {
+  font-family: var(--devgru-navbar-font);
+}
+.navbar__items *:not(code):not(pre),
+.navbar__toggle,
+.dropdown__link,
+.dropdown__label,
+.button,
+.clean-btn,
+.navbar__title,
+.navbar__brand b,
+.navbar__brand strong {
+  font-family: var(--devgru-navbar-font) !important;
 }
 
 /* Keep external-link icon on the same line as link text in the footer. */
