@@ -24,7 +24,7 @@ description: "Sui 개발 환경을 구축하고 Devnet에 연결합니다"
 3. [**Sui CLI 설치하기**](./L03-install-sui-cli.mdx) – 커맨드라인 도구를 설치
 4. [**VSCode + Sui Extension**](./L04-vscode-sui-extension.mdx) – Move 개발 환경을 설정
 5. [**CLI를 Devnet에 연결하기**](./L05-connect-cli-to-devnet.mdx) – Devnet에서 CLI를 사용할 준비
-6. **Faucet에서 토큰 받기** – 테스트 SUI를 받기
+6. [**Faucet에서 토큰 받기**](./L06-get-test-tokens.mdx) – 테스트 SUI를 받기
 
 ## 완료 확인 방법
 

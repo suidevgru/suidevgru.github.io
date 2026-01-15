@@ -24,7 +24,7 @@ By the end of this section, you'll have:
 3. [**Install Sui CLI**](./L03-install-sui-cli.mdx) – Set up command line tools
 4. [**vscode-sui-extension**](./L04-vscode-sui-extension.mdx)
 5. [**Connect CLI to Devnet**](./L05-connect-cli-to-devnet.mdx) – Configure your CLI for Devnet
-6. **Get Tokens from Faucet** – Grab some test SUI to play with
+6. [**Get Tokens from Faucet**](./L06-get-test-tokens.mdx) – Grab some test SUI to play with
 
 ## How to know you're done
 
