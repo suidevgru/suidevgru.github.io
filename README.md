@@ -1,41 +1,51 @@
-# Website
+# Sui DevGru 🚀
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+> A beginner-friendly learning hub for Sui blockchain development
 
-## Installation
+[![Website](https://img.shields.io/badge/Website-suidevgru.github.io-blue)](https://suidevgru.github.io)
+[![Network](https://img.shields.io/badge/Network-Devnet-green)](https://devnet.sui.io)
 
-```bash
-yarn
-```
+## 📚 Curriculum Overview
 
-## Local Development
+A hands-on, 6-unit learning path from initial setup to real dApp deployment, featuring practical workflows with **Sui Extension** and **PTB Builder**.
 
-```bash
-yarn start
-```
+| Unit | Content | Deliverable |
+|:--:|:--|:--|
+| 1 | Environment Setup & Devnet Connection | Obtained tokens via Faucet |
+| 2 | Transactions & PTB Builder | Executed tx combining 2 operations |
+| 3 | Publishing Move Contracts | Deployed and called your own contract |
+| 4 | Building PTB with TypeScript | Signing → Execution → Result Verification |
+| 5 | UI Completion with dapp-kit | Wallet connection & result display |
+| 6 | Deployment & Next Steps | Published dApp |
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+## 🛠️ Core Tools
 
-## Build
+This curriculum leverages the following tools:
 
-```bash
-yarn build
-```
+| Tool | Description | Link |
+|:--|:--|:--|
+| **Sui Extension** | Move development extension for VSCode | [Marketplace](https://marketplace.visualstudio.com/items?itemName=moven.sui-extension) |
+| **PTB Builder** | GUI-based PTB composition tool | [PTB Builder](https://ptb.wal.app/) |
+| **Sui Move Web IDE** | Browser-based Move IDE | [Web IDE](https://ide.wal.app/) |
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## 🌐 Languages
 
-## Deployment
+- 🇺🇸 English - Coming Soon
+- 🇯🇵 日本語 (Japanese)
+- 🇰🇷 한국어 (Korean)
 
-Using SSH:
+## 🙏 Supported By
 
-```bash
-USE_SSH=true yarn deploy
-```
+This project is supported by the **[LAUNCH Career Program](https://mystenlabs.notion.site/launchcareer-internship)**, an internship subsidy initiative by Sui Foundation that connects early-career developers with meaningful technical experience in the Sui and Walrus ecosystems.
 
-Not using SSH:
+## 🤝 Contributing
 
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
+Contributions are welcome! Please see our [Contributing Guide](./CONTRIBUTING.md).
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+## 📄 License
+
+MIT License
+
+---
+
+Built with [Docusaurus](https://docusaurus.io/) 💜
