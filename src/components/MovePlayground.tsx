@@ -10,7 +10,8 @@ import { fromBase64 } from '@mysten/sui/utils';
 import {
   buildMovePackage,
   initMoveCompiler,
-  resolveDependencies,
+  resolve,
+  GitHubFetcher,
 } from '@zktx.io/sui-move-builder';
 
 import { MoveTemplate_Intro_HelloWorld } from '@site/src/templates/move/moveTemplate_01_hello';
@@ -177,34 +178,38 @@ export function MovePlayground() {
     setPublishPackageId('');
 
     const start = performance.now();
-    const resolvedDependencies = await resolveDependencies({
-      files,
-      ansiColor: true,
-      network: 'devnet',
-    });
 
     try {
-      await ensureCompiler();
+      // 依存関係を解決
+      const resolution = await resolve(
+        files['Move.toml'] ?? '',
+        files,
+        new GitHubFetcher()
+      );
 
-      const sourceFiles = {
-        ...Object.fromEntries(
-          Object.entries(files).filter(([path]) => path === 'Move.toml' || path.endsWith('.move')),
-        ),
-      };
+      // 戻り値が文字列の場合はパース
+      const filesJson =
+        typeof resolution.files === 'string'
+          ? JSON.parse(resolution.files)
+          : resolution.files;
+      const depsJson =
+        typeof resolution.dependencies === 'string'
+          ? JSON.parse(resolution.dependencies)
+          : resolution.dependencies;
+
+      await ensureCompiler();
 
       setStatus('Compiling...');
       const result = await buildMovePackage({
-        files: sourceFiles,
-        resolvedDependencies,
+        files: filesJson,
+        dependencies: depsJson,
         ansiColor: true,
-        network: 'devnet',
       });
       const end = performance.now();
 
-      if ("error" in result) {
+      if (!result.success) {
         appendOutput('Compilation failed.');
-        const errorMessage = 'error' in result ? result.error : undefined;
-        appendOutput(errorMessage ?? 'Unknown error.');
+        appendOutput('error' in result ? result.error : 'Unknown error.');
         setCompiled(null);
       } else {
         appendOutput(`Success in ${(end - start).toFixed(2)} ms`);
