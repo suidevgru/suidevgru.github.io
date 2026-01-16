@@ -24,7 +24,7 @@ description: "Suiの開発環境を構築し、Devnetに接続します"
 3. [**Sui CLIをインストールする**](./L03-install-sui-cli.mdx) – コマンドラインツールを導入
 4. [**VSCode + Sui Extensionでエディタを設定する**](./L04-vscode-sui-extension.mdx) – VSCodeでMove開発環境を整えます
 5. [**CLIをDevnetに接続する**](./L05-connect-cli-to-devnet.mdx) – DevnetでCLIを使う準備
-6. **Faucetでトークンを取得する** – テストSUIを入手
+6. [**Faucetでトークンを取得する**](./L06-get-test-tokens.mdx) – テストSUIを入手
 
 ## 完了の確認方法
 

@@ -4,4 +4,123 @@ title: "Get Test Tokens"
 description: "Learn how to get free test SUI tokens from the Faucet"
 ---
 
-# DUMMY
+# Get Test Tokens
+
+In [Connect CLI to Devnet](./L05-connect-cli-to-devnet.mdx), you connected to Devnet and created an address. Now let's get some test tokens for that address.
+
+To execute transactions on Sui, you need SUI tokens for gas fees. On Devnet and Testnet, you can get free test tokens using the **Faucet**.
+
+## What is a Faucet?
+
+As briefly mentioned in [Switch to Devnet](./L02-switch-devnet.mdx), the **Faucet** is a service that distributes free test SUI tokens.
+
+The Devnet Faucet has relatively relaxed limits, allowing you to request additional test tokens as needed. If you run low during learning or development, you can always get more—so don't worry!
+
+:::tip Devnet Faucet is easy to use
+The Testnet Faucet may have wait times due to traffic and rate limits, but the Devnet Faucet is relatively quick.
+:::
+
+---
+
+## Get Test Tokens via CLI
+
+This is **the easiest method**. First, make sure you're connected to Devnet.
+
+```bash
+sui client active-env
+```
+
+If it shows `devnet`, you're good to go. If a different network is shown, switch with `sui client switch --env devnet`.
+
+Once confirmed, run the following command to get test tokens.
+
+```bash
+sui client faucet
+```
+
+On success, you'll see a message like this:
+
+```
+Request successful. It can take up to 1 minute to get the coin. Run sui client gas to check your gas coins.
+```
+
+:::note Wait a moment for tokens to arrive
+Token delivery from the Faucet is not instant. It usually takes a few seconds to about a minute.
+:::
+
+---
+
+## Check Your Balance
+
+Let's verify that your test tokens have arrived.
+
+```bash
+sui client gas
+```
+
+If you see output like this, you're all set:
+
+```
+╭────────────────────────────────────────────────────────────────────┬────────────────────┬──────────────────╮
+│ gasCoinId                                                          │ mistBalance (MIST) │ suiBalance (SUI) │
+├────────────────────────────────────────────────────────────────────┼────────────────────┼──────────────────┤
+│ 0x*****************************************************************│ 10000000000        │ 10.00            │
+╰────────────────────────────────────────────────────────────────────┴────────────────────┴──────────────────╯
+```
+
+:::info What are Coin Objects?
+In Sui, all tokens are managed as "coin objects."
+
+This means your balance isn't just a total amount—
+you might have "two coins of 10 SUI each," for example, existing as multiple coin objects.
+
+SUI coins are used to pay gas fees for transactions.
+
+The smallest unit of SUI is **MIST**, where
+**1 SUI = 1,000,000,000 MIST**.
+:::
+
+:::tip About Slush wallet balance
+The test tokens you got via CLI are tied to your CLI address.
+Since this is a different address from the one created when you installed Slush wallet, your Slush balance won't increase.
+
+If you want to use your CLI address in Slush, see ["Import into Slush"](./L05-connect-cli-to-devnet#import-into-slush) in Connect CLI to Devnet.
+:::
+
+---
+
+## Using the Web Faucet
+
+Alternatively, you can get tokens through a web browser.
+
+1. Go to [Sui Faucet](https://faucet.sui.io/)
+
+2. Set the network to **Devnet**
+
+3. Enter your CLI address
+   - You can check your address with `sui client active-address`
+
+4. Click "**Request Tokens**"
+
+Tokens will arrive in a few seconds to about a minute.
+
+:::note Testnet requires Web Faucet
+On Testnet, running `sui client faucet` will direct you to use the Web Faucet.
+Please get your test tokens from the Web Faucet.
+:::
+
+---
+
+## Verify Success
+
+You've succeeded if:
+
+- `sui client gas` shows gas objects
+
+---
+
+## What You Did in This Lesson
+
+- [x] Learned about Faucet
+- [x] Got test tokens via CLI
+- [x] Checked your balance
