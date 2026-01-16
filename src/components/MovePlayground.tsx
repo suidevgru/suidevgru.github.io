@@ -180,9 +180,14 @@ export function MovePlayground() {
     const start = performance.now();
 
     try {
+      // Extract only .move files (exclude README.md, etc.)
+      const sourceFiles = Object.fromEntries(
+        Object.entries(files).filter(([path]) => path.endsWith('.move'))
+      );
+
       const resolution = await resolve(
         files['Move.toml'] ?? '',
-        files,
+        sourceFiles,
         new GitHubFetcher()
       );
 
