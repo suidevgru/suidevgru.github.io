@@ -180,14 +180,12 @@ export function MovePlayground() {
     const start = performance.now();
 
     try {
-      // 依存関係を解決
       const resolution = await resolve(
         files['Move.toml'] ?? '',
         files,
         new GitHubFetcher()
       );
 
-      // 戻り値が文字列の場合はパース
       const filesJson =
         typeof resolution.files === 'string'
           ? JSON.parse(resolution.files)
