@@ -34,5 +34,9 @@
   "sidebar.tutorialSidebar.category.Advanced Course": {
     "message": "上級コース",
     "description": "The label for category 'Advanced Course' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Transactions & PTB Builder": {
+    "message": "トランザクションとPTB Builder",
+    "description": "The label for category 'Transactions & PTB Builder' in sidebar 'tutorialSidebar'"
   }
 }
