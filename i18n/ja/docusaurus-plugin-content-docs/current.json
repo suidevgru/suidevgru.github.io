@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.Beginner Course": {
-    "message": "初心者コース",
+    "message": "初級コース",
     "description": "The label for category 'Beginner Course' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Getting Started": {

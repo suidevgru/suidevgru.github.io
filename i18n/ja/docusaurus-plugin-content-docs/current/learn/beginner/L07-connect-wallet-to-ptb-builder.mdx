@@ -1,0 +1,133 @@
+---
+sidebar_position: 7
+title: "ウォレットをPTB Builderに接続する"
+description: "SlushウォレットをPTB Builderに接続し、トランザクションを作成する準備をする"
+---
+
+# ウォレットをPTB Builderに接続する
+
+このレッスンでは、SlushウォレットをPTB Builderに接続します。**難しくありません**。
+手順どおりに進めれば、数分で完了します。
+
+## PTB Builderとは
+
+**PTB Builder**は、Suiのトランザクション（Programmable Transaction Block / PTB）を視覚的に構築・実行できる開発者向けツールです。
+
+通常、トランザクションを作成するにはCLIやSDKを使って操作する必要がありますが、PTB Builderを使えば、ブロックをドラッグ＆ドロップでつなげるだけでトランザクションを組み立てられます。
+
+ウォレットを接続することで、
+
+- 自分のウォレットアドレスを使って
+- 作成したトランザクションに署名し
+- 実際にブロックチェーン上で実行する
+
+といった操作が可能になります。
+
+:::tip このセクションでの流れ
+1. **ウォレットを接続**（このレッスン）
+2. トランザクションを視覚的に作成
+3. 署名して実行
+:::
+
+---
+
+## 前提条件
+
+このレッスンを始める前に、以下が完了していることを確認してください。
+
+- [Slushウォレットをインストール](/docs/getting-started/L01-install-slush) 済み
+- [Devnetに切り替え](/docs/getting-started/L02-switch-devnet) 済み
+
+---
+
+## 手順
+
+### 1. PTB Builderページを開く
+
+サイドバーの「**Live Code Example**」セクション内にある
+「**PTB Builder**」を選択するか、以下のリンクからアクセスします。
+
+→ [PTB Builder デモページ](/docs/live-code-example/ptb-builder)
+
+ページを開くと、PTB Builderのインターフェースが表示されます。
+
+<!-- 画像: PTB Builderの初期画面 -->
+<!-- ![PTB Builder初期画面](./img/L07_ptb-builder-initial.png) -->
+
+画面上部には、以下の情報が表示されています。
+
+- **Network**: `sui:devnet`（接続先のネットワーク）
+- **Address**: `— (connect wallet)`（ウォレット未接続の状態）
+
+---
+
+### 2. 「Connect Wallet」をクリック
+
+画面右上の「**Connect Wallet**」ボタンをクリックします。
+
+<!-- 画像: Connect Walletボタンの位置 -->
+<!-- ![Connect Walletボタン](./img/L07_connect-wallet-button.png) -->
+
+---
+
+### 3. Slushを選択
+
+ウォレット選択画面が表示されます。
+一覧から「**Slush**」を選択します。
+
+<!-- 画像: ウォレット選択画面 -->
+<!-- ![ウォレット選択](./img/L07_select-slush.png) -->
+
+:::note 他のウォレット
+Sui Wallet、Suiet、Ethos Walletなど、他のSui対応ウォレットも選択できます。
+このチュートリアルでは **Slushウォレット** を使用します。
+:::
+
+---
+
+### 4. 接続を承認
+
+Slushウォレットのポップアップが表示されます。
+内容を確認し、「**Connect**」をクリックして接続を承認します。
+
+<!-- 画像: Slush接続承認画面 -->
+<!-- ![接続承認](./img/L07_approve-connection.png) -->
+
+:::tip パスワードの入力
+Slushの設定によっては、接続時にパスワードの入力を求められる場合があります。
+:::
+
+---
+
+## 成功の確認
+
+接続が成功すると、画面上部の **Address** 欄に
+あなたのウォレットアドレスが表示されます。
+
+<!-- 画像: 接続成功後の画面 -->
+<!-- ![接続成功](./img/L07_connected.png) -->
+
+```text
+Network: sui:devnet
+Address: 0x1234...abcd（あなたのウォレットアドレス）
+````
+
+「**Connect Wallet**」ボタンが、
+接続中のアドレス表示に変わっていれば成功です。
+
+:::info ネットワークの確認
+PTB Builderは現在 **Devnet** 向けに提供されています。
+
+そのため、**Slushウォレット側も Devnet に切り替えておく必要があります**。
+ウォレットが Mainnet や Testnet のままの場合、
+接続やトランザクション実行に失敗することがあります。
+:::
+
+---
+
+## このレッスンでやったこと
+
+* [x] PTB Builderとは何かを理解した
+* [x] PTB Builderページにアクセスした
+* [x] Slushウォレットを接続した
+* [x] 接続成功を確認した
