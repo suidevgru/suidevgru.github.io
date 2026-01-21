@@ -11,7 +11,7 @@ import {
   buildMovePackage,
   initMoveCompiler,
   resolveDependencies,
-} from '@zktx.io/sui-move-builder';
+} from '@zktx.io/sui-move-builder/lite';
 
 import { MoveTemplate_Intro_HelloWorld } from '@site/src/templates/move/moveTemplate_01_hello';
 
