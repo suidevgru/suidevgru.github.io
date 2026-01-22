@@ -248,7 +248,8 @@ Each Lesson consists of the following fields:
 
 | Level | Description |
 |:--|:--|
-| Beginner | Beginner Course (L1–L34) |
+| getting-started | Environment Setup (L1–L6) |
+| Beginner | Beginner Course (L7–L34) |
 | Advanced | Advanced Track |
 
 ### Tool List

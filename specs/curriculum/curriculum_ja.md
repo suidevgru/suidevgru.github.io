@@ -4,7 +4,7 @@
 
 Suiの基礎からdApp公開まで、段階的に学ぶ初心者向けコース。**Sui Extension**と**PTB Builder**を活用した実務ワークフローを体験しながら、dAppを公開できるスキルを身につけます。
 
-### 初心者コース（6 Unit）
+### 初級コース（6 Unit）
 
 | Unit | 内容 | 成果物 |
 |:--|:--|:--|
@@ -27,12 +27,12 @@ Suiの基礎からdApp公開まで、段階的に学ぶ初心者向けコース�
 
 | ID | Level | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|:--|
-| L1 | Beginner | Slushウォレットをインストール | ウォレットをインストールする | 1.Chrome拡張機能をインストール<br/>2.アカウントを作成<br/>3.リカバリーフレーズを保管<br/>4.パスワードを設定 | 設定画面でアドレスが表示される | Slush | Devnetに切り替えよう |
-| L2 | Beginner | Devnetに切り替える | ネットワークをDevnetに変更する | 1.設定を開く<br/>2.Devnet選択 | ウォレットに「Devnet」と表示される | Slush | CLIも導入しよう |
-| L3 | Beginner | Sui CLIをインストール | コマンドラインツールを導入する | 1.suiupコマンド実行<br/>2.バージョン確認 | `sui --version`が成功する | CLI | VSCodeで開発環境を整えよう |
-| L4 | Beginner | VSCode + Sui Extension | Move開発環境を整える | 1.Sui Extensionインストール<br/>2.設定確認 | .moveファイルでハイライト表示される | **Sui Extension** | CLIもDevnetに接続しよう |
-| L5 | Beginner | CLIをDevnetに接続 | CLIのネットワーク設定を行う | 1.switchコマンド<br/>2.確認 | `sui client active-env`がdevnetを返す | CLI, **Sui Extension** | テストトークンを取得しよう |
-| L6 | Beginner | Faucetでトークンを取得 | テストSUIを入手する | 1.faucetコマンド<br/>2.残高確認 | `sui client gas`で残高が表示される | CLI | Unit 1完了！次はPTB Builderへ |
+| L1 | getting-started | Slushウォレットをインストール | ウォレットをインストールする | 1.Chrome拡張機能をインストール<br/>2.アカウントを作成<br/>3.リカバリーフレーズを保管<br/>4.パスワードを設定 | 設定画面でアドレスが表示される | Slush | Devnetに切り替えよう |
+| L2 | getting-started | Devnetに切り替える | ネットワークをDevnetに変更する | 1.設定を開く<br/>2.Devnet選択 | ウォレットに「Devnet」と表示される | Slush | CLIも導入しよう |
+| L3 | getting-started | Sui CLIをインストール | コマンドラインツールを導入する | 1.suiupコマンド実行<br/>2.バージョン確認 | `sui --version`が成功する | CLI | VSCodeで開発環境を整えよう |
+| L4 | getting-started | VSCode + Sui Extension | Move開発環境を整える | 1.Sui Extensionインストール<br/>2.設定確認 | .moveファイルでハイライト表示される | **Sui Extension** | CLIもDevnetに接続しよう |
+| L5 | getting-started | CLIをDevnetに接続 | CLIのネットワーク設定を行う | 1.switchコマンド<br/>2.確認 | `sui client active-env`がdevnetを返す | CLI, **Sui Extension** | テストトークンを取得しよう |
+| L6 | getting-started | Faucetでトークンを取得 | テストSUIを入手する | 1.faucetコマンド<br/>2.残高確認 | `sui client gas`で残高が表示される | CLI | Unit 1完了！次はPTB Builderへ |
 
 ### Checkpoint
 
@@ -165,7 +165,7 @@ TSで組んだtxがウォレット署名→実行→結果表示まで動けばO
 | L31 | Beginner | 振り返り | 学んだ内容を整理する | 1.チェックリスト確認<br/>2.達成項目確認 | 全項目クリア | 読み物 | 次のステップへ |
 | L32 | Beginner | 次のステップ | 上級コースへの案内 | 1.Advanced Courseを確認<br/>2.興味のある分野を選ぶ | 次の学習目標が決まる | 読み物 | コミュニティに参加しよう |
 | L33 | Beginner | Contributorsについて | クレジット方針と貢献方法を知る | 1.Contributors確認<br/>2.貢献ガイド確認 | 貢献方法を理解できる | 読み物 | コミュニティリソースを見よう |
-| L34 | Beginner | Community Resources | 日本語コミュニティ・イベント情報を知る | 1.コミュニティリンク確認<br/>2.イベント情報確認 | 次の学習リソースを把握できる | 読み物 | 初心者コース完了！ |
+| L34 | Beginner | Community Resources | 日本語コミュニティ・イベント情報を知る | 1.コミュニティリンク確認<br/>2.イベント情報確認 | 次の学習リソースを把握できる | 読み物 | 初級コース完了！ |
 
 ### ホスティング選択肢
 
@@ -189,7 +189,7 @@ dAppがWalrus SitesまたはGitHub PagesのURLで動作すればOK
 
 ## Advanced Course（上級トラック）
 
-初心者コース修了後に挑戦できる高度なトピックです。
+初級コース修了後に挑戦できる高度なトピックです。
 
 ### Move高度なパターン
 
@@ -248,7 +248,8 @@ dAppがWalrus SitesまたはGitHub PagesのURLで動作すればOK
 
 | Level | 説明 |
 |:--|:--|
-| Beginner | 初心者コース（L1〜L34） |
+| getting-started | 環境構築（L1〜L6） |
+| Beginner | 初級コース（L7〜L34） |
 | Advanced | 上級トラック |
 
 ### ツール一覧
