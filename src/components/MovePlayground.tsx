@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { rust } from '@codemirror/lang-rust';
 import { yaml } from '@codemirror/lang-yaml';
@@ -9,9 +9,10 @@ import { Transaction } from '@mysten/sui/transactions';
 import { fromBase64 } from '@mysten/sui/utils';
 import {
   buildMovePackage,
+  getSuiMoveVersion,
   initMoveCompiler,
   resolveDependencies,
-} from '@zktx.io/sui-move-builder';
+} from '@zktx.io/sui-move-builder/lite';
 
 import { MoveTemplate_Intro_HelloWorld } from '@site/src/templates/move/moveTemplate_01_hello';
 
@@ -80,7 +81,12 @@ export function MovePlayground() {
   const [publishDigest, setPublishDigest] = useState('');
   const [publishPackageId, setPublishPackageId] = useState('');
   const compilerInitRef = React.useRef<Promise<void> | null>(null);
+  const compilerVersionRef = React.useRef<string | null>(null);
+  const [isStacked, setIsStacked] = useState(false);
+  const versionLoggedRef = React.useRef(false);
+  const [activePanel, setActivePanel] = useState<'files' | 'editor'>('editor');
   const { colorMode } = useColorMode();
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const account = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutate: signAndExecuteTransaction, isPending: isPublishing } =
@@ -155,10 +161,107 @@ export function MovePlayground() {
   }, [selectedPath, moveExtensions, tomlExtensions, baseExtensions]);
 
   const tree = useMemo(() => buildFileTree(Object.keys(files)), [files]);
+  const gridTemplateColumns = isStacked ? '1fr' : 'minmax(220px, 280px) 1fr';
 
-  const appendOutput = (line: string) => {
+  const treePanel = (
+    <div
+      style={{
+        border: '1px solid var(--ifm-color-emphasis-200)',
+        borderRadius: 12,
+        padding: 12,
+        background: 'var(--ifm-background-color)',
+        height: 520,
+        overflow: 'auto',
+      }}
+    >
+      <FileTree tree={tree} selectedPath={selectedPath} onSelect={setSelectedPath} />
+    </div>
+  );
+
+  const editorPanel = (
+    <div>
+      <CodeMirror
+        value={files[selectedPath] ?? ''}
+        height="520px"
+        extensions={activeExtensions}
+        theme={editorTheme}
+        onChange={(value) =>
+          setFiles((prev) => ({
+            ...prev,
+            [selectedPath]: value,
+          }))
+        }
+      />
+    </div>
+  );
+
+  const appendOutput = useCallback((line: string) => {
     setOutput((prev) => `${prev}${line}\n`);
-  };
+  }, []);
+
+  const logCompilerVersion = useCallback(async () => {
+    if (compilerVersionRef.current && versionLoggedRef.current) {
+      return compilerVersionRef.current;
+    }
+    try {
+      const version =
+        compilerVersionRef.current ?? (await getSuiMoveVersion());
+      compilerVersionRef.current = version;
+      appendOutput(`[MovePlayground] Move compiler version ${version}`);
+      versionLoggedRef.current = true;
+      return version;
+    } catch (error) {
+      appendOutput(`[MovePlayground] Failed to read compiler version: ${String(error)}`);
+      throw error;
+    }
+  }, [appendOutput]);
+
+  useEffect(() => {
+    const threshold = 900;
+    if (!containerRef.current || typeof ResizeObserver === 'undefined') {
+      setIsStacked(containerRef.current ? containerRef.current.clientWidth < threshold : false);
+      return undefined;
+    }
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setIsStacked(entry.contentRect.width < threshold);
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isStacked) {
+      setActivePanel('editor');
+    }
+  }, [isStacked]);
+
+  useEffect(() => {
+    let canceled = false;
+    (async () => {
+      if (!compilerInitRef.current) {
+        compilerInitRef.current = initMoveCompiler();
+      }
+      try {
+        await compilerInitRef.current;
+      } catch (error) {
+        if (!canceled) {
+          appendOutput(`[MovePlayground] Failed to initialize compiler: ${String(error)}`);
+        }
+        return;
+      }
+      if (canceled) return;
+      try {
+        await logCompilerVersion();
+      } catch {
+        // failure already reported inside logCompilerVersion
+      }
+    })();
+    return () => {
+      canceled = true;
+    };
+  }, [appendOutput, logCompilerVersion]);
 
   const ensureCompiler = async () => {
     if (!compilerInitRef.current) {
@@ -177,14 +280,19 @@ export function MovePlayground() {
     setPublishPackageId('');
 
     const start = performance.now();
-    const resolvedDependencies = await resolveDependencies({
-      files,
-      ansiColor: true,
-      network: 'devnet',
-    });
 
     try {
       await ensureCompiler();
+      try {
+        await logCompilerVersion();
+      } catch {
+        // version logging already reported
+      }
+      const resolvedDependencies = await resolveDependencies({
+        files,
+        ansiColor: true,
+        network: 'devnet',
+      });
 
       const sourceFiles = {
         ...Object.fromEntries(
@@ -278,7 +386,7 @@ export function MovePlayground() {
   };
 
   return (
-    <div style={{ maxWidth: 1100 }}>
+    <div ref={containerRef} style={{ width: 'min(100%, 1100px)', margin: '0 auto' }}>
       <div
         style={{
           border: '1px solid var(--ifm-color-emphasis-300)',
@@ -287,39 +395,77 @@ export function MovePlayground() {
           background: 'var(--ifm-background-surface-color)',
         }}
       >
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', columnGap: 16, rowGap: 6 }}>
-          <div className="text--muted" style={{ fontSize: 12 }}>
-            {template.defaultName ?? 'package'}
-          </div>
-          <div className="text--muted" style={{ fontSize: 12 }}>
-            {selectedPath}
-          </div>
-          <div
-            style={{
-              border: '1px solid var(--ifm-color-emphasis-200)',
-              borderRadius: 12,
-              padding: 12,
-              background: 'var(--ifm-background-color)',
-              height: 520,
-              overflow: 'auto',
-            }}
-          >
-            <FileTree tree={tree} selectedPath={selectedPath} onSelect={setSelectedPath} />
-          </div>
-          <div>
-            <CodeMirror
-              value={files[selectedPath] ?? ''}
-              height="520px"
-              extensions={activeExtensions}
-              theme={editorTheme}
-              onChange={(value) =>
-                setFiles((prev) => ({
-                  ...prev,
-                  [selectedPath]: value,
-                }))
-              }
-            />
-          </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns,
+            columnGap: 16,
+            rowGap: 6,
+          }}
+        >
+          {!isStacked && (
+            <>
+              <div className="text--muted" style={{ fontSize: 12 }}>
+                {template.defaultName ?? 'package'}
+              </div>
+              <div className="text--muted" style={{ fontSize: 12 }}>
+                {selectedPath}
+              </div>
+            </>
+          )}
+          {isStacked ? (
+            <div style={{ gridColumn: '1 / -1' }}>
+              <div style={{ display: 'flex', gap: 0, borderRadius: 12, overflow: 'hidden', border: '1px solid var(--ifm-color-emphasis-200)' }}>
+                <button
+                  type="button"
+                  onClick={() => setActivePanel('files')}
+                  title={template.defaultName ?? 'package'}
+                  style={{
+                    flex: 1,
+                    padding: '8px 12px',
+                    background: activePanel === 'files' ? 'var(--ifm-background-color)' : 'transparent',
+                    border: 'none',
+                    borderRight: '1px solid var(--ifm-color-emphasis-200)',
+                    fontSize: 13,
+                    fontWeight: activePanel === 'files' ? 600 : 500,
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {template.defaultName ?? 'package'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActivePanel('editor')}
+                  title={selectedPath}
+                  style={{
+                    flex: 1,
+                    padding: '8px 12px',
+                    background: activePanel === 'editor' ? 'var(--ifm-background-color)' : 'transparent',
+                    border: 'none',
+                    fontSize: 13,
+                    fontWeight: activePanel === 'editor' ? 600 : 500,
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {selectedPath}
+                </button>
+              </div>
+              <div style={{ marginTop: 12 }}>
+                {activePanel === 'files' ? treePanel : editorPanel}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div>{treePanel}</div>
+              <div>{editorPanel}</div>
+            </>
+          )}
         </div>
 
         <div
