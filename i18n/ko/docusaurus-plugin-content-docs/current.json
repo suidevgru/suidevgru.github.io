@@ -34,5 +34,9 @@
   "sidebar.tutorialSidebar.category.Advanced Course": {
     "message": "고급 코스",
     "description": "The label for category 'Advanced Course' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Transactions & PTB Builder": {
+    "message": "트랜잭션과 PTB Builder",
+    "description": "The label for category 'Transactions & PTB Builder' in sidebar 'tutorialSidebar'"
   }
 }

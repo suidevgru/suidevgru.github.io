@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.Beginner Course": {
-    "message": "初心者コース",
+    "message": "初級コース",
     "description": "The label for category 'Beginner Course' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Getting Started": {
@@ -34,5 +34,9 @@
   "sidebar.tutorialSidebar.category.Advanced Course": {
     "message": "上級コース",
     "description": "The label for category 'Advanced Course' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Transactions & PTB Builder": {
+    "message": "トランザクションとPTB Builder",
+    "description": "The label for category 'Transactions & PTB Builder' in sidebar 'tutorialSidebar'"
   }
 }

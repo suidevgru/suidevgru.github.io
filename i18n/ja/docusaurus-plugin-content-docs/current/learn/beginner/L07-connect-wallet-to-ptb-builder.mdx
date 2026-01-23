@@ -1,0 +1,137 @@
+---
+sidebar_position: 7
+title: "ウォレットをPTB Builderに接続する"
+description: "SlushウォレットをPTB Builderに接続し、トランザクションを作成する準備をする"
+---
+
+# ウォレットをPTB Builderに接続する
+
+このレッスンでは、SlushウォレットをPTB Builderに接続します。**難しくありません**。
+手順どおりに進めれば、数分で完了します。
+
+## PTB Builderとは
+
+**PTB Builder**は、Suiのトランザクション（Programmable Transaction Block / PTB）を視覚的に構築・実行できる開発者向けツールです。
+
+通常、トランザクションを作成するにはCLIやSDKを使って操作する必要がありますが、PTB Builderを使えば、ブロックをドラッグ＆ドロップでつなげるだけでトランザクションを組み立てられます。
+
+ウォレットを接続することで、
+
+- 自分のウォレットアドレスを使って
+- 作成したトランザクションに署名し
+- 実際にブロックチェーン上で実行する
+
+といった操作が可能になります。
+
+:::tip PTB builderでのトランザクション作成の流れ
+1. **ウォレットを接続**（このレッスン）
+2. トランザクションを視覚的に作成
+3. 署名して実行
+:::
+
+### PTB Builderの2つの使い方
+
+PTB Builderには2つの使い方があります：
+
+- **外部サイト（[ptb.wal.app](https://ptb.wal.app/)）**
+  - Editor / Viewer 両方の機能
+  - Devnet / Testnet / Mainnet に対応
+  - フル機能が必要な場合に
+
+- **サイト内デモ（[PTB Builder デモ](/docs/live-code-example/ptb-builder)）**
+  - Editor 機能のみ
+  - Devnet のみ対応
+  - 今後のレッスンで、Moveモジュールをデプロイした後に使用
+
+このレッスンでは外部サイトを使ってウォレット接続の基本を学びますが､今後のレッスンでは簡易的にサイト内デモをメインで使用します｡
+
+---
+
+## 前提条件
+
+このレッスンを始める前に、以下が完了していることを確認してください。
+
+- [Slushウォレットをインストール](/docs/getting-started/L01-install-slush) 済み
+- [Devnetに切り替え](/docs/getting-started/L02-switch-devnet) 済み
+
+---
+
+## 手順
+
+### 1. PTB Builderを開く
+
+以下のリンクからPTB Builderにアクセスします。
+
+→ [PTB Builder（ptb.wal.app）](https://ptb.wal.app/)
+
+### 2. ネットワークを選択して「Connect Wallet」をクリック
+
+画面中央のドロップダウンから使用したいネットワークを選択します｡<br />
+このチュートリアルでは「**DEVNET**」を選択し、「**Connect Wallet**」ボタンをクリックします。
+
+![PTB Builder接続画面](./img/L07_connect-wallet.png)
+
+:::warning ネットワークの一致
+選択するネットワークは、Slushウォレットのネットワークと一致させましょう。
+このチュートリアルでは両方とも **Devnet** を使用します。
+:::
+
+### 3. Slushを選択
+
+ウォレット選択画面が表示されます。<br />
+一覧から「**Slush**」を選択します。
+
+![ウォレット選択画面](./img/L07_chose-wallet.png)
+
+:::note 他のウォレット
+Sui Wallet、Suiet、Ethos Walletなど、他のSui対応ウォレットも選択できます。
+このチュートリアルでは **Slushウォレット** を使用します。
+:::
+
+### 4. 接続を承認
+
+Slushウォレットのポップアップが表示されます。
+パスワードを求められた場合は入力し、接続したいウォレットアドレスを選択して「**Approve**」をクリックします。
+
+接続が完了すると、「Connect Wallet」ボタンが接続したウォレットアドレスに変わります。
+
+![接続完了画面](./img/L07_connected.png)
+
+### 5. Editor / Viewer を選択
+
+画面下部に2つのボタンがあります。用途に応じて選択してください。
+
+- **Editor**: 新しいトランザクションを視覚的に構築する
+- **Viewer**: 実行済みトランザクションの流れを視覚的に確認する
+
+---
+
+## 成功の確認
+
+EditorまたはViewerの画面が表示されれば、ウォレット接続は完了です。
+
+---
+
+## このレッスンでやったこと
+
+* [x] PTB Builderとは何かを理解した
+* [x] PTB Builder（ptb.wal.app）にアクセスした
+* [x] ネットワークをDevnetに設定した
+* [x] Slushウォレットを接続した
+* [x] 接続成功を確認した
+
+---
+
+## 今後のレッスンで使うPTB Builder
+
+このサイト内にもPTB Builderが組み込まれています。
+
+→ [PTB Builder デモページ](/docs/live-code-example/ptb-builder)
+
+今後のレッスンでは、**Moveモジュールをデプロイした後**、このPTB Builderを使ってトランザクションを構築・実行します。
+外部サイトに移動せず、レッスンの流れの中でそのまま試せます。
+
+:::note サイト内デモの制限
+サイト内のPTB BuilderはEditor機能のみ、Devnetのみ対応しています。
+実行済みトランザクションの確認（Viewer）や、他のネットワークを使いたい場合は [ptb.wal.app](https://ptb.wal.app/) をご利用ください。
+:::
