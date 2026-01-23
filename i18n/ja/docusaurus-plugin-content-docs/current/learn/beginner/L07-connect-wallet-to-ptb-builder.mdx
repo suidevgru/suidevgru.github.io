@@ -29,6 +29,22 @@ description: "SlushウォレットをPTB Builderに接続し、トランザク�
 3. 署名して実行
 :::
 
+### PTB Builderの2つの使い方
+
+PTB Builderには2つの使い方があります：
+
+- **外部サイト（[ptb.wal.app](https://ptb.wal.app/)）**
+  - Editor / Viewer 両方の機能
+  - Devnet / Testnet / Mainnet に対応
+  - フル機能が必要な場合に
+
+- **サイト内デモ（[PTB Builder デモ](/docs/live-code-example/ptb-builder)）**
+  - Editor 機能のみ
+  - Devnet のみ対応
+  - 今後のレッスンで、Moveモジュールをデプロイした後に使用
+
+このレッスンでは外部サイトを使ってウォレット接続の基本を学びますが､今後のレッスンでは簡易的にサイト内デモをメインで使用します｡
+
 ---
 
 ## 前提条件
@@ -106,11 +122,16 @@ EditorまたはViewerの画面が表示されれば、ウォレット接続は�
 
 ---
 
-## 補足: サイト内のPTB Builderデモ
+## 今後のレッスンで使うPTB Builder
 
-このサイト内でもPTB Builderを試すことができます。
+このサイト内にもPTB Builderが組み込まれています。
 
 → [PTB Builder デモページ](/docs/live-code-example/ptb-builder)
 
-サイドバーの「**Live Code Example**」セクション内にある「**PTB Builder**」からもアクセスできます。
-同じ機能を手軽に試したい場合にご利用ください。
+今後のレッスンでは、**Moveモジュールをデプロイした後**、このPTB Builderを使ってトランザクションを構築・実行します。
+外部サイトに移動せず、レッスンの流れの中でそのまま試せます。
+
+:::note サイト内デモの制限
+サイト内のPTB BuilderはEditor機能のみ、Devnetのみ対応しています。
+実行済みトランザクションの確認（Viewer）や、他のネットワークを使いたい場合は [ptb.wal.app](https://ptb.wal.app/) をご利用ください。
+:::
