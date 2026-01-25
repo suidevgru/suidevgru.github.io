@@ -19,10 +19,8 @@ description: "Suiscanでトランザクションの詳細を確認し、Input/Ou
 
 Suiには複数のエクスプローラーがあります：
 
-| エクスプローラー | URL |
-|-----------------|-----|
-| **Suiscan** | [suiscan.xyz](https://suiscan.xyz/) |
-| **SuiVision** | [suivision.xyz](https://suivision.xyz/) |
+- **Suiscan** — [suiscan.xyz](https://suiscan.xyz/)
+- **SuiVision** — [suivision.xyz](https://suivision.xyz/)
 
 どちらを使っても基本的な機能は同じですが、**本サイトでは Suiscan を使用します**。
 
@@ -38,8 +36,9 @@ Suiscanを使うと：
 
 このレッスンを始める前に、以下が完了していることを確認してください：
 
-- [PTB Builderにウォレットを接続](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder)済み
-- 何らかのトランザクションを実行済み（まだの場合は、このレッスンでサンプルを使います）
+- Sui CLIがインストール済み（`sui --version` で確認）
+- CLIがDevnetに接続済み（`sui client active-env` が `devnet` を返す）
+- Faucetでテスト用SUIを取得済み（`sui client gas` で残高を確認）
 
 ---
 
@@ -51,81 +50,86 @@ Suiscanを使うと：
 
 → [Suiscan (suiscan.xyz)](https://suiscan.xyz/)
 
-{/* ![Suiscanホーム画面](./img/L08_home.png) */}
-
 ### 2. ネットワークをDevnetに切り替える
 
 画面右上のネットワーク選択から「**Devnet**」を選択します。
 
-{/* ![ネットワーク選択](./img/L08_network-select.png) */}
+![ネットワーク選択1](./img/L08_network-select_1.png)
+![ネットワーク選択2](./img/L08_network-select_2.png)
 
 :::warning ネットワークを必ず確認
-Mainnet/Testnet/Devnetで別々のブロックチェーンです。
-ウォレットと同じネットワーク（Devnet）を選択してください。
+Mainnet・Testnet・Devnetはそれぞれ別のブロックチェーンなので、トランザクションを実行したネットワークと一致していないと検索できません。本サイトのレッスンではDevnetを使っているので、ここでは**Devnet**を選びましょう。
 :::
 
-### 3. トランザクションを検索する
+### 3. トランザクションを実行して検索する
 
-トランザクションを検索するには、以下のいずれかを使います：
+実際にトランザクションを実行して、Suiscanで確認してみましょう。
 
-- **Transaction Digest**: トランザクション固有のID（例: `ABC123...xyz`）
-- **アドレス**: 自分のウォレットアドレス
+#### CLIでトランザクションを実行する
 
-#### 方法A: Transaction Digestで検索
+以下のコマンドを実行します。これはSuiのシステム時計（Clock）から現在時刻を取得するシンプルなトランザクションです。
 
-PTB BuilderやCLIでトランザクションを実行すると、Transaction Digestが表示されます。
-これを検索バーに貼り付けて検索します。
+```bash
+sui client call \
+  --package 0x2 \
+  --module clock \
+  --function timestamp_ms \
+  --args 0x6 \
+  --gas-budget 10000000
+```
 
-#### 方法B: アドレスで検索
+:::info コマンドの解説
+このコマンドは、Suiの標準ライブラリ（`0x2` パッケージ）にある `clock` モジュールの `timestamp_ms` 関数を呼び出しています。引数にはClockオブジェクト（`0x6`）を渡し、ガス代の上限を10,000,000 MIST（= 0.01 SUI）に設定しています。
+:::
 
-自分のウォレットアドレスを検索バーに入力すると、そのアドレスに関連する全てのトランザクション履歴が表示されます。
+コマンドを実行すると、以下のようなページが表示されます：
 
-{/* ![アドレス検索結果](./img/L08_search-address.png) */}
+```
+Transaction Digest: AbC123xYz...
+╭─────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Transaction Data                                                                                │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ ...                                                                                             │
+│ ...                                                                                             │
+│ ...                                                                                             │
+
+```
+
+**Transaction Digest** がトランザクションの固有IDです。これをコピーして、Suiscanトップページの検索ボックスをクリックし、表示されたモーダルの検索欄に貼り付けて検索すると、トランザクションの詳細ページが開きます。
+![トランザクション詳細画面](./img/L08_tx-search.png)
 
 ### 4. トランザクションの詳細を読む
 
 トランザクションを開くと、以下の情報が表示されます：
 
-{/* ![トランザクション詳細画面](./img/L08_tx-detail.png) */}
+![トランザクション詳細画面](./img/L08_tx-detail.png)
 
-#### Overview（概要）
+画面上部には4つのタブがあり、クリックするとページ内の各セクションに移動します：
 
-| 項目 | 説明 |
-|------|------|
-| **Status** | Success（成功）/ Failure（失敗） |
-| **Timestamp** | 実行日時 |
-| **Sender** | トランザクションを送信したアドレス |
-| **Transaction Digest** | トランザクションの固有ID |
+- **Overview** — トランザクションの概要（ステータス、送信者、ガス代など）
+- **Inputs** — トランザクションに入力されたオブジェクト
+- **Transactions** — 実行された操作の詳細
+- **Changes** — トランザクションによる変更内容
 
-#### Input / Output（入出力）
+**Overview** では以下の情報が確認できます：
 
-- **Input**: トランザクションで使用されたオブジェクト（コイン、NFTなど）
-- **Output**: トランザクションの結果として作成/変更されたオブジェクト
+- **Status** — 緑のチェックマークと「Success」が表示されていれば成功です
+- **Transaction summary** — 実行した操作の概要（例: `call function "timestamp_ms" from 0x...002`）
+- **Transaction Type** — トランザクションの種類（`ProgrammableTransaction` など）
+- **Digest** — トランザクションの固有ID
+- **Timestamp** — 実行日時
+- **Sender** — トランザクションを送信したアドレス
+- **Total Gas Fee** — 実際にかかったガス代（例: 0.00100988 SUI）
+- **Gas Budget** — 設定した最大ガス上限（例: 0.01 SUI）
+- **Gas Payment Object** — ガス代の支払いに使用したオブジェクト（通常はSUIコイン）
+- **Gas Object Owner** — ガス代を支払ったアドレス
+- **User Signature** — トランザクションの署名（「Show More」で詳細表示）
 
-{/* ![Input/Outputセクション](./img/L08_input-output.png) */}
+**Inputs** では、トランザクションに入力されたオブジェクトが表示されます。今回の例では、Clockオブジェクト（`0x6`）が入力として使用されています。
 
-:::tip Input/Outputの読み方
-- Inputに自分のコインが表示され、Outputに減った残高が表示されていれば、送金が成功しています
-- 新しいオブジェクトがOutputに表示されていれば、何かが作成されたことを意味します
-:::
+**Transactions** では、実行された操作の詳細が表示されます。MoveCallの場合は呼び出された関数の情報（パッケージ、モジュール、関数名、引数）が確認できます。複数の操作がある場合（PTB）は、実行順に表示されます。
 
-#### Gas（ガス代）
-
-| 項目 | 説明 |
-|------|------|
-| **Gas Budget** | 設定した最大ガス上限 |
-| **Gas Used** | 実際に使用されたガス量 |
-| **Gas Price** | ガス単価 |
-
-上記のトランザクション詳細画像では、「Total Gas Fee」と「Gas Budget」が Overview セクションに表示されています。
-
-### 5. PTBの詳細を確認する（オプション）
-
-PTB（Programmable Transaction Block）を実行した場合、「**Transaction Block**」タブで各操作の詳細を確認できます。
-
-- どのような操作（Transfer, MoveCall等）が実行されたか
-- 各操作の引数は何だったか
-- 操作の順序
+**Changes** では、トランザクションによって変更されたオブジェクトが表示されます。今回の例では、ガス代の支払いによりSUIコインの残高が変更されています。
 
 ---
 
@@ -133,10 +137,10 @@ PTB（Programmable Transaction Block）を実行した場合、「**Transaction 
 
 以下ができれば、このレッスンは完了です：
 
-- [ ] Suiscanで自分のアドレスを検索できた
-- [ ] トランザクションのStatus（成功/失敗）を確認できた
-- [ ] Input/Outputセクションで何が使われて何が作られたかを読めた
-- [ ] Gas使用量を確認できた
+- [ ] CLIで `timestamp_ms` を実行し、Transaction Digestを取得できた
+- [ ] SuiscanでTransaction Digestを検索し、トランザクション詳細ページを開けた
+- [ ] Overviewでステータスが「Success」であることを確認できた
+- [ ] Inputs、Transactions、Changesの各セクションの内容を確認できた
 
 ---
 
@@ -161,9 +165,3 @@ PTB（Programmable Transaction Block）を実行した場合、「**Transaction 
 - [x] ネットワークの切り替え方法を確認した
 - [x] トランザクションの検索方法を学んだ
 - [x] Overview、Input/Output、Gasの読み方を理解した
-
----
-
-## 次のステップ
-
-次のレッスンでは、CLIを使って実際にトランザクションを送信します。Suiscanで確認するスキルを活かして、自分のトランザクションを追跡してみましょう。
