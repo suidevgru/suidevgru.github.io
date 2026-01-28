@@ -74,8 +74,10 @@ export function MovePlayground() {
     if (templateFiles['Move.toml']) return 'Move.toml';
     return Object.keys(templateFiles)[0] ?? 'Move.toml';
   });
-  const [status, setStatus] = useState('Ready.');
+  const [status, setStatus] = useState('Build ready.');
   const [output, setOutput] = useState('');
+  const [warnings, setWarnings] = useState('');
+  const [errors, setErrors] = useState('');
   const [busy, setBusy] = useState(false);
   const [compiled, setCompiled] = useState<BuildResult | null>(null);
   const [publishDigest, setPublishDigest] = useState('');
@@ -85,6 +87,8 @@ export function MovePlayground() {
   const [isStacked, setIsStacked] = useState(false);
   const versionLoggedRef = React.useRef(false);
   const [activePanel, setActivePanel] = useState<'files' | 'editor'>('editor');
+  const [activeConsoleTab, setActiveConsoleTab] = useState<'output' | 'warnings' | 'errors'>('output');
+  const [hoveredConsoleTab, setHoveredConsoleTab] = useState<'output' | 'warnings' | 'errors' | null>(null);
   const { colorMode } = useColorMode();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const account = useCurrentAccount();
@@ -198,6 +202,32 @@ export function MovePlayground() {
   const appendOutput = useCallback((line: string) => {
     setOutput((prev) => `${prev}${line}\n`);
   }, []);
+  const appendWarning = useCallback((line: string) => {
+    setWarnings((prev) => {
+      if (!prev) {
+        setActiveConsoleTab('warnings');
+      }
+      return `${prev}${line}\n`;
+    });
+  }, []);
+  const appendError = useCallback((line: string) => {
+    setErrors((prev) => {
+      if (!prev) {
+        setActiveConsoleTab('errors');
+      }
+      return `${prev}${line}\n`;
+    });
+  }, []);
+  const appendLog = useCallback(
+    (line: string) => {
+      if (/warning/i.test(line)) {
+        appendWarning(line);
+      } else {
+        appendOutput(line);
+      }
+    },
+    [appendOutput, appendWarning],
+  );
 
   const logCompilerVersion = useCallback(async () => {
     if (compilerVersionRef.current && versionLoggedRef.current) {
@@ -207,14 +237,14 @@ export function MovePlayground() {
       const version =
         compilerVersionRef.current ?? (await getSuiMoveVersion());
       compilerVersionRef.current = version;
-      appendOutput(`[MovePlayground] Move compiler version ${version}`);
+      appendLog(`[MovePlayground] Move compiler version ${version}`);
       versionLoggedRef.current = true;
       return version;
     } catch (error) {
-      appendOutput(`[MovePlayground] Failed to read compiler version: ${String(error)}`);
+      appendLog(`[MovePlayground] Failed to read compiler version: ${String(error)}`);
       throw error;
     }
-  }, [appendOutput]);
+  }, [appendLog]);
 
   useEffect(() => {
     const threshold = 900;
@@ -247,7 +277,7 @@ export function MovePlayground() {
         await compilerInitRef.current;
       } catch (error) {
         if (!canceled) {
-          appendOutput(`[MovePlayground] Failed to initialize compiler: ${String(error)}`);
+          appendLog(`[MovePlayground] Failed to initialize compiler: ${String(error)}`);
         }
         return;
       }
@@ -261,7 +291,7 @@ export function MovePlayground() {
     return () => {
       canceled = true;
     };
-  }, [appendOutput, logCompilerVersion]);
+  }, [appendLog, logCompilerVersion]);
 
   const ensureCompiler = async () => {
     if (!compilerInitRef.current) {
@@ -273,6 +303,9 @@ export function MovePlayground() {
 
   const onCompile = async () => {
     setOutput('');
+    setWarnings('');
+    setErrors('');
+    setActiveConsoleTab('output');
     setBusy(true);
     setStatus('Resolving dependencies...');
     setCompiled(null);
@@ -282,17 +315,20 @@ export function MovePlayground() {
     const start = performance.now();
 
     try {
+      appendLog('[MovePlayground] Build started');
       await ensureCompiler();
       try {
         await logCompilerVersion();
       } catch {
         // version logging already reported
       }
+      appendLog('[MovePlayground] Resolving dependencies...');
       const resolvedDependencies = await resolveDependencies({
         files,
         ansiColor: true,
         network: 'devnet',
       });
+      appendLog('[MovePlayground] Dependency resolution complete');
 
       const sourceFiles = {
         ...Object.fromEntries(
@@ -301,33 +337,67 @@ export function MovePlayground() {
       };
 
       setStatus('Compiling...');
+      appendLog('[MovePlayground] Compiling Move package...');
       const result = await buildMovePackage({
         files: sourceFiles,
         resolvedDependencies,
+        silenceWarnings: false,
         ansiColor: true,
         network: 'devnet',
+        onProgress: (event) => {
+          switch (event.type) {
+            case 'resolve_start':
+              appendLog('[MovePlayground] Resolving dependencies...');
+              break;
+            case 'resolve_dep':
+              appendLog(
+                `[MovePlayground] Resolving dep [${event.current}/${event.total}]: ${event.name} (${event.source})`,
+              );
+              break;
+            case 'resolve_complete':
+              appendLog(
+                `[MovePlayground] Dependency resolution complete (${event.count} dependencies)`,
+              );
+              break;
+            case 'compile_start':
+              appendLog('[MovePlayground] Compilation started');
+              break;
+            case 'compile_complete':
+              appendLog('[MovePlayground] Compilation complete');
+              break;
+            case 'lockfile_generate':
+              appendLog('[MovePlayground] Generating Move.lock...');
+              break;
+            default:
+              appendLog(`[MovePlayground] ${JSON.stringify(event)}`);
+          }
+        },
       });
       const end = performance.now();
 
       if ("error" in result) {
-        appendOutput('Compilation failed.');
+        appendError('Compilation failed.');
         const errorMessage = 'error' in result ? result.error : undefined;
-        appendOutput(errorMessage ?? 'Unknown error.');
+        appendError(errorMessage ?? 'Unknown error.');
         setCompiled(null);
       } else {
-        appendOutput(`Success in ${(end - start).toFixed(2)} ms`);
-        appendOutput(`Digest: ${result.digest ?? '-'}`);
-        appendOutput(`Dependencies: ${result.dependencies?.length ?? 0}`);
+        appendLog(`Success in ${(end - start).toFixed(2)} ms`);
+        appendLog(`Digest: ${result.digest ?? '-'}`);
+        appendLog(`Dependencies: ${result.dependencies?.length ?? 0}`);
         result.modules.forEach((mod: string, index: number) => {
-          appendOutput(`Module ${index + 1}: ${mod.slice(0, 80)}...`);
+          appendLog(`Module ${index + 1}: ${mod.slice(0, 80)}...`);
         });
+        if (result.warnings) {
+          appendWarning('[MovePlayground] Warnings detected');
+          appendWarning(result.warnings);
+        }
         setCompiled(result);
       }
 
-      setStatus('Done.');
+      setStatus('Build done.');
     } catch (error) {
-      appendOutput('Runtime error:');
-      appendOutput(String(error));
+      appendError('Runtime error:');
+      appendError(String(error));
       setStatus('Error.');
     } finally {
       setBusy(false);
@@ -339,7 +409,7 @@ export function MovePlayground() {
     setStatus('Publishing...');
     setPublishDigest('');
     setPublishPackageId('');
-    appendOutput('Publishing transaction...');
+    appendLog('Publishing transaction...');
 
     const tx = new Transaction();
     const modules: number[][] = (compiled as BuildSuccess).modules.map((mod) =>
@@ -355,7 +425,7 @@ export function MovePlayground() {
       { transaction: tx },
       {
         onSuccess: (result) => {
-          appendOutput(`Publish digest: ${result.digest}`);
+          appendLog(`Publish digest: ${result.digest}`);
           setPublishDigest(result.digest);
           void (async () => {
             try {
@@ -367,18 +437,18 @@ export function MovePlayground() {
                 (change) => change.type === 'published',
               ) as { packageId?: string } | undefined;
               if (published?.packageId) {
-                appendOutput(`Package ID: ${published.packageId}`);
+                appendLog(`Package ID: ${published.packageId}`);
                 setPublishPackageId(published.packageId);
               }
             } catch (error) {
-              appendOutput(`Package lookup failed: ${String(error)}`);
+              appendLog(`Package lookup failed: ${String(error)}`);
             }
           })();
           setStatus('Publish complete.');
         },
         onError: (error) => {
-          appendOutput('Publish failed.');
-          appendOutput(String(error));
+          appendLog('Publish failed.');
+          appendLog(String(error));
           setStatus('Publish error.');
         },
       },
@@ -492,13 +562,95 @@ export function MovePlayground() {
       </div>
 
       <div className="margin-top--md">
-        <div className="text--muted" style={{ fontSize: 12, marginBottom: 6 }}>
-          Output
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+          <div className="text--muted" style={{ fontSize: 12 }}>
+            Console
+          </div>
+          <div style={{ display: 'flex', gap: 6 }}>
+            <button
+              type="button"
+              onClick={() => setActiveConsoleTab('output')}
+              onMouseEnter={() => setHoveredConsoleTab('output')}
+              onMouseLeave={() => setHoveredConsoleTab(null)}
+              style={{
+                border: '1px solid var(--ifm-color-emphasis-200)',
+                background:
+                  activeConsoleTab === 'output'
+                    ? 'var(--ifm-background-color)'
+                    : hoveredConsoleTab === 'output'
+                      ? 'var(--ifm-color-emphasis-100)'
+                      : 'transparent',
+                borderRadius: 999,
+                padding: '2px 8px',
+                fontSize: 11,
+                cursor: 'pointer',
+                fontWeight: activeConsoleTab === 'output' ? 600 : 500,
+              }}
+            >
+              Output
+            </button>
+            {warnings ? (
+              <button
+                type="button"
+                onClick={() => setActiveConsoleTab('warnings')}
+                onMouseEnter={() => setHoveredConsoleTab('warnings')}
+                onMouseLeave={() => setHoveredConsoleTab(null)}
+                style={{
+                  border: '1px solid var(--ifm-color-emphasis-200)',
+                  background:
+                    activeConsoleTab === 'warnings'
+                      ? 'var(--ifm-background-color)'
+                      : hoveredConsoleTab === 'warnings'
+                        ? 'var(--ifm-color-emphasis-100)'
+                        : 'transparent',
+                  borderRadius: 999,
+                  padding: '2px 8px',
+                  fontSize: 11,
+                  cursor: 'pointer',
+                  fontWeight: activeConsoleTab === 'warnings' ? 600 : 500,
+                }}
+              >
+                Warnings
+              </button>
+            ) : null}
+            {errors ? (
+              <button
+                type="button"
+                onClick={() => setActiveConsoleTab('errors')}
+                onMouseEnter={() => setHoveredConsoleTab('errors')}
+                onMouseLeave={() => setHoveredConsoleTab(null)}
+                style={{
+                  border: '1px solid var(--ifm-color-emphasis-200)',
+                  background:
+                    activeConsoleTab === 'errors'
+                      ? 'var(--ifm-background-color)'
+                      : hoveredConsoleTab === 'errors'
+                        ? 'var(--ifm-color-emphasis-100)'
+                        : 'transparent',
+                  borderRadius: 999,
+                  padding: '2px 8px',
+                  fontSize: 11,
+                  cursor: 'pointer',
+                  fontWeight: activeConsoleTab === 'errors' ? 600 : 500,
+                }}
+              >
+                Error
+              </button>
+            ) : null}
+          </div>
         </div>
-        <pre
-          style={outputStyles}
-        >
-          {output ? renderAnsiToReact(output, ansiColorMap) : 'Ready.'}
+        <pre style={outputStyles}>
+          {activeConsoleTab === 'warnings'
+            ? warnings
+              ? renderAnsiToReact(warnings, ansiColorMap)
+              : 'No warnings.'
+            : activeConsoleTab === 'errors'
+              ? errors
+                ? renderAnsiToReact(errors, ansiColorMap)
+                : 'No errors.'
+              : output
+                ? renderAnsiToReact(output, ansiColorMap)
+                : 'Build ready.'}
         </pre>
       </div>
     </div>
