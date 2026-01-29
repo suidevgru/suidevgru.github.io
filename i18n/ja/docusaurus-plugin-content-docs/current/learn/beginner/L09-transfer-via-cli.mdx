@@ -21,9 +21,9 @@ description: "Sui CLIを使ってSUIトークンを送金する方法を学び�
 
 このレッスンを始める前に、以下が完了していることを確認してください：
 
-- Sui CLIがインストール済み（`sui --version` で確認）— [L03: Sui CLIをインストール](/docs/getting-started/L03-install-sui-cli)
-- CLIがDevnetに接続済み（`sui client active-env` が `devnet` を返す）— [L05: CLIをDevnetに接続](/docs/getting-started/L05-connect-cli-to-devnet)
-- Faucetでテスト用SUIを取得済み（`sui client gas` で残高を確認）— [L06: テストトークンを取得する](/docs/getting-started/L06-get-test-tokens)
+- Sui CLIがインストール済み（`sui --version` で確認）— [Sui CLIをインストール](/docs/getting-started/L03-install-sui-cli)
+- CLIがDevnetに接続済み（`sui client active-env` が `devnet` を返す）— [CLIをDevnetに接続](/docs/getting-started/L05-connect-cli-to-devnet)
+- Faucetでテスト用SUIを取得済み（`sui client gas` で残高を確認）— [テストトークンを取得する](/docs/getting-started/L06-get-test-tokens)
 
 ---
 
@@ -34,7 +34,6 @@ description: "Sui CLIを使ってSUIトークンを送金する方法を学び�
 まず、現在のアドレスとSUIの残高を確認しましょう。
 
 ```bash
-# アクティブなアドレスを確認
 sui client active-address
 ```
 
@@ -46,7 +45,6 @@ sui client active-address
 次に残高を確認します：
 
 ```bash
-# すべてのガスコインを一覧表示
 sui client gas
 ```
 
@@ -65,35 +63,44 @@ sui client gas
 
 ### 2. 送金先のアドレスを確認する
 
-送金先として、[L01](/docs/getting-started/L01-install-slush) で作成したSlushウォレットのアドレスを使います。
+送金先として、[Slushウォレットをインストール](/docs/getting-started/L01-install-slush) で作成したSlushウォレットのアドレスを使います。
 
-CLIのアドレス（[L05](/docs/getting-started/L05-connect-cli-to-devnet) で生成）とSlushで最初に作成したアドレスは**別のアドレス**です。今回はCLIアドレスからSlushウォレットアドレスへSUIを送金します。
+CLIのアドレス（[CLIをDevnetに接続](/docs/getting-started/L05-connect-cli-to-devnet) で生成）とSlushで最初に作成したアドレスは**別のアドレス**です。今回はCLIアドレスからSlushウォレットアドレスへSUIを送金します。
 
 **Slushウォレットのアドレスを確認する方法：**
 
 1. ブラウザ拡張機能のSlushを開く
-2. L01で作成したアカウントに切り替える（L05でインポートしたCLIアカウントではない方）
-3. アドレス（`0x...`）をコピーする
+2. 右下のユーザーアイコン①をクリックし、「**Manage all**」②を選択
+3. [Slushウォレットをインストール](/docs/getting-started/L01-install-slush)で作成したアカウントに切り替える（[CLIをDevnetに接続](/docs/getting-started/L05-connect-cli-to-devnet)でインポートしたCLIアカウントではない方）
+4. アドレス（`0x...`）をコピーする
+
+![Slushでアカウント管理画面を開く](./img/L09_slush-manage-accounts.png)
 
 :::tip アドレスの見分け方
-Slushに複数のアカウントがある場合、右下のユーザーアイコンからアカウントを切り替えられます。L06でFaucetからSUIを受け取ったアカウント（CLIアドレス）は残高がありますが、L01で最初に作ったアカウントは残高が0のはずです。
+Slushに複数のアカウントがある場合、右下のユーザーアイコンからアカウントを切り替えられます。[テストトークンを取得する](/docs/getting-started/L06-get-test-tokens)でFaucetからSUIを受け取ったアカウント（CLIアドレス）は残高がありますが、[Slushウォレットをインストール](/docs/getting-started/L01-install-slush)で最初に作ったアカウントは残高が0のはずです。
 :::
 
-### 3. transfer-suiコマンドでSUIを送金する
+### 3. PTBでSUIを送金する
 
 それでは、SUIを送金しましょう！`<RECIPIENT_ADDRESS>` を送金先のアドレスに置き換えてください：
 
 ```bash
-sui client transfer-sui \
-  --to <RECIPIENT_ADDRESS> \
-  --amount 100000000 \
+sui client ptb \
+  --split-coins gas "[1000000000]" \
+  --assign coins \
+  --transfer-objects "[coins]" @<RECIPIENT_ADDRESS> \
   --gas-budget 10000000
 ```
 
 :::info コマンドの解説
-- `--to`: 送金先のアドレス（`<>` は付けずに実際のアドレスに置き換えてください）
-- `--amount`: 送金額（MIST単位）（100000000 MIST = 0.1 SUI）
+- `--split-coins gas "[1000000000]"`: ガスコイン（SUI）から1000000000 MIST（= 1 SUI）を分割します。`gas` キーワードを使うと、CLIが自動で使用するコインを選んでくれます
+- `--assign coins`: 分割したコインを `coins` という変数に代入します
+- `--transfer-objects "[coins]" @<ADDRESS>`: `coins` を指定したアドレスに送金します（アドレスの前に `@` が必要です。`<>` は付けずに実際のアドレスに置き換えてください）
 - `--gas-budget`: ガス代の**上限**（MIST単位）。実際に使った分だけ消費され、残りは戻ってきます（例：10000000 MIST = 0.01 SUI）
+:::
+
+:::tip PTB（Programmable Transaction Block）とは？
+PTBはSuiの強力な機能で、複数の操作を1つのトランザクションにまとめて実行できます。今回は「コインを分割 → 送金」という2つの操作を1回のトランザクションで行っています。
 :::
 
 コマンドを実行すると、以下のような詳細な出力が表示されます：
@@ -105,10 +112,6 @@ Transaction Digest: AbC123xYz...
 ├─────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ Sender: 0x1234abcd...                                                                           │
 │ ...                                                                                             │
-├─────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ Transaction Kind: Programmable                                                                  │
-│ ...                                                                                             │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 **Transaction Digest** がトランザクションの固有IDです。これをコピーしておきましょう！
@@ -117,24 +120,32 @@ Transaction Digest: AbC123xYz...
 
 トランザクションが成功したことを確認しましょう。
 
-#### CLIで確認
-
-CLIで直接トランザクションの詳細を表示できます：
-
-```bash
-sui client tx-block <TRANSACTION_DIGEST>
-```
-
 #### Explorerで確認
 
 Suiscanでも確認できます：
 
-1. [Suiscan (Devnet)](https://suiscan.xyz/?network=devnet) にアクセス
+1. [Suiscan (Devnet)](https://suiscan.xyz/devnet/home) にアクセス
 2. **Devnet** になっていることを確認
 3. 検索ボックスにTransaction Digestを貼り付け
 4. トランザクションが「Success」と表示されていることを確認
 
-Explorerでのトランザクションの読み方について詳しくは、[L08: Explorerでトランザクションを読む](/docs/learn/beginner/L08-read-tx-in-explorer) を参照してください。
+![Suiscanでトランザクション確認](./img/L09_suiscan-success.png)
+
+Explorerでのトランザクションの読み方について詳しくは、[Explorerでトランザクションを読む](/docs/learn/beginner/L08-read-tx-in-explorer) を参照してください。
+
+#### PTB Builderで確認
+
+[PTB Builder](https://ptb.wal.app/) のViewer機能を使うと、トランザクションの内容を視覚的に確認できます：
+
+1. [PTB Builder（ptb.wal.app）](https://ptb.wal.app/) にアクセス
+2. ネットワークを **DEVNET** に設定し、「**Connect Wallet**」でSlushを接続
+3. 「**Viewer**」を選択
+4. 検索ボックスにTransaction Digestを貼り付け
+5. トランザクションの構造（SplitCoins → TransferObjects）が視覚的に表示される
+
+![PTB Builder Viewer](./img/L09_ptb-builder-viewer.png)
+
+PTB Builderの詳しい使い方は、[ウォレットをPTB Builderに接続する](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder) を参照してください。
 
 ### 5. 残高の変化を確認する
 
@@ -150,7 +161,9 @@ sui client gas
 
 **Slushウォレットアドレス（送金先）の残高：**
 
-Slushを開いて、L01で作成したアカウントに切り替えると、送金したSUIが反映されているはずです。
+Slushを開いて、[Slushウォレットをインストール](/docs/getting-started/L01-install-slush)で作成したアカウントに切り替えると、送金したSUIが反映されているはずです。
+
+![Slushウォレットで残高確認](./img/L09_slush-balance.png)
 
 :::tip 反映に少し時間がかかる場合があります
 Devnetでは通常数秒で反映されますが、まれに少し時間がかかることがあります。Slushの画面をリロードしてみてください。
@@ -162,10 +175,10 @@ Devnetでは通常数秒で反映されますが、まれに少し時間がか�
 
 以下ができれば、このレッスンは完了です：
 
-- [ ] `sui client transfer-sui` を正常に実行できた
-- [ ] Transaction Digestを取得できた
-- [ ] CLIまたはExplorerでトランザクションのステータスを確認できた
-- [ ] 送金元と送金先の両方で残高の変化を確認できた
+- `sui client ptb` で送金を正常に実行できた
+- `Transaction Digest`を取得できた
+- `Explorer(Suiscan)` / `PTB Builder`でトランザクションのステータスを確認できた
+- 送金元と送金先の両方で残高の変化を確認できた
 
 ---
 
@@ -183,13 +196,12 @@ Devnetでは通常数秒で反映されますが、まれに少し時間がか�
 ### トランザクションが "Failed" と表示される
 
 - トランザクション詳細でエラーメッセージを確認してください
-- よくある原因：残高不足、無効な送金先アドレス
 
 ---
 
 ## このレッスンでやったこと
 
 - [x] CLIでアドレスと残高を確認する方法を学んだ
-- [x] `transfer-sui` コマンドでSUIを送金する方法を学んだ
+- [x] PTB（`sui client ptb`）でSUIを送金する方法を学んだ
 - [x] MISTとSUIの関係を理解した
 - [x] CLIとExplorerでトランザクションを確認した
