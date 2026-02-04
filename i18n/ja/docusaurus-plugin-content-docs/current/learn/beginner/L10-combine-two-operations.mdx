@@ -4,9 +4,12 @@ title: "2操作を合成"
 description: "複数操作を1つのトランザクションにまとめる"
 ---
 
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import { PtbBuilderDemo } from '@site/src/components/PtbBuilderDemo';
+
 # 2操作を合成
 
-このレッスンでは、PTB Builderを使って**2つの送金操作を1つのトランザクションにまとめる**方法を学びます。**難しくありません**。手順どおりに進めれば、すぐにできるようになります。
+このレッスンでは、PTB Builderを使って**2つの送金操作を1つのトランザクションにまとめる**方法を学びます。**難しくありません**。サイト内のビジュアルエディタで、すぐに試すことができます。
 
 ## PTB（Programmable Transaction Block）とは
 
@@ -19,7 +22,7 @@ PTBを使うと、以下のようなメリットがあります：
 - **効率的** — 1回の署名で複数の操作を完了できます
 
 :::tip PTBのイメージ
-「Aさんに100 SUI送金」と「Bさんに200 SUI送金」を別々に実行すると、2回署名が必要で、ガス代も2回かかります。
+「Aさんに1 SUI送金」と「Bさんに2 SUI送金」を別々に実行すると、2回署名が必要で、ガス代も2回かかります。
 PTBでまとめると、1回の署名・1回のガス代で済みます。
 :::
 
@@ -37,45 +40,41 @@ PTBにすると、操作そのものの計算量は合算されます。
 - [Slushウォレットをインストール](/docs/getting-started/L01-install-slush) 済み
 - [Devnetに切り替え](/docs/getting-started/L02-switch-devnet) 済み
 - [Faucetでテストトークンを取得](/docs/getting-started/L06-get-test-tokens) 済み
-- [ウォレットをPTB Builderに接続する](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder) 済み
 
 ---
 
-## 手順
+## PTB Builder で2つの送金を作成
 
-### 1. PTB Builderを開く
+以下のビジュアルエディタで、2つの送金操作を1つのトランザクションにまとめる方法を学びましょう。
+すでに2つの送金操作が設定済みのテンプレートがロードされています。
 
-以下のリンクからPTB Builderにアクセスします。
+<BrowserOnly>
+  {() => <PtbBuilderDemo templateId="double-transfer" />}
+</BrowserOnly>
 
-→ [PTB Builder（ptb.wal.app）](https://ptb.wal.app/)
+### 使い方
 
-### 2. ウォレットを接続してEditorを開く
+1. **ウォレットを接続**: 右上のウォレットアイコンからSlushウォレットを接続します
+2. **フローを確認**: すでに2つの送金操作（SplitCoins → TransferObjects × 2）が設定されています
+   ```
+   Start → SplitCoins(1) → TransferObjects(1) → SplitCoins(2) → TransferObjects(2) → End
+   ```
+3. **金額を変更** (オプション):
+   - 下部にある `number` ノードをクリックすると、送金額を変更できます
+   - デフォルト: 1つ目は 1 SUI (1000000000 mist)、2つ目は 2 SUI (2000000000 mist)
+4. **送金先を変更** (オプション):
+   - デフォルトでは自分のウォレット（`my wallet`）に送金されます
+   - 別のアドレスに送りたい場合は、`TransferObjects` ノードをクリックして編集できます
+   - 送金先の例:
+     - 自分のアドレスを2回使う（自分自身に送金）
+     - Slushで新しいアカウントを作成して、そのアドレスを使用
+     - [L05で作成したCLIアドレス](/docs/getting-started/L05-connect-cli-to-devnet)を使用
+5. **実行**: 右上の「**Execute**」ボタンをクリックして実行します
+6. **結果を確認**: トランザクションダイジェストが表示されたら、「**Explorer**」リンクで詳細を確認できます
 
-1. ネットワークを「**DEVNET**」に設定します
-2. 「**Connect Wallet**」をクリックしてSlushウォレットを接続します
-3. 画面下部の「**Editor**」をクリックします
-
-<!-- ![Editor画面。ここでノードを追加・接続してPTBを構築します](./img/L10_editor_initial.png) -->
-
-:::note 接続方法の詳細
-ウォレット接続の詳しい手順は [L07: ウォレットをPTB Builderに接続する](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder) を参照してください。
-:::
-
-### 3. 送金先アドレスを2つ用意する
-
-2人に送金するには、送金先のアドレスが2つ必要です。
-
-テストなので、以下のいずれかの方法でアドレスを用意しましょう：
-
-- **方法1**: Slushウォレットで新しいアカウントを作成し、そのアドレスを使う
-- **方法2**: 自分のアドレスを2回使う（自分自身に送金する形になります）
-
-:::tip 自分のアドレスの確認方法
-Slushウォレットを開いて、アドレス部分をクリックするとコピーできます。
-または、ターミナルで以下のコマンドを実行します：
-```bash
-sui client active-address
-```
+:::tip 重要なポイント
+同じ `gas` コインを2回使用している点に注目してください。
+PTBでは、1つのgasコインから複数回分割（SplitCoins）して、それぞれ別のアドレスに送金できます。
 :::
 
 :::tip 自分のアドレスに送った場合
@@ -84,113 +83,15 @@ sui client active-address
 挙動確認としては問題ありません。
 :::
 
-### 4. 1つ目の送金操作を追加
+---
 
-Editor画面で、以下の手順で1つ目の送金を設定します。
+## Explorerで確認
 
-#### 4.1 SplitCoinsコマンドを追加
+トランザクション実行後、Explorerで結果を確認しましょう：
 
-1. 画面を右クリックして、メニューから「**Sui Commands**」→「**SplitCoins**」を選択します
-2. 「**SplitCoins**」ノードが追加されます
-
-<!-- ![右クリックメニュー。Sui Commands → SplitCoins を選択](./img/L10_right_click_menu.png) -->
-
-#### 4.2 TransferObjectsコマンドを追加
-
-1. 再度画面を右クリックして、「**Sui Commands**」→「**TransferObjects**」を選択します
-2. 「**TransferObjects**」ノードが追加されます
-
-:::note なぜ SplitCoins が必要？
-Suiでは、送金は「コインオブジェクト単位」で行われます。
-そのため、送金額ぴったりのコインを SplitCoins で作り、
-そのコインを TransferObjects で送ります。
-:::
-
-#### 4.3 ノードを接続
-
-1. **Start** ノードの「**next**」ポートから **SplitCoins** ノードの「**prev**」ポートへドラッグして接続します
-2. **SplitCoins** ノードの「**next**」から **TransferObjects** ノードの「**prev**」へ接続します
-3. **TransferObjects** ノードの「**next**」から **End** ノードの「**prev**」へ接続します
-
-#### 4.4 変数を接続
-
-1. **gas** ノードを **SplitCoins** の「**in_coin**」に接続します（送金元のコイン）
-2. 送金額を設定するため、画面を右クリックして「**Variables**」→「**number**」を選択し、値を入力します（例: `1000000000` = 1 SUI）
-3. **number** ノードを **SplitCoins** の「**in_amount_0**」に接続します
-4. **SplitCoins** の「**out_coin_0**」を **TransferObjects** の「**in_object_0**」に接続します
-5. 送金先アドレスを設定するため、画面を右クリックして「**Variables**」→「**address**」を選択し、送金先アドレス1を入力します
-6. **address** ノードを **TransferObjects** の「**in_recipient**」に接続します
-
-これで1つ目の送金設定が完了です。
-
-<!-- ![1つ目の送金設定が完了した状態](./img/L10_first_transfer_complete.png) -->
-
-### 5. 2つ目の送金操作を追加
-
-同じ要領で2つ目の送金を追加します。
-
-#### 5.1 2つ目のSplitCoinsとTransferObjectsを追加
-
-1. 画面を右クリックして「**Sui Commands**」→「**SplitCoins**」を追加
-2. 同様に「**TransferObjects**」も追加
-
-#### 5.2 フローを接続
-
-1. 最初の **TransferObjects** ノードの「**next**」から **End** への接続を削除します
-2. 最初の **TransferObjects** の「**next**」を2つ目の **SplitCoins** の「**prev**」に接続します
-3. 2つ目の **SplitCoins** の「**next**」を2つ目の **TransferObjects** の「**prev**」に接続します
-4. 2つ目の **TransferObjects** の「**next**」を **End** の「**prev**」に接続します
-
-#### 5.3 2つ目の変数を接続
-
-1. **gas** ノードを2つ目の **SplitCoins** の「**in_coin**」にも接続します
-2. 新しい **number** ノードを追加し、2つ目の送金額を入力します（例: `2000000000` = 2 SUI）
-3. **number** ノードを2つ目の **SplitCoins** の「**in_amount_0**」に接続します
-4. 2つ目の **SplitCoins** の「**out_coin_0**」を2つ目の **TransferObjects** の「**in_object_0**」に接続します
-5. 新しい **address** ノードを追加し、送金先アドレス2を入力します
-6. **address** ノードを2つ目の **TransferObjects** の「**in_recipient**」に接続します
-
-:::note gas コインについて
-PTB Builderの `gas` は「ガス代専用」ではなく、
-通常の SUI コインとしても使われます。
-
-そのため、1つの gas コインを複数回 SplitCoins して
-送金に使うことができます。
-:::
-
-### 6. 完成したPTBを確認
-
-最終的なフローは以下のようになります：
-
-```
-Start → SplitCoins(1) → TransferObjects(1) → SplitCoins(2) → TransferObjects(2) → End
-```
-
-全体として：
-- **gas** からコインを2回分割（SplitCoins）
-- 分割したコインをそれぞれ別のアドレスに送金（TransferObjects）
-
-<!-- ![2つの送金を合成した完成形フロー](./img/L10_complete_flow.png) -->
-
-### 7. トランザクションを実行
-
-1. 画面右上の「**Execute**」ボタンをクリックします
-2. Slushウォレットのポップアップが表示されます
-3. 内容を確認して「**Approve**」をクリックします
-4. 成功すると Transaction Digest が表示されます
-
-<!-- ![トランザクション実行成功画面](./img/L10_execution_success.png) -->
-
-:::warning ガス残高を確認
-トランザクションを実行するにはガス代が必要です。残高が不足している場合は、先に [Faucet](/docs/getting-started/L06-get-test-tokens) で追加のSUIを取得してください。
-:::
-
-### 8. Explorerで確認
-
-1. 表示された Transaction Digest をコピーします
-2. [Suiscan (Devnet)](https://suiscan.xyz/?network=devnet) を開きます
-3. Transaction Digest を検索します
-4. **Transactions** セクションで、2つの TransferObjects 操作が含まれていることを確認します
+1. 表示された Transaction Digest の横の「**Explorer**」リンクをクリックします
+2. Suiscan（または別のExplorer）が開きます
+3. **Transactions** セクションで、2つの TransferObjects 操作が含まれていることを確認します
 
 ---
 
@@ -198,21 +99,25 @@ Start → SplitCoins(1) → TransferObjects(1) → SplitCoins(2) → TransferObj
 
 以下ができれば、このレッスンは完了です：
 
-- [ ] PTB Builderで2つのSplitCoins + TransferObjectsを設定できた
+- [ ] PTB Builderで2つの送金操作を確認できた
+- [ ] 必要に応じて金額や送金先を変更できた
 - [ ] 1つのトランザクションとして実行できた
 - [ ] Explorerで2つの送金操作が含まれていることを確認できた
+- [ ] gasコインが2回使用されていることを理解できた
 
 ---
 
 ## よくあるトラブル
 
-### 接続がうまくいかない
+### ウォレットが接続できない
 
-- ポート同士を正確にドラッグして接続してください
-- 型が合わないポートは接続できません（例: number を address に接続することはできません）
+- ブラウザ拡張機能のSlushウォレットがインストールされているか確認してください
+- ネットワークがDevnetに設定されているか確認してください
+- [L07: ウォレットをPTB Builderに接続する](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder) を参照してください
 
 ### Execute ボタンが押せない
 
+- ウォレットが接続されているか確認してください
 - すべてのノードが正しく接続されているか確認してください
 - Start から End まで途切れなくフローが繋がっている必要があります
 
@@ -220,20 +125,40 @@ Start → SplitCoins(1) → TransferObjects(1) → SplitCoins(2) → TransferObj
 
 - ガス残高が十分にあるか確認してください
 - 分割元の SUI コイン（gas）の残高が、送金額合計 + ガス代を上回っているか確認してください
+- 残高が不足している場合は、[Faucet](/docs/getting-started/L06-get-test-tokens) で追加のSUIを取得してください
 
 ---
 
-## 演習: TSコードに変換してみよう
+## 演習: TypeScriptコードで実装してみよう
 
 PTB Builderには、作成したPTBをTypeScriptコードとしてエクスポートする機能があります。
 
 1. 画面右上の「**Export**」ボタンをクリックします
 2. 表示されたTypeScriptコードを確認します
 
-このコードは、次のレッスン（L11）で詳しく解説します。今は「GUIで作ったものがコードになるんだ」ということを確認できればOKです。
+TypeScriptで同じことを実装すると、以下のようになります：
+
+```typescript
+import { Transaction } from '@mysten/sui/transactions';
+
+const tx = new Transaction();
+
+// 1つ目の送金
+const [coin1] = tx.splitCoins(tx.gas, [1_000_000_000]); // 1 SUI
+tx.transferObjects([coin1], recipientAddress1);
+
+// 2つ目の送金
+const [coin2] = tx.splitCoins(tx.gas, [2_000_000_000]); // 2 SUI
+tx.transferObjects([coin2], recipientAddress2);
+
+// トランザクションを実行
+const result = await signAndExecuteTransaction({ transaction: tx });
+```
+
+このコードは、次のレッスンで詳しく解説します。今は「GUIで作ったものがコードになるんだ」ということを確認できればOKです。
 
 :::tip
-エクスポートされるコードは、CLI で書く PTB と本質的に同じ構造です。
+エクスポートされるコードは、CLIやSDKで書くPTBと本質的に同じ構造です。
 :::
 
 ---
@@ -241,7 +166,7 @@ PTB Builderには、作成したPTBをTypeScriptコードとしてエクスポ�
 ## このレッスンでやったこと
 
 - [x] PTB（Programmable Transaction Block）の概念を理解した
-- [x] PTB Builderで2つの送金操作を設定した
+- [x] サイト内のPTB Builderで2つの送金操作を確認した
 - [x] 1つのトランザクションにまとめて実行した
 - [x] Explorerで結果を確認した
-- [x] TSコードへのエクスポート機能を確認した 
+- [x] TypeScriptコードへのエクスポート機能を確認した
