@@ -7,6 +7,8 @@ import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-ki
 import type { Transaction } from '@mysten/sui/transactions';
 import { PTBBuilder, type Chain, type PTBDoc, type ToastVariant, usePTB } from '@zktx.io/ptb-builder';
 import { PTB_TEMPLATES } from '../templates/ptb';
+import { findTutorial } from '../tutorials';
+import type { TutorialStep } from '../tutorials/types';
 
 function usePtbTheme() {
   const { colorMode } = useColorMode();
@@ -100,10 +102,186 @@ function PtbBuilderInit({
   return null;
 }
 
+function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
+  const [current, setCurrent] = useState(0);
+  const [minimized, setMinimized] = useState(false);
+  const step = steps[current];
+  const isLast = current === steps.length - 1;
+
+  if (minimized) {
+    return (
+      <div style={{ position: 'absolute', top: 12, left: 12, zIndex: 10 }}>
+        <button
+          type="button"
+          onClick={() => setMinimized(false)}
+          style={{
+            padding: '6px 12px',
+            borderRadius: 8,
+            border: '1px solid var(--ifm-color-emphasis-300)',
+            background: 'var(--ifm-background-color)',
+            color: 'var(--ifm-font-color-base)',
+            cursor: 'pointer',
+            fontSize: 13,
+            opacity: 0.9,
+          }}
+        >
+          Guide ({current + 1}/{steps.length})
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 12,
+        left: 12,
+        zIndex: 10,
+        width: 320,
+        maxHeight: 'calc(100% - 24px)',
+        overflowY: 'auto',
+        background: 'var(--ifm-background-color)',
+        border: '1px solid var(--ifm-color-emphasis-300)',
+        borderRadius: 12,
+        padding: 16,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        fontSize: 13,
+        lineHeight: 1.6,
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <span style={{ fontWeight: 700, color: 'var(--ifm-color-primary)' }}>
+          Step {current + 1} / {steps.length}
+        </span>
+        <button
+          type="button"
+          onClick={() => setMinimized(true)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: 16,
+            color: 'var(--ifm-color-emphasis-600)',
+            padding: '0 4px',
+          }}
+          aria-label="Minimize guide"
+        >
+          —
+        </button>
+      </div>
+
+      <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 8 }}>{step.title}</div>
+
+      <ul style={{ margin: '0 0 8px', paddingLeft: 20 }}>
+        {step.instructions.map((inst, i) => (
+          <li key={i} style={{ marginBottom: 4 }}>{inst}</li>
+        ))}
+      </ul>
+
+      {step.tip && (
+        <div
+          style={{
+            background: 'var(--ifm-color-emphasis-100)',
+            borderRadius: 8,
+            padding: '8px 12px',
+            marginBottom: 8,
+            fontSize: 12,
+            color: 'var(--ifm-color-emphasis-700)',
+          }}
+        >
+          {step.tip}
+        </div>
+      )}
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
+        <button
+          type="button"
+          onClick={() => setCurrent((c) => c - 1)}
+          disabled={current === 0}
+          style={{
+            padding: '4px 12px',
+            borderRadius: 6,
+            border: '1px solid var(--ifm-color-emphasis-300)',
+            background: 'var(--ifm-background-color)',
+            color: current === 0 ? 'var(--ifm-color-emphasis-400)' : 'var(--ifm-font-color-base)',
+            cursor: current === 0 ? 'default' : 'pointer',
+            fontSize: 13,
+          }}
+        >
+          Back
+        </button>
+        {isLast ? (
+          <span style={{ padding: '4px 12px', fontWeight: 700, color: 'var(--ifm-color-success)' }}>
+            Complete!
+          </span>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setCurrent((c) => c + 1)}
+            style={{
+              padding: '4px 12px',
+              borderRadius: 6,
+              border: '1px solid var(--ifm-color-primary)',
+              background: 'var(--ifm-color-primary)',
+              color: '#fff',
+              cursor: 'pointer',
+              fontSize: 13,
+            }}
+          >
+            Next
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function PtbAnswerButton({ answerDoc }: { answerDoc: PTBDoc }) {
+  const { loadFromDoc } = usePTB();
+
+  const handleClick = useCallback(() => {
+    if (window.confirm('現在の内容が上書きされます。正解を表示しますか？')) {
+      loadFromDoc(answerDoc);
+    }
+  }, [loadFromDoc, answerDoc]);
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 12,
+        left: 12,
+        zIndex: 10,
+      }}
+    >
+      <button
+        type="button"
+        onClick={handleClick}
+        style={{
+          padding: '6px 14px',
+          borderRadius: 8,
+          border: '1px solid var(--ifm-color-emphasis-300)',
+          background: 'var(--ifm-color-emphasis-100)',
+          color: 'var(--ifm-font-color-base)',
+          cursor: 'pointer',
+          fontSize: 13,
+        }}
+      >
+        Show Answer
+      </button>
+    </div>
+  );
+}
+
 export function PtbBuilderDemo({
-  templateId = 'split',
+  templateId,
+  answerTemplateId,
+  tutorialId,
 }: {
   templateId?: string;
+  answerTemplateId?: string;
+  tutorialId?: string;
 }): React.ReactNode {
   const account = useCurrentAccount();
   const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
@@ -181,12 +359,23 @@ export function PtbBuilderDemo({
     return selectedTemplate.getDoc({ chain: 'sui:devnet' });
   }, [selectedTemplate]);
 
+  const answerDoc = useMemo(() => {
+    if (!answerTemplateId) return null;
+    const tmpl = PTB_TEMPLATES.find((t) => t.id === answerTemplateId);
+    return tmpl ? tmpl.getDoc({ chain: 'sui:devnet' }) : null;
+  }, [answerTemplateId]);
+
+  const tutorial = useMemo(() => {
+    if (!tutorialId) return null;
+    return findTutorial(tutorialId) ?? null;
+  }, [tutorialId]);
+
   return (
     <div style={{ display: 'grid', gap: 12 }}>
       {header}
       <div
         ref={containerRef}
-        style={{ height: '80vh', border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: 12, overflow: 'hidden' }}
+        style={{ height: '80vh', border: '1px solid var(--ifm-color-emphasis-200)', borderRadius: 12, overflow: 'hidden', position: 'relative' }}
       >
         <PTBBuilder
           theme={theme}
@@ -201,6 +390,8 @@ export function PtbBuilderDemo({
             docToLoad={docToLoad}
             containerRef={containerRef}
           />
+          {tutorial && <PtbTutorialGuide steps={tutorial.steps} />}
+          {answerDoc && <PtbAnswerButton answerDoc={answerDoc} />}
         </PTBBuilder>
       </div>
     </div>
