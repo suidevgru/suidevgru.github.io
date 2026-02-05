@@ -1,13 +1,137 @@
 ---
 sidebar_position: 10
-title: "[DRAFT] Combine Two Operations"
+title: "Combine Two Operations"
 description: "Combine multiple operations into a single transaction"
 ---
 
-# [DRAFT] Combine Two Operations
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import { PtbBuilderDemo } from '@site/src/components/PtbBuilderDemo';
 
-:::info Draft
-This is a placeholder for the English version. The Japanese version is the source for this lesson.
+# Combine Two Operations
+
+In this lesson, you'll use PTB Builder to **build a PTB from scratch that combines two transfer operations into a single transaction**. **It's not difficult**—follow the steps and you'll have it done in no time.
+
+## What is a PTB (Programmable Transaction Block)?
+
+On Sui, you can combine multiple operations into **a single transaction**. This is called a **PTB (Programmable Transaction Block)**.
+
+Using a PTB gives you the following benefits:
+
+- **Save on gas fees (mainly overhead)** — Instead of splitting operations into multiple transactions, you can consolidate signatures and base costs into one
+- **Atomicity** — Either all operations succeed, or they all fail (no half-finished states)
+- **Efficient** — Complete multiple operations with a single signature
+
+:::tip How PTB works
+If you send "1 SUI to A" and "2 SUI to B" separately, you need 2 signatures and pay gas fees twice.
+With a PTB, you only need 1 signature and 1 gas fee.
 :::
 
-Coming soon.
+---
+
+## Prerequisites
+
+Before starting this lesson, make sure you have completed the following:
+
+- [Installed Slush wallet](/docs/getting-started/L01-install-slush)
+- [Switched to Devnet](/docs/getting-started/L02-switch-devnet)
+- [Got test tokens from Faucet](/docs/getting-started/L06-get-test-tokens)
+
+---
+
+## Build Two Transfers with PTB Builder
+
+The visual editor below is **empty**—only the `Start` and `End` nodes are present.
+
+Follow the **guide** in the top-left corner to add and connect nodes, building two transfer operations into a single transaction.
+First, connect your **Slush wallet** using the wallet icon in the top-right corner of the site header.
+
+<BrowserOnly>
+  {() => <PtbBuilderDemo answerTemplateId="double-transfer" tutorialId="double-transfer" />}
+</BrowserOnly>
+
+---
+
+## Verify in Explorer
+
+After executing the transaction, verify the results in Explorer:
+
+1. Click the link next to the displayed Transaction Digest
+2. Suiscan (or another Explorer) will open
+3. In the **Transactions** section, confirm that two TransferObjects operations are included
+
+---
+
+## Exercise: Implement in TypeScript
+
+PTB Builder has a feature to export the PTB you created as TypeScript code.
+
+1. Click the "**Export**" button (↓ icon) at the bottom-right of the builder
+2. A `.ptb` file will be downloaded
+
+Here's what the same thing looks like implemented in TypeScript:
+
+```typescript
+import { Transaction } from '@mysten/sui/transactions';
+
+const tx = new Transaction();
+
+// First transfer
+const [coin1] = tx.splitCoins(tx.gas, [1_000_000_000]); // 1 SUI
+tx.transferObjects([coin1], recipientAddress1);
+
+// Second transfer
+const [coin2] = tx.splitCoins(tx.gas, [2_000_000_000]); // 2 SUI
+tx.transferObjects([coin2], recipientAddress2);
+
+// Execute the transaction
+const result = await signAndExecuteTransaction({ transaction: tx });
+```
+
+We'll explain this code in detail in the next lesson. For now, just confirm that what you built in the GUI can be expressed as code.
+
+:::tip
+The exported code has essentially the same structure as PTBs written with the CLI or SDK.
+:::
+
+---
+
+## Verify Success
+
+You've completed this lesson if you can check off the following:
+
+- [ ] Added nodes to an empty PTB Builder and built a two-transfer PTB
+- [ ] Connected the gas node to two SplitCoins
+- [ ] Executed everything as a single transaction
+- [ ] Confirmed in Explorer that two transfer operations are included
+
+---
+
+## Common Issues
+
+### Wallet won't connect
+
+- Make sure the Slush wallet browser extension is installed
+- Make sure the network is set to Devnet
+- See [L07: Connect Wallet to PTB Builder](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder) for details
+
+### Execute button is not clickable
+
+- Make sure your wallet is connected
+- Make sure all nodes are properly connected
+- The flow must be connected without breaks from Start to End
+
+### Transaction fails
+
+- Make sure you have enough gas balance
+- The balance of the source SUI coin (gas) must exceed the total transfer amount plus gas fees
+- If your balance is insufficient, get more SUI from the [Faucet](/docs/getting-started/L06-get-test-tokens)
+
+---
+
+## What You Did in This Lesson
+
+- [x] Understood the concept of PTB (Programmable Transaction Block)
+- [x] Added and connected nodes from an empty PTB Builder to build a two-transfer PTB
+- [x] Executed everything as a single transaction
+- [x] Verified the results in Explorer
+- [x] Confirmed the TypeScript code export feature

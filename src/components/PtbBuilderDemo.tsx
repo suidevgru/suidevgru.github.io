@@ -3,12 +3,26 @@ import '@zktx.io/ptb-builder/styles/themes-all.css';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import type { Transaction } from '@mysten/sui/transactions';
 import { PTBBuilder, type Chain, type PTBDoc, type ToastVariant, usePTB } from '@zktx.io/ptb-builder';
 import { PTB_TEMPLATES } from '../templates/ptb';
 import { findTutorial } from '../tutorials';
-import type { TutorialStep } from '../tutorials/types';
+import type { ResolvedTutorialStep } from '../tutorials/types';
+
+const UI_LABELS = {
+  en: { guide: 'Guide', step: 'Step', back: 'Back', next: 'Next', complete: 'Complete!', showAnswer: 'Show Answer', confirmOverwrite: 'Current content will be overwritten. Show the answer?' },
+  ja: { guide: 'ガイド', step: 'ステップ', back: '戻る', next: '次へ', complete: '完了！', showAnswer: '正解を表示', confirmOverwrite: '現在の内容が上書きされます。正解を表示しますか？' },
+  ko: { guide: '가이드', step: '스텝', back: '뒤로', next: '다음', complete: '완료!', showAnswer: '정답 보기', confirmOverwrite: '현재 내용이 덮어씌워집니다. 정답을 표시할까요?' },
+} as const;
+
+type UiLabels = (typeof UI_LABELS)[keyof typeof UI_LABELS];
+
+function getUiLabels(locale: string): UiLabels {
+  if (locale in UI_LABELS) return UI_LABELS[locale as keyof typeof UI_LABELS];
+  return UI_LABELS.en;
+}
 
 function usePtbTheme() {
   const { colorMode } = useColorMode();
@@ -102,7 +116,7 @@ function PtbBuilderInit({
   return null;
 }
 
-function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
+function PtbTutorialGuide({ steps, labels }: { steps: ResolvedTutorialStep[]; labels: UiLabels }) {
   const [current, setCurrent] = useState(0);
   const [minimized, setMinimized] = useState(false);
   const step = steps[current];
@@ -125,7 +139,7 @@ function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
             opacity: 0.9,
           }}
         >
-          Guide ({current + 1}/{steps.length})
+          {labels.guide} ({current + 1}/{steps.length})
         </button>
       </div>
     );
@@ -152,7 +166,7 @@ function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <span style={{ fontWeight: 700, color: 'var(--ifm-color-primary)' }}>
-          Step {current + 1} / {steps.length}
+          {labels.step} {current + 1} / {steps.length}
         </span>
         <button
           type="button"
@@ -209,11 +223,11 @@ function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
             fontSize: 13,
           }}
         >
-          Back
+          {labels.back}
         </button>
         {isLast ? (
           <span style={{ padding: '4px 12px', fontWeight: 700, color: 'var(--ifm-color-success)' }}>
-            Complete!
+            {labels.complete}
           </span>
         ) : (
           <button
@@ -229,7 +243,7 @@ function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
               fontSize: 13,
             }}
           >
-            Next
+            {labels.next}
           </button>
         )}
       </div>
@@ -237,14 +251,14 @@ function PtbTutorialGuide({ steps }: { steps: TutorialStep[] }) {
   );
 }
 
-function PtbAnswerButton({ answerDoc }: { answerDoc: PTBDoc }) {
+function PtbAnswerButton({ answerDoc, labels }: { answerDoc: PTBDoc; labels: UiLabels }) {
   const { loadFromDoc } = usePTB();
 
   const handleClick = useCallback(() => {
-    if (window.confirm('現在の内容が上書きされます。正解を表示しますか？')) {
+    if (window.confirm(labels.confirmOverwrite)) {
       loadFromDoc(answerDoc);
     }
-  }, [loadFromDoc, answerDoc]);
+  }, [loadFromDoc, answerDoc, labels.confirmOverwrite]);
 
   return (
     <div
@@ -268,7 +282,7 @@ function PtbAnswerButton({ answerDoc }: { answerDoc: PTBDoc }) {
           fontSize: 13,
         }}
       >
-        Show Answer
+        {labels.showAnswer}
       </button>
     </div>
   );
@@ -283,6 +297,8 @@ export function PtbBuilderDemo({
   answerTemplateId?: string;
   tutorialId?: string;
 }): React.ReactNode {
+  const { i18n: { currentLocale } } = useDocusaurusContext();
+  const labels = getUiLabels(currentLocale);
   const account = useCurrentAccount();
   const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
   const theme = usePtbTheme();
@@ -367,8 +383,8 @@ export function PtbBuilderDemo({
 
   const tutorial = useMemo(() => {
     if (!tutorialId) return null;
-    return findTutorial(tutorialId) ?? null;
-  }, [tutorialId]);
+    return findTutorial(tutorialId, currentLocale) ?? null;
+  }, [tutorialId, currentLocale]);
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
@@ -390,8 +406,8 @@ export function PtbBuilderDemo({
             docToLoad={docToLoad}
             containerRef={containerRef}
           />
-          {tutorial && <PtbTutorialGuide steps={tutorial.steps} />}
-          {answerDoc && <PtbAnswerButton answerDoc={answerDoc} />}
+          {tutorial && <PtbTutorialGuide steps={tutorial.steps} labels={labels} />}
+          {answerDoc && <PtbAnswerButton answerDoc={answerDoc} labels={labels} />}
         </PTBBuilder>
       </div>
     </div>
