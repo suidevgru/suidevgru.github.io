@@ -1,0 +1,125 @@
+---
+sidebar_position: 11
+title: "PTB Builder에서 TS 코드 생성"
+description: "PTB Builder에서 TypeScript 코드를 생성하고 확인하기"
+---
+
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import { PtbBuilderDemo } from '@site/src/components/PtbBuilderDemo';
+
+# PTB Builder에서 TS 코드 생성
+
+이 레슨에서는 PTB Builder에서 만든 PTB를 **TypeScript 코드로 내보내기(Export)**하는 방법을 배웁니다. **어렵지 않습니다**. 버튼을 클릭하기만 하면 됩니다.
+
+## 왜 내보내기가 편리한가?
+
+PTB Builder는 비주얼 에디터로 직관적으로 PTB를 조립할 수 있는 편리한 도구입니다. 하지만 실제 dApp 개발에서는 **코드로 트랜잭션을 구축**해야 합니다.
+
+내보내기 기능을 사용하면:
+
+- **GUI로 조립한 내용을 코드로 확인**할 수 있습니다
+- **학습의 발판**이 됩니다 (코드 작성 방법을 모르더라도 GUI로 조립한 후 내보내기하면 참고할 수 있습니다)
+- **구현의 출발점**으로 활용할 수 있습니다
+
+---
+
+## 사전 준비
+
+이 레슨을 시작하기 전에 다음 사항이 완료되었는지 확인하세요:
+
+- [L10: 2개의 작업을 합성](/docs/learn/beginner/L10-combine-two-operations) 완료 (권장)
+- VSCode에 [Sui Extension](/docs/getting-started/L04-vscode-sui-extension)이 설치되어 있어야 합니다
+
+:::tip
+L10을 완료하지 않았어도 괜찮습니다. 이 레슨에서는 샘플 PTB를 사용하여 내보내기 기능을 체험합니다.
+:::
+
+---
+
+## PTB Builder에서 내보내기를 시도해 보세요
+
+아래의 비주얼 에디터에는 이전 레슨(L10)에서 조립한 "2개의 송금을 하나의 트랜잭션으로 합치는 PTB"가 미리 로드되어 있습니다.
+
+왼쪽 상단의 **가이드**를 따라 내보내기 절차를 체험해 보세요.
+
+<BrowserOnly>
+  {() => <PtbBuilderDemo templateId="double-transfer" tutorialId="ts-export" />}
+</BrowserOnly>
+
+---
+
+## 다운로드한 .ptb 파일을 VSCode에서 열기
+
+내보내기한 `.ptb` 파일은 TypeScript 코드가 아니라 **PTB의 그래프 정의가 JSON 형식으로 저장된 파일**입니다.
+
+VSCode에 **sui extension**이 설치된 상태에서 `.ptb` 파일을 열면 웹 버전과 동일한 **PTB Builder UI**가 표시됩니다. VSCode에서도 ts-sdk preview 윈도우에서 TypeScript 코드를 확인할 수 있습니다.
+
+즉, `.ptb` 파일을 만들면 **VSCode 내에서 PTB를 작성하고 편집**할 수도 있습니다.
+
+![VSCode에서 .ptb 파일을 열은 화면](./img/L11_vscode-ptb-builder.png)
+
+:::tip
+sui extension 설치 방법은 [VSCode에 Sui Extension 도입하기](/docs/getting-started/L04-vscode-sui-extension)에서 소개하고 있습니다.
+:::
+
+---
+
+## TS 코드 확인하기
+
+ts-sdk preview 윈도우에 표시되는 TypeScript 코드는 다음과 같은 구조로 되어 있습니다:
+
+```typescript
+// Auto-generated from PTB Program (chain: sui:devnet)
+import { Transaction } from '@mysten/sui/transactions';
+
+const myAddress = '0xe8d3...'; // 접속 중인 지갑 주소
+const tx = new Transaction();
+tx.setSenderIfNotSet(myAddress);
+// tx.setGasBudgetIfNotSet(500_000_000);
+
+const sender_0 = myAddress;
+const gas_0 = tx.gas;
+const var_id_0 = 1000000000;
+const var_id_1 = 2000000000;
+
+const [out_1_0] = tx.splitCoins(gas_0, [var_id_0]);
+tx.transferObjects([out_1_0], sender_0);
+const [out_2_0] = tx.splitCoins(gas_0, [var_id_1]);
+tx.transferObjects([out_2_0], sender_0);
+
+export { tx };
+```
+
+:::info 코드 해설
+- `Transaction` 클래스를 임포트하고 새로운 트랜잭션을 생성합니다
+- `myAddress`에는 접속 중인 지갑 주소가 들어갑니다
+- `gas_0 = tx.gas`로 가스 코인을 참조하고, `splitCoins`로 지정한 금액을 분할합니다
+- `transferObjects`로 분할한 코인을 `sender_0`(자신의 주소)에 전송합니다
+- `splitCoins` → `transferObjects` → `splitCoins` → `transferObjects`의 4개 명령이 하나의 PTB로 묶여 있습니다
+- `export { tx }`로 트랜잭션 객체를 내보냅니다
+:::
+
+---
+
+## 성공 확인
+
+다음을 할 수 있다면 이 레슨은 완료입니다:
+
+- [ ] ts-sdk preview 윈도우에서 TypeScript 코드를 확인했다
+- [ ] "Export" 버튼으로 `.ptb` 파일을 다운로드했다
+- [ ] VSCode + sui extension에서 `.ptb` 파일을 PTB Builder로 열 수 있었다
+
+---
+
+## 이 레슨에서 한 일
+
+- [x] PTB Builder의 Export 기능의 목적을 이해했습니다
+- [x] ts-sdk preview 윈도우에서 TS 코드를 확인했습니다
+- [x] Export 버튼을 클릭하여 .ptb 파일을 다운로드했습니다
+- [x] VSCode + sui extension에서 .ptb 파일을 열었습니다
+
+---
+
+## 다음 단계
+
+내보내기한 코드는 Unit 4(TypeScript SDK)에서 실제로 사용합니다. GUI로 조립한 내용이 코드에서 어떻게 표현되는지 이 단계에서 확인해 두면 SDK를 배울 때 이해가 깊어집니다.
