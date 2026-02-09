@@ -61,40 +61,6 @@ PTBでまとめると、1回の署名・1回のガス代で済みます。
 
 ---
 
-## 演習: TypeScriptコードで実装してみよう
-
-PTB Builderには、作成したPTBをTypeScriptコードとしてエクスポートする機能があります。
-
-1. ビルダー右下の「**Export**」ボタン（↓アイコン）をクリックします
-2. `.ptb` ファイルとしてダウンロードされます
-
-TypeScriptで同じことを実装すると、以下のようになります：
-
-```typescript
-import { Transaction } from '@mysten/sui/transactions';
-
-const tx = new Transaction();
-
-// 1つ目の送金
-const [coin1] = tx.splitCoins(tx.gas, [1_000_000_000]); // 1 SUI
-tx.transferObjects([coin1], recipientAddress1);
-
-// 2つ目の送金
-const [coin2] = tx.splitCoins(tx.gas, [2_000_000_000]); // 2 SUI
-tx.transferObjects([coin2], recipientAddress2);
-
-// トランザクションを実行
-const result = await signAndExecuteTransaction({ transaction: tx });
-```
-
-このコードは、次のレッスンで詳しく解説します。今は「GUIで作ったものがコードになるんだ」ということを確認できればOKです。
-
-:::tip
-エクスポートされるコードは、CLIやSDKで書くPTBと本質的に同じ構造です。
-:::
-
----
-
 ## 成功の確認
 
 以下ができれば、このレッスンは完了です：
@@ -134,4 +100,3 @@ const result = await signAndExecuteTransaction({ transaction: tx });
 - [x] 空のPTB Builderからノードを追加・接続して、2つの送金PTBを組み立てた
 - [x] 1つのトランザクションにまとめて実行した
 - [x] Explorerで結果を確認した
-- [x] TypeScriptコードへのエクスポート機能を確認した

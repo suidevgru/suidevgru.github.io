@@ -61,40 +61,6 @@ After executing the transaction, verify the results in Explorer:
 
 ---
 
-## Exercise: Implement in TypeScript
-
-PTB Builder has a feature to export the PTB you created as TypeScript code.
-
-1. Click the "**Export**" button (↓ icon) at the bottom-right of the builder
-2. A `.ptb` file will be downloaded
-
-Here's what the same thing looks like implemented in TypeScript:
-
-```typescript
-import { Transaction } from '@mysten/sui/transactions';
-
-const tx = new Transaction();
-
-// First transfer
-const [coin1] = tx.splitCoins(tx.gas, [1_000_000_000]); // 1 SUI
-tx.transferObjects([coin1], recipientAddress1);
-
-// Second transfer
-const [coin2] = tx.splitCoins(tx.gas, [2_000_000_000]); // 2 SUI
-tx.transferObjects([coin2], recipientAddress2);
-
-// Execute the transaction
-const result = await signAndExecuteTransaction({ transaction: tx });
-```
-
-We'll explain this code in detail in the next lesson. For now, just confirm that what you built in the GUI can be expressed as code.
-
-:::tip
-The exported code has essentially the same structure as PTBs written with the CLI or SDK.
-:::
-
----
-
 ## Verify Success
 
 You've completed this lesson if you can check off the following:
@@ -134,4 +100,3 @@ You've completed this lesson if you can check off the following:
 - [x] Added and connected nodes from an empty PTB Builder to build a two-transfer PTB
 - [x] Executed everything as a single transaction
 - [x] Verified the results in Explorer
-- [x] Confirmed the TypeScript code export feature
