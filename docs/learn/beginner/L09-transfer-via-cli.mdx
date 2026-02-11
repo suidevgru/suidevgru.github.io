@@ -1,0 +1,207 @@
+---
+sidebar_position: 9
+title: "Transfer via CLI"
+description: "Learn how to send SUI tokens using the Sui CLI"
+---
+
+# Transfer via CLI
+
+In this lesson, you'll learn how to send SUI tokens to another address using the Sui CLI. This is one of the most fundamental operations on a blockchain. With just one command, you can transfer tokens—it's not difficult!
+
+:::tip Why learn CLI transfers?
+While wallets provide a user-friendly interface, understanding CLI transfers allows you to:
+- Automate transactions with scripts
+- Test and debug your applications
+- Gain a deeper understanding of transaction structure
+:::
+
+---
+
+## Prerequisites
+
+Before starting this lesson, make sure you have completed the following:
+
+- Sui CLI installed (verify with `sui --version`) — [Install Sui CLI](/docs/getting-started/L03-install-sui-cli)
+- CLI connected to Devnet (`sui client active-env` returns `devnet`) — [Connect CLI to Devnet](/docs/getting-started/L05-connect-cli-to-devnet)
+- Test SUI obtained from Faucet (check balance with `sui client gas`) — [Get Test Tokens](/docs/getting-started/L06-get-test-tokens)
+
+---
+
+## Steps
+
+### 1. Check your current address and balance
+
+First, let's check your current address and SUI balance.
+
+```bash
+sui client active-address
+```
+
+You'll see your address displayed like this:
+```
+0x1234abcd...
+```
+
+Next, check your balance:
+
+```bash
+sui client gas
+```
+
+You'll see output like this:
+```
+╭────────────────────────────────────────────────────────────────────┬────────────────────┬──────────────────╮
+│ gasCoinId                                                          │ mistBalance (MIST) │ suiBalance (SUI) │
+├────────────────────────────────────────────────────────────────────┼────────────────────┼──────────────────┤
+│ 0xabcd1234...                                                      │ 1000000000         │ 1.00             │
+╰────────────────────────────────────────────────────────────────────┴────────────────────┴──────────────────╯
+```
+
+:::info MIST and SUI
+1 SUI = 1,000,000,000 MIST (1 billion MIST). MIST is the smallest unit of SUI, similar to satoshi for Bitcoin.
+:::
+
+### 2. Get the recipient address
+
+For the recipient, we'll use your Slush wallet address that you created in [Install Slush Wallet](/docs/getting-started/L01-install-slush).
+
+The CLI address (generated in [Connect CLI to Devnet](/docs/getting-started/L05-connect-cli-to-devnet)) and the address you first created in Slush are **different addresses**. In this lesson, we'll send SUI from the CLI address to the Slush wallet address.
+
+**How to find your Slush wallet address:**
+
+1. Open the Slush browser extension
+2. Click the user icon ① in the bottom right, then select "**Manage all**" ②
+3. Switch to the account you created in [Install Slush Wallet](/docs/getting-started/L01-install-slush) (not the CLI account you imported in [Connect CLI to Devnet](/docs/getting-started/L05-connect-cli-to-devnet))
+4. Copy the address (`0x...`)
+
+![Open account management in Slush](./img/L09_slush-manage-accounts.png)
+
+:::tip How to identify your addresses
+If you have multiple accounts in Slush, you can switch between them using the user icon in the bottom right. The account that received SUI from the Faucet in [Get Test Tokens](/docs/getting-started/L06-get-test-tokens) (CLI address) will have a balance, while the account you first created in [Install Slush Wallet](/docs/getting-started/L01-install-slush) should have a balance of 0.
+:::
+
+### 3. Transfer SUI using PTB
+
+Now let's send some SUI! Replace `<RECIPIENT_ADDRESS>` with the recipient's address:
+
+```bash
+sui client ptb \
+  --split-coins gas "[1000000000]" \
+  --assign coins \
+  --transfer-objects "[coins]" @<RECIPIENT_ADDRESS> \
+  --gas-budget 10000000
+```
+
+:::info Command explanation
+- `--split-coins gas "[1000000000]"`: Splits 1000000000 MIST (= 1 SUI) from the gas coin. Using the `gas` keyword lets the CLI automatically select which coin to use
+- `--assign coins`: Assigns the split coins to a variable called `coins`
+- `--transfer-objects "[coins]" @<ADDRESS>`: Transfers `coins` to the specified address (note the `@` before the address; don't include the `<>`, replace with the actual address)
+- `--gas-budget`: The **maximum** gas fee (in MIST). Only the amount actually used is consumed, and the rest is returned (e.g., 10000000 MIST = 0.01 SUI)
+:::
+
+:::tip What is PTB (Programmable Transaction Block)?
+PTB is a powerful feature of Sui that allows you to combine multiple operations into a single transaction. In this case, we're performing two operations—"split coins → transfer"—in one transaction.
+:::
+
+When you run the command, you'll see detailed output like this:
+
+```
+Transaction Digest: AbC123xYz...
+╭─────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Transaction Data                                                                                │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Sender: 0x1234abcd...                                                                           │
+│ ...                                                                                             │
+```
+
+The **Transaction Digest** is the unique ID of your transaction. Make sure to copy this!
+
+### 4. Verify the transaction
+
+Let's confirm that the transaction was successful.
+
+#### Check in Explorer
+
+You can verify on Suiscan:
+
+1. Go to [Suiscan (Devnet)](https://suiscan.xyz/devnet/home)
+2. Make sure you're on **Devnet**
+3. Paste the Transaction Digest in the search box
+4. Confirm that the transaction shows "Success"
+
+![Transaction confirmation on Suiscan](./img/L09_suiscan-success.png)
+
+For more details on reading transactions in Explorer, see [Read Transactions in Explorer](/docs/learn/beginner/L08-read-tx-in-explorer).
+
+#### Check in PTB Builder
+
+You can use the Viewer feature in [PTB Builder](https://ptb.wal.app/) to visually inspect your transaction:
+
+1. Go to [PTB Builder (ptb.wal.app)](https://ptb.wal.app/)
+2. Set the network to **DEVNET** and connect Slush via "**Connect Wallet**"
+3. Select "**Viewer**"
+4. Paste the Transaction Digest in the search box
+5. The transaction structure (SplitCoins → TransferObjects) will be displayed visually
+
+![PTB Builder Viewer](./img/L09_ptb-builder-viewer.png)
+
+For more details on using PTB Builder, see [Connect Wallet to PTB Builder](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder).
+
+### 5. Check balance changes
+
+Finally, let's verify the transfer by checking the balances of both addresses.
+
+**CLI address (sender) balance:**
+
+```bash
+sui client gas
+```
+
+Confirm that the balance has decreased from before (by the transfer amount + gas fee).
+
+**Slush wallet address (recipient) balance:**
+
+Open Slush and switch to the account you created in [Install Slush Wallet](/docs/getting-started/L01-install-slush). You should see the transferred SUI reflected in the balance.
+
+![Check balance in Slush wallet](./img/L09_slush-balance.png)
+
+:::tip It may take a moment to reflect
+On Devnet, transactions usually reflect within seconds, but occasionally it may take a bit longer. Try reloading the Slush screen.
+:::
+
+---
+
+## Success Criteria
+
+You've completed this lesson if you can:
+
+- Successfully execute a transfer using `sui client ptb`
+- Obtain the `Transaction Digest`
+- Verify the transaction status in `Explorer (Suiscan)` / `PTB Builder`
+- Confirm balance changes on both the sender and recipient sides
+
+---
+
+## Common Issues
+
+### "Insufficient gas" error
+
+Your account doesn't have enough SUI to pay for gas. Get additional tokens from the [Faucet](/docs/getting-started/L06-get-test-tokens).
+
+### "Invalid address" error
+
+- Make sure the recipient address is correct (it should start with `0x`)
+- Check that there are no extra spaces or characters
+
+### Transaction shows "Failed"
+
+- Check the error message in the transaction details
+
+---
+
+## What You Did in This Lesson
+
+- [x] Learned how to check your address and balance with CLI
+- [x] Learned how to transfer SUI using PTB (`sui client ptb`)
+- [x] Understood the relationship between MIST and SUI
+- [x] Verified transactions using CLI and Explorer
