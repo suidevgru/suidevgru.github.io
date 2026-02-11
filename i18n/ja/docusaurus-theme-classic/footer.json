@@ -1,14 +1,26 @@
 {
   "link.title.Docs": {
-    "message": "ドキュメント",
+    "message": "Docs",
     "description": "The title of the footer links column with title=Docs in the footer"
   },
   "link.title.Community": {
-    "message": "コミュニティ",
+    "message": "Community",
     "description": "The title of the footer links column with title=Community in the footer"
   },
+  "link.title.Project": {
+    "message": "Project",
+    "description": "The title of the footer links column with title=Project in the footer"
+  },
+  "link.title.Core": {
+    "message": "Core",
+    "description": "The title of the footer links column with title=Core in the footer"
+  },
+  "link.title.Move": {
+    "message": "Move",
+    "description": "The title of the footer links column with title=Move in the footer"
+  },
   "link.title.More": {
-    "message": "その他",
+    "message": "More",
     "description": "The title of the footer links column with title=More in the footer"
   },
   "link.item.label.Tutorial": {
