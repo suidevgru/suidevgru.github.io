@@ -1,0 +1,104 @@
+---
+sidebar_position: 10
+title: "PTBで複数コマンドをまとめて実行"
+description: "複数のコマンドを1つのトランザクションで実行する"
+---
+
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import { PtbBuilderDemo } from '@site/src/components/PtbBuilderDemo';
+
+# PTBで複数コマンドをまとめて実行
+
+このレッスンでは、PTB Builderを使って**複数の送金コマンドを1つのトランザクションにまとめるPTBを、ゼロから自分で組み立て**ます。**難しくありません**。手順どおりに進めれば完成します。
+
+## PTB（Programmable Transaction Block）とは
+
+Suiでは、複数のコマンドを**1つのトランザクション**にまとめて実行できます。これを **PTB（Programmable Transaction Block）** と呼びます。
+
+PTBを使うと、以下のようなメリットがあります：
+
+- **トランザクションのオーバーヘッドを削減** — 各コマンドの実行コストは支払いますが、署名コストと基本トランザクション手数料をまとめることで節約できます
+- **原子性（アトミック性）** — すべてのコマンドが成功するか、すべて失敗するかのどちらかになります（中途半端な状態になりません）
+- **効率的** — 1回の署名で複数のコマンドを完了できます
+
+:::tip PTBのイメージ
+「Aさんに1 SUI送金」と「Bさんに2 SUI送金」を別々のトランザクションで実行すると、2回署名が必要で、トランザクションのオーバーヘッドも2回かかります。
+PTBでまとめると、1回の署名・1回のオーバーヘッドで済みます。各コマンドの実行コストは支払いますが、オーバーヘッドを節約できます。
+:::
+
+---
+
+## 前提条件
+
+このレッスンを始める前に、以下が完了していることを確認してください：
+
+- [Slushウォレットをインストール](/docs/getting-started/L01-install-slush) 済み
+- [Devnetに切り替え](/docs/getting-started/L02-switch-devnet) 済み
+- [Faucetでテストトークンを取得](/docs/getting-started/L06-get-test-tokens) 済み
+
+---
+
+## PTB Builder で複数コマンドのPTBを組み立てよう
+
+以下のビジュアルエディタは**空の状態**です。`Start` と `End` のノードだけがあります。
+
+左上の**ガイド**に従ってノードを追加・接続し、複数の送金コマンドを1つのトランザクションに組み立ててください。
+まず、サイトヘッダー右上のウォレットアイコンから**Slushウォレットを接続**してください。
+
+<BrowserOnly>
+  {() => <PtbBuilderDemo answerTemplateId="double-transfer" tutorialId="double-transfer" />}
+</BrowserOnly>
+
+---
+
+## Explorerで確認
+
+トランザクション実行後、Explorerで結果を確認しましょう：
+
+1. 表示された Transaction Digest の横のリンクをクリックします
+2. Suiscan（または別のExplorer）が開きます
+3. **Transactions** セクションで、以下のコマンドが含まれていることを確認します：
+   - **SplitCoins** — gasコインを各送金額に分割するコマンド
+   - **TransferObjects** — 2回表示されます（各受取人への送金）
+
+---
+
+## 成功の確認
+
+以下ができれば、このレッスンは完了です：
+
+- [ ] 空のPTB Builderにノードを追加して、複数コマンドのPTBを組み立てられた
+- [ ] gas ノードを SplitCoins コマンドに接続できた
+- [ ] 複数のコマンドを1つのトランザクションとして実行できた
+- [ ] ExplorerでSplitCoinsと2つのTransferObjectsコマンドが含まれていることを確認できた
+
+---
+
+## よくあるトラブル
+
+### ウォレットが接続できない
+
+- ブラウザ拡張機能のSlushウォレットがインストールされているか確認してください
+- ネットワークがDevnetに設定されているか確認してください
+- [L07: ウォレットをPTB Builderに接続する](/docs/learn/beginner/L07-connect-wallet-to-ptb-builder) を参照してください
+
+### Execute ボタンが押せない
+
+- ウォレットが接続されているか確認してください
+- すべてのノードが正しく接続されているか確認してください
+- Start から End まで途切れなくフローが繋がっている必要があります
+
+### トランザクションが失敗する
+
+- ガス残高が十分にあるか確認してください
+- 分割元の SUI コイン（gas）の残高が、送金額合計 + ガス代を上回っているか確認してください
+- 残高が不足している場合は、[Faucet](/docs/getting-started/L06-get-test-tokens) で追加のSUIを取得してください
+
+---
+
+## このレッスンでやったこと
+
+- [x] PTB（Programmable Transaction Block）の概念を理解した
+- [x] 空のPTB Builderからノードを追加・接続して、複数コマンドのPTBを組み立てた
+- [x] 複数のコマンドを1つのトランザクションにまとめて実行した
+- [x] Explorerで結果を確認した
