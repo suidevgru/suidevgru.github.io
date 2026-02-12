@@ -340,7 +340,7 @@ export const PTBTemplate_double_transfer: PTBTemplateItem = {
   label: 'Double Transfer',
   description: 'Split gas coin twice and transfer to two recipients.',
   defaultName: 'double-transfer.ptb',
-  detail: 'Demonstrate combining two operations in a single transaction.',
+  detail: 'Demonstrate combining multiple commands in a single transaction.',
   getDoc: ({ chain }: { chain: Chain; sender?: string }): PTBDoc => {
     const doc = deepClone(doubleTransferTemplateJson) as unknown as PTBDoc;
     (doc as any).chain = chain;

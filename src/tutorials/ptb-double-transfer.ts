@@ -60,8 +60,8 @@ export const ptbDoubleTransferTutorial: Tutorial = {
       },
       tip: {
         en: 'SplitCoins splits a coin. By default it has 2 amounts, but we only need 1 this time.',
-        ja: 'SplitCoins は、コインを分割する操作です。デフォルトでは amount が2つありますが、今回は1つだけ使います。',
-        ko: 'SplitCoins는 코인을 분할하는 작업입니다. 기본적으로 amount가 2개이지만, 이번에는 1개만 사용합니다.',
+        ja: 'SplitCoins は、コインを分割するコマンドです。デフォルトでは amount が2つありますが、今回は1つだけ使います。',
+        ko: 'SplitCoins는 코인을 분할하는 커맨드입니다. 기본적으로 amount가 2개이지만, 이번에는 1개만 사용합니다.',
       },
     },
     {
@@ -164,8 +164,8 @@ export const ptbDoubleTransferTutorial: Tutorial = {
       },
       tip: {
         en: 'TransferObjects sends objects (coins) to a specified address. By default it has 2 objects, but we only need 1 this time.',
-        ja: 'TransferObjects は、オブジェクト（コイン）を指定アドレスへ送る操作です。デフォルトでは object が2つありますが、今回は1つだけ使います。',
-        ko: 'TransferObjects는 오브젝트(코인)를 지정된 주소로 보내는 작업입니다. 기본적으로 object가 2개이지만, 이번에는 1개만 사용합니다.',
+        ja: 'TransferObjects は、オブジェクト（コイン）を指定アドレスへ送るコマンドです。デフォルトでは object が2つありますが、今回は1つだけ使います。',
+        ko: 'TransferObjects는 오브젝트(코인)를 지정된 주소로 보내는 커맨드입니다. 기본적으로 object가 2개이지만, 이번에는 1개만 사용합니다.',
       },
     },
     {
@@ -215,16 +215,16 @@ export const ptbDoubleTransferTutorial: Tutorial = {
         ],
       },
       tip: {
-        en: 'This completes the first transfer operation (send 1 SUI to yourself).',
-        ja: 'ここまでで 1つ目の送金操作（1 SUI を自分に送金）が完成です。',
-        ko: '여기까지 첫 번째 송금 작업(1 SUI를 자기 자신에게 송금)이 완성입니다.',
+        en: 'This completes the first transfer command (send 1 SUI to yourself).',
+        ja: 'ここまでで 1つ目の送金コマンド（1 SUI を自分に送金）が完成です。',
+        ko: '여기까지 첫 번째 송금 커맨드(1 SUI를 자기 자신에게 송금)가 완성입니다.',
       },
     },
     {
       title: {
-        en: 'Add the second operation',
-        ja: '2つ目の操作を追加',
-        ko: '두 번째 작업 추가',
+        en: 'Add the second command',
+        ja: '2つ目のコマンドを追加',
+        ko: '두 번째 커맨드 추가',
       },
       instructions: {
         en: [
@@ -246,7 +246,7 @@ export const ptbDoubleTransferTutorial: Tutorial = {
     },
     {
       title: {
-        en: 'Connect the second operation',
+        en: 'Connect the second command',
         ja: '2つ目の接続',
         ko: '두 번째 연결',
       },

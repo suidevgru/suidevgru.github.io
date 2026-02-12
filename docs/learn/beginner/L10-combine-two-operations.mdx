@@ -1,29 +1,29 @@
 ---
 sidebar_position: 10
-title: "Combine Two Operations"
-description: "Combine multiple operations into a single transaction"
+title: "Batch Multiple Commands with PTB"
+description: "Execute multiple commands as a single transaction"
 ---
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import { PtbBuilderDemo } from '@site/src/components/PtbBuilderDemo';
 
-# Combine Two Operations
+# Batch Multiple Commands with PTB
 
-In this lesson, you'll use PTB Builder to **build a PTB from scratch that combines two transfer operations into a single transaction**. **It's not difficult**—follow the steps and you'll have it done in no time.
+In this lesson, you'll use PTB Builder to **build a PTB from scratch that combines multiple transfer commands into a single transaction**. **It's not difficult**—follow the steps and you'll have it done in no time.
 
 ## What is a PTB (Programmable Transaction Block)?
 
-On Sui, you can combine multiple operations into **a single transaction**. This is called a **PTB (Programmable Transaction Block)**.
+On Sui, you can combine multiple commands into **a single transaction**. This is called a **PTB (Programmable Transaction Block)**.
 
 Using a PTB gives you the following benefits:
 
-- **Save on gas fees (mainly overhead)** — Instead of splitting operations into multiple transactions, you can consolidate signatures and base costs into one
-- **Atomicity** — Either all operations succeed, or they all fail (no half-finished states)
-- **Efficient** — Complete multiple operations with a single signature
+- **Reduce per-transaction overhead** — You still pay for the work done by each command, but you save on signature costs and base transaction fees by combining them
+- **Atomicity** — Either all commands succeed, or they all fail (no half-finished states)
+- **Efficient** — Complete multiple commands with a single signature
 
 :::tip How PTB works
-If you send "1 SUI to A" and "2 SUI to B" separately, you need 2 signatures and pay gas fees twice.
-With a PTB, you only need 1 signature and 1 gas fee.
+If you send "1 SUI to A" and "2 SUI to B" as separate transactions, you need 2 signatures and pay transaction overhead twice.
+With a PTB, you only need 1 signature and 1 transaction overhead—while still paying for each command's execution.
 :::
 
 ---
@@ -38,11 +38,11 @@ Before starting this lesson, make sure you have completed the following:
 
 ---
 
-## Build Two Transfers with PTB Builder
+## Build a Multi-Command PTB with PTB Builder
 
 The visual editor below is **empty**—only the `Start` and `End` nodes are present.
 
-Follow the **guide** in the top-left corner to add and connect nodes, building two transfer operations into a single transaction.
+Follow the **guide** in the top-left corner to add and connect nodes, building multiple transfer commands into a single transaction.
 First, connect your **Slush wallet** using the wallet icon in the top-right corner of the site header.
 
 <BrowserOnly>
@@ -57,7 +57,9 @@ After executing the transaction, verify the results in Explorer:
 
 1. Click the link next to the displayed Transaction Digest
 2. Suiscan (or another Explorer) will open
-3. In the **Transactions** section, confirm that two TransferObjects operations are included
+3. In the **Transactions** section, confirm that the following commands are included:
+   - **SplitCoins** — splits your gas coin into amounts for each transfer
+   - **TransferObjects** — appears twice, once for each recipient
 
 ---
 
@@ -65,10 +67,10 @@ After executing the transaction, verify the results in Explorer:
 
 You've completed this lesson if you can check off the following:
 
-- [ ] Added nodes to an empty PTB Builder and built a two-transfer PTB
-- [ ] Connected the gas node to two SplitCoins
-- [ ] Executed everything as a single transaction
-- [ ] Confirmed in Explorer that two transfer operations are included
+- [ ] Added nodes to an empty PTB Builder and built a multi-command PTB
+- [ ] Connected the gas node to SplitCoins commands
+- [ ] Executed multiple commands as a single transaction
+- [ ] Confirmed in Explorer that SplitCoins and two TransferObjects commands are included
 
 ---
 
@@ -97,6 +99,6 @@ You've completed this lesson if you can check off the following:
 ## What You Did in This Lesson
 
 - [x] Understood the concept of PTB (Programmable Transaction Block)
-- [x] Added and connected nodes from an empty PTB Builder to build a two-transfer PTB
-- [x] Executed everything as a single transaction
+- [x] Added and connected nodes from an empty PTB Builder to build a multi-command PTB
+- [x] Executed multiple commands as a single transaction
 - [x] Verified the results in Explorer
