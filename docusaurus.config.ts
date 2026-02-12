@@ -91,7 +91,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Get Started',
         },
         {type: 'localeDropdown', position: 'right'},
         ({type: 'custom-wallet', position: 'right'} as any),
@@ -101,30 +101,67 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Community',
+          title: 'Core',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Sui Documentation',
+              href: 'https://docs.sui.io/',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Sui GitHub',
+              href: 'https://github.com/MystenLabs/sui',
             },
             {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'Sui CLI Reference',
+              href: 'https://docs.sui.io/references/cli/client',
+            },
+            {
+              label: 'Sui SDKs',
+              href: 'https://docs.sui.io/references/sui-sdks',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Move',
+          items: [
+            {
+              label: 'Move Language Docs',
+              href: 'https://move-language.github.io/move/',
+            },
+            {
+              label: 'Sui Move Intro Course',
+              href: 'https://github.com/sui-foundation/sui-move-intro-course',
+            },
+            {
+              label: 'Example Projects',
+              href: 'https://github.com/MystenLabs/sui/tree/main/examples',
+            },
+            {
+              label: 'App Examples',
+              href: 'https://docs.sui.io/guides/developer/app-examples',
+            },
+          ],
+        },
+        {
+          title: 'Project',
           items: [
             {
               label: 'GitHub',
               href: 'https://github.com/suidevgru/suidevgru.github.io',
             },
+            {
+              label: 'Issues',
+              href: 'https://github.com/suidevgru/suidevgru.github.io/issues',
+            },
+            {
+              label: 'Contribute',
+              href: 'https://github.com/suidevgru/suidevgru.github.io/blob/main/CONTRIBUTING.md',
+            },
           ],
+        },
+        {
+          title: 'Community',
+          items: [],
         },
       ],
     },

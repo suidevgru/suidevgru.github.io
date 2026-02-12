@@ -8,7 +8,10 @@ interface SuiDevgruLogoProps {
 }
 
 export default function SuiDevgruLogo({ size = 'medium' }: SuiDevgruLogoProps) {
-  const sizeClass = styles[size] || styles.medium;
+  const sizeClass =
+    size === 'hero'
+      ? styles.heroSize
+      : styles[size] || styles.medium;
   
   return (
     <div className={`${styles.logo} ${sizeClass}`}>

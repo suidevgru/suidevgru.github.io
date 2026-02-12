@@ -14,5 +14,9 @@
   "item.label.Blog": {
     "message": "ブログ",
     "description": "Navbar item with label Blog"
+  },
+  "item.label.Get Started": {
+    "message": "はじめに",
+    "description": "Navbar item with label Get Started"
   }
 }

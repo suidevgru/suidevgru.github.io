@@ -14,5 +14,9 @@
   "item.label.Blog": {
     "message": "블로그",
     "description": "Navbar item with label Blog"
+  },
+  "item.label.Get Started": {
+    "message": "시작하기",
+    "description": "Navbar item with label Get Started"
   }
 }
