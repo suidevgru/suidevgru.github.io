@@ -1,7 +1,8 @@
 import type { Locale, ResolvedTutorialStep, Tutorial } from './types';
 import { ptbDoubleTransferTutorial } from './ptb-double-transfer';
+import { ptbTsExportTutorial } from './ptb-ts-export';
 
-const TUTORIALS: Tutorial[] = [ptbDoubleTransferTutorial];
+const TUTORIALS: Tutorial[] = [ptbDoubleTransferTutorial, ptbTsExportTutorial];
 
 export type ResolvedTutorial = {
   id: string;
