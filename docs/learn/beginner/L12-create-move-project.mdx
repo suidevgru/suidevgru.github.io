@@ -6,4 +6,108 @@ description: "Create a new Move package using the sui move new command"
 
 # Create a Move Project
 
-(English version coming soon)
+In this lesson, you'll use the **Sui CLI** to create a new Move project and explore the generated file structure. **It's not difficult**—just one command and you're ready to go.
+
+## Why Create a Move Project?
+
+To develop smart contracts on Sui, you need a **Move package**. A Move package is a project structure that manages your smart contract code and configuration.
+
+Using the `sui move new` command:
+
+- **Automatically generates** all the necessary files and folders
+- Creates `Move.toml` (the package configuration file)
+- Sets up the `sources/` directory (where you write your code)
+- Gets you ready to start developing smart contracts right away
+
+---
+
+## Prerequisites
+
+Before starting this lesson, make sure you have completed the following:
+
+- [Installed Sui CLI](/docs/getting-started/L03-install-sui-cli)
+- [Installed the Sui Extension for VSCode](/docs/getting-started/L04-vscode-sui-extension) (recommended)
+
+:::tip
+If you have Sui CLI installed, you're all set. Run `sui --version` in your terminal to confirm it shows a version number.
+:::
+
+---
+
+## Let's Create a Move Project
+
+### Step 1: Navigate to Your Working Directory
+
+First, navigate to the directory where you want to create your project. In this example, we'll create a `sui-projects` folder under your home directory.
+
+```bash
+mkdir -p ~/sui-projects
+cd ~/sui-projects
+```
+
+### Step 2: Run the sui move new Command
+
+Run the following command to create a new Move project. You can replace `my_first_package` with any name you like.
+
+```bash
+sui move new my_first_package
+```
+
+:::info Package Naming Rules
+- Snake case (lowercase with underscores) is recommended (e.g., `my_first_package`)
+- CamelCase like `MyPackage` also works
+- Cannot start with a number (e.g., `1abc` is not allowed)
+- Hyphens are not allowed (e.g., `my-package` is not allowed)
+:::
+
+### Step 3: Explore the Generated Folder
+
+Once the command succeeds, a folder named `my_first_package` is created. Let's take a look inside.
+
+```bash
+ls -la my_first_package
+```
+
+The following structure has been generated:
+
+```
+sui-projects/
+└── my_first_package/
+    ├── .gitignore     # Git ignore configuration
+    ├── Move.toml      # Package configuration file
+    ├── sources/       # Directory for Move source code
+    └── tests/         # Directory for test code
+```
+
+---
+
+## Open with VSCode + Sui Extension
+
+Open the project folder in VSCode, and the Sui Extension will automatically recognize the Move project, enabling code completion and error checking.
+
+```bash
+code my_first_package
+```
+
+If the Sui Extension is installed, you'll see a Sui icon in the left sidebar where you can view project information.
+
+:::tip
+You can also use VSCode's "Open Folder" feature to select the `my_first_package` folder.
+:::
+
+---
+
+## Verify Success
+
+You've completed this lesson if you can check off the following:
+
+- [ ] Created a project using the `sui move new` command
+- [ ] Confirmed that `Move.toml`, `sources/`, and `tests/` were generated
+
+---
+
+## What You Did in This Lesson
+
+- [x] Created a Move project using the `sui move new` command
+- [x] Explored the generated folder structure (Move.toml, sources/, tests/)
+- [x] Opened the project with VSCode + Sui Extension
