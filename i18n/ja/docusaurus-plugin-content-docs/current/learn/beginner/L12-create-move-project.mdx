@@ -1,0 +1,113 @@
+---
+sidebar_position: 12
+title: "Moveプロジェクトを作成"
+description: "sui move newコマンドで新しいMoveパッケージを作成する"
+---
+
+# Moveプロジェクトを作成
+
+このレッスンでは、**Sui CLI**を使って新しいMoveプロジェクトを作成し、生成されるファイル構成を確認します。**難しくありません**。コマンドを1つ実行するだけです。
+
+## なぜMoveプロジェクトを作成する？
+
+Sui上でスマートコントラクトを開発するには、**Moveパッケージ**が必要です。Moveパッケージは、スマートコントラクトのコードや設定を管理するためのプロジェクト構造です。
+
+`sui move new` コマンドを使うと：
+
+- **必要なファイルやフォルダが自動生成**される
+- `Move.toml`（パッケージ設定ファイル）が作成される
+- `sources/` ディレクトリ（コードを書く場所）が用意される
+- すぐにスマートコントラクトの開発を始められる
+
+---
+
+## 前提条件
+
+このレッスンを始める前に、以下が完了していることを確認してください：
+
+- [Sui CLIのインストール](/docs/getting-started/L03-install-sui-cli) を完了している
+- VSCodeに [Sui Extension](/docs/getting-started/L04-vscode-sui-extension) がインストールされている（推奨）
+
+:::tip
+Sui CLIがインストールされていれば準備完了です。ターミナルで `sui --version` を実行して、バージョンが表示されることを確認してください。
+:::
+
+---
+
+## Moveプロジェクトを作成しよう
+
+### ステップ1: 作業ディレクトリに移動
+
+まず、プロジェクトを作成したいディレクトリに移動します。ここでは例として、ホームディレクトリの下に `sui-projects` フォルダを作成して使います。
+
+```bash
+mkdir -p ~/sui-projects
+cd ~/sui-projects
+```
+
+### ステップ2: sui move new コマンドを実行
+
+以下のコマンドを実行して、新しいMoveプロジェクトを作成します。`my_first_package` の部分は好きな名前に変更できます。
+
+```bash
+sui move new my_first_package
+```
+
+:::info パッケージ名のルール
+- スネークケース（小文字とアンダースコア）が推奨（例: `my_first_package`）
+- `MyPackage` のようなキャメルケースも使用可能
+- 数字で始めることはできない（例: `1abc` は不可）
+- ハイフンは使えない（例: `my-package` は不可）
+:::
+
+### ステップ3: 生成されたフォルダを確認
+
+コマンドが成功すると、`my_first_package` というフォルダが作成されます。中身を確認してみましょう。
+
+```bash
+ls -la my_first_package
+```
+
+以下のような構造が生成されています：
+
+```
+sui-projects/
+└── my_first_package/
+    ├── .gitignore     # Git管理対象外の設定
+    ├── Move.toml      # パッケージ設定ファイル
+    ├── sources/       # Moveソースコードを置くディレクトリ
+    └── tests/         # テストコードを置くディレクトリ
+```
+
+---
+
+## VSCode + Sui Extensionで開こう
+
+VSCodeでプロジェクトフォルダを開くと、Sui Extensionが自動的にMoveプロジェクトを認識し、コード補完やエラーチェックが有効になります。
+
+```bash
+code my_first_package
+```
+
+Sui Extensionがインストールされていれば、左側のサイドバーにSuiのアイコンが表示され、プロジェクトの情報を確認できます。
+
+:::tip
+VSCodeの「フォルダを開く」機能で `my_first_package` フォルダを選択しても同じです。
+:::
+
+---
+
+## 成功の確認
+
+以下ができれば、このレッスンは完了です：
+
+- [ ] `sui move new` コマンドでプロジェクトを作成できた
+- [ ] `Move.toml`、`sources/`、`tests/` が生成されていることを確認できた
+
+---
+
+## このレッスンでやったこと
+
+- [x] `sui move new` コマンドでMoveプロジェクトを作成した
+- [x] 生成されたフォルダ構成（Move.toml, sources/, tests/）を確認した
+- [x] VSCode + Sui Extensionでプロジェクトを開いた
