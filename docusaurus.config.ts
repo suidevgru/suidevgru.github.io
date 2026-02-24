@@ -53,7 +53,11 @@ const config: Config = {
     },
   },
 
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['@docusaurus/theme-live-codeblock', '@docusaurus/theme-mermaid'],
+
+  markdown: {
+    mermaid: true,
+  },
 
   presets: [
     [
