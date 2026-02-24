@@ -1,30 +1,30 @@
 ---
 sidebar_position: 13
 title: "Moveの仕組みを知ろう"
-description: "Resource・Module・Packageの3つの概念をサンプルコードで理解する"
+description: "Object・Module・Packageの3つの概念をサンプルコードで理解する"
 ---
 
 # Moveの仕組みを知ろう
 
-このレッスンでは、Moveの3つの重要な概念 — **Package**、**Module**、**Resource** — を学びます。**難しくありません**。コードを書かずに、図とサンプルコードを読むだけです。
+このレッスンでは、Moveの3つの重要な概念 — **Package**、**Module**、**Object** — を学びます。**難しくありません**。コードを書かずに、図とサンプルコードを読むだけです。
 
 ## なぜMoveの仕組みを知る必要がある？
 
 前のレッスンでMoveプロジェクトを作成しました。次のレッスンでは実際にコードを書いていきますが、その前にMoveの基本構造を理解しておくと、コードの意味がずっと分かりやすくなります。
 
-Moveは他のプログラミング言語とは異なる独自の概念を持っています。特に**Resource**という概念は、Suiスマートコントラクトの安全性を支える重要な仕組みです。
+Moveは他のプログラミング言語とは異なる独自の概念を持っています。特に**Object**という概念は、Sui Moveの最も重要な仕組みです。
 
 ---
 
 ## 3つの概念の関係
 
-まず、Package・Module・Resourceがどのような関係にあるか、全体像を見てみましょう。
+まず、Package・Module・Objectがどのような関係にあるか、全体像を見てみましょう。
 
 ```mermaid
 graph TB
     subgraph Package["📦 Package (my_first_package)"]
         subgraph Module1["📄 Module (counter)"]
-            Resource1["🔷 Resource (Counter)"]
+            Object1["🔷 Object (Counter)"]
             Function1["⚡ Function (increment)"]
         end
         Config["📋 Move.toml"]
@@ -32,7 +32,7 @@ graph TB
 
     style Package fill:#e8f4f8,stroke:#0d47a1
     style Module1 fill:#fff3e0,stroke:#e65100
-    style Resource1 fill:#e3f2fd,stroke:#1565c0
+    style Object1 fill:#e3f2fd,stroke:#1565c0
 ```
 
 ---
@@ -107,19 +107,19 @@ module my_first_package::counter {
 
 ---
 
-## Resource（リソース）
+## Object（オブジェクト）
 
-**Resource**は、Moveの最も重要な概念です。Sui上で「所有権を持つオブジェクト」を表現するための特別なデータ型です。
+**Object（オブジェクト）**は、Sui Moveの最も重要な概念です。Sui上で「所有権を持つデジタル資産」を表現するための特別なデータ型です。
 
-### なぜResourceが重要？
+### なぜObjectが重要？
 
 従来のプログラミングでは、データは自由にコピーしたり削除したりできます。しかし、ブロックチェーン上のトークンやNFTがコピーできてしまったら大問題ですよね。
 
-Moveでは、Resourceに対して以下の制限を設けることで、デジタル資産を安全に扱えます：
+Sui Moveでは、Objectに対して以下の制限を設けることで、デジタル資産を安全に扱えます：
 
-- **コピー禁止** — Resourceはコピーできない（無限増殖を防ぐ）
-- **削除禁止** — Resourceは明示的に消費するか、どこかに保存しないと捨てられない
-- **所有権** — Resourceには必ず所有者がいる
+- **コピー禁止** — Objectはコピーできない（無限増殖を防ぐ）
+- **削除禁止** — Objectは明示的に消費するか、どこかに保存しないと捨てられない
+- **所有権** — Objectには必ず所有者がいる
 
 ### Abilityによる制御
 
@@ -146,7 +146,7 @@ public struct Config has copy, drop {
 - `drop` — その変数をもう使わなくなった時点で、自動的に破棄してよい
 
 :::tip
-`key` を持ち、`copy` と `drop` を持たないstructが、典型的なResource（デジタル資産）です。これにより、トークンやNFTの安全性を高めます。
+`key` を持ち、`copy` と `drop` を持たないstructが、典型的なObject（デジタル資産）です。これにより、トークンやNFTの安全性を高めます。
 :::
 
 ---
@@ -161,7 +161,7 @@ public struct Config has copy, drop {
 // Module宣言: Package名::Module名
 module my_first_package::counter {
 
-    // === Resourceの定義 ===
+    // === Objectの定義 ===
 
     /// カウンターオブジェクト
     /// key: Suiオブジェクトとして存在できる
@@ -198,7 +198,7 @@ module my_first_package::counter {
 
 1. **Package**: このファイルは `my_first_package` パッケージの一部
 2. **Module**: `counter` モジュールとして機能をまとめている
-3. **Resource**: `Counter` structは `key` を持つため、Suiオブジェクトとして存在し、所有権を持つ
+3. **Object**: `Counter` structは `key` を持つため、Suiオブジェクトとして存在し、所有権を持つ
 
 ---
 
@@ -206,7 +206,7 @@ module my_first_package::counter {
 
 - **Package**: コードをまとめる最大の単位。`my_first_package` フォルダ全体がこれにあたります。
 - **Module**: 機能をグループ化する単位。`counter.move` ファイル内の `counter` モジュールがこれにあたります。
-- **Resource**: 所有権を持つデジタル資産。`key` ability を持つ `Counter` struct がこれにあたります。
+- **Object**: 所有権を持つデジタル資産。`key` ability を持つ `Counter` struct がこれにあたります。
 
 ---
 
@@ -214,15 +214,15 @@ module my_first_package::counter {
 
 以下ができれば、このレッスンは完了です：
 
-- [ ] Package・Module・Resourceの3つの概念を説明できる
-- [ ] サンプルコードを見て、どこがModule宣言でどこがResourceかわかる
+- [ ] Package・Module・Objectの3つの概念を説明できる
+- [ ] サンプルコードを見て、どこがModule宣言でどこがObjectかわかる
 - [ ] Abilityの役割（key, store, copy, drop）を理解した
 
 ---
 
 ## このレッスンでやったこと
 
-- [x] Package・Module・Resourceの3つの概念を学んだ
+- [x] Package・Module・Objectの3つの概念を学んだ
 - [x] それぞれの関係性を図で確認した
 - [x] Abilityによる型の制御を理解した
 - [x] サンプルコードで3概念の実際の使い方を確認した
