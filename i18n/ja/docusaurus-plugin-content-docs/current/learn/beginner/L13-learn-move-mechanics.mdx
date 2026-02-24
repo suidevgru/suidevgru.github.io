@@ -28,7 +28,7 @@ flowchart LR
         
         subgraph ModA ["📄 Module A"]
             direction TB
-            TypeA["📐 Object Type"]
+            TypeA["📐 struct"]
             FuncA["⚡ Function"]
         end
         
@@ -42,19 +42,23 @@ flowchart LR
     end
 
     %% --- 矢印（型と関数の両方から1つのObjectへ） ---
-    TypeA -.->|"実体化"| Obj
+    TypeA -->|"実体化"| Obj
     FuncA ==>|"操作"| Obj
 
+    %% --- リンクスタイリング（0: 実体化, 1: 操作）---
+    linkStyle 0 stroke:#64b5f6,stroke-width:1.5px
+    linkStyle 1 stroke:#4db6ac,stroke-width:2.5px
+
     %% --- スタイリング ---
-    style Pkg fill:#e1f5fe,stroke:#29b6f6,stroke-width:2px
-    style ModA fill:#ffe0b2,stroke:#fb8c00,stroke-width:2px
-    style ModB fill:#fff3e0,stroke:#fb8c00,stroke-width:2px,stroke-dasharray: 5 5
-    
-    style TypeA fill:#fff,stroke:#fb8c00
-    style FuncA fill:#fff,stroke:#fb8c00
-    
-    style Chain fill:#f8fafc,stroke:#e2e8f0,stroke-width:2px
-    style Obj fill:#a5d6a7,stroke:#43a047,stroke-width:2px
+    style Pkg fill:#e1f5fe,stroke:#29b6f6,stroke-width:2px,color:#333
+    style ModA fill:#ffe0b2,stroke:#fb8c00,stroke-width:2px,color:#333
+    style ModB fill:#fff3e0,stroke:#fb8c00,stroke-width:2px,stroke-dasharray: 5 5,color:#333
+
+    style TypeA fill:#fff8e1,stroke:#fb8c00,color:#333
+    style FuncA fill:#fff8e1,stroke:#fb8c00,color:#333
+
+    style Chain fill:#f8fafc,stroke:#90caf9,stroke-width:2px,color:#333
+    style Obj fill:#a5d6a7,stroke:#43a047,stroke-width:2px,color:#333
 ```
 
 ---

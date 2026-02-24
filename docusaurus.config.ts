@@ -79,6 +79,9 @@ const config: Config = {
   ],
 
   themeConfig: {
+    mermaid: {
+      theme: { light: 'default', dark: 'dark' },
+    },
     // Replace with your project's social card
     image: 'img/sui-devgru-banner.png',
     metadata: [
