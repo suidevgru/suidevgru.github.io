@@ -176,3 +176,20 @@ article img {
   max-height: 500px;
   width: auto;
 }
+/* Fix L13 Mermaid: nested subgraph label overlap (Package vs Module A title) */
+/* overflow:visible lets the label render above SVG viewBox top; padding-top creates space */
+.docusaurus-mermaid-container:has(#Pkg) {
+  padding-top: 22px;
+}
+.docusaurus-mermaid-container:has(#Pkg) svg {
+  overflow: visible;
+}
+.docusaurus-mermaid-container:has(#Pkg) #Pkg > .cluster-label > foreignObject {
+  transform: translateY(-22px);
+}
+/* Dark mode: Package label floats above SVG on dark bg — force light text */
+[data-theme='dark'] .docusaurus-mermaid-container:has(#Pkg) #Pkg > .cluster-label .nodeLabel,
+[data-theme='dark'] .docusaurus-mermaid-container:has(#Pkg) #Pkg > .cluster-label .nodeLabel p,
+[data-theme='dark'] .docusaurus-mermaid-container:has(#Pkg) #Pkg > .cluster-label .nodeLabel span {
+  color: #e1f5fe !important;
+}
