@@ -104,7 +104,7 @@ A **Module** is a unit that groups related functionality together. You write Mod
 
 ### Module Example
 
-```move
+```rust
 module my_first_package::counter {
     // Define types and functions used in this Module
 
@@ -147,7 +147,7 @@ In Sui Move, Objects have specific restrictions that make digital assets safe:
 
 In Move, you give structs **Abilities** to control how they behave.
 
-```move
+```rust
 // key = can exist on-chain as a Sui Object (requires a UID field in Sui)
 public struct Counter has key, store {
     id: UID,
@@ -179,7 +179,7 @@ Let's look at a complete sample that includes all three concepts.
 
 This code is a simplified version for illustration purposes. To actually run it, you'd need to import modules using `use`.
 
-```move
+```rust
 // Module declaration: PackageName::ModuleName
 module my_first_package::counter {
 
