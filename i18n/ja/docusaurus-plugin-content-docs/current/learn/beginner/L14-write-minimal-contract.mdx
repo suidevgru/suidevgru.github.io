@@ -1,0 +1,168 @@
+---
+sidebar_position: 14
+title: "最小コントラクトを書く"
+description: "struct と entry function を実装して、Moveスマートコントラクトの基本構造を理解する"
+---
+
+# 最小コントラクトを書く
+
+このレッスンでは、前のレッスンで学んだ概念（Package・Module・Object）を使って、**実際に動くコントラクト**を書きます。**難しくありません**。カウンターの `struct` と `entry fun` を2つ書くだけです。
+
+---
+
+## 前提条件
+
+- [Moveプロジェクトを作成](/docs/learn/beginner/L12-create-move-project) を完了している
+- [Moveの仕組みを知ろう](/docs/learn/beginner/L13-learn-move-mechanics) を読んでいる
+- VSCodeに [Sui Extension](/docs/getting-started/L04-vscode-sui-extension) がインストールされている
+
+---
+
+## ファイルを開こう
+
+VSCodeで `my_first_package` を開き、`sources/` フォルダの中の `.move` ファイルを開きます。
+
+`sui move new` コマンドで作成すると、`sources/my_first_package.move` が自動生成されています。このファイルを編集します。
+
+<!-- 画像: VSCodeで sources/my_first_package.move を開いた状態 -->
+<!-- ![VSCodeでファイルを開いた状態](./img/L14_step1.png) -->
+
+---
+
+## コントラクトを書こう
+
+`sources/my_first_package.move` の内容を、以下のコードに**丸ごと書き換え**てください。
+
+```rust
+module my_first_package::counter {
+
+    /// カウンターオブジェクト
+    public struct Counter has key {
+        id: UID,
+        value: u64,
+    }
+
+    /// カウンターを作成して送信する
+    entry fun create(ctx: &mut TxContext) {
+        let counter = Counter {
+            id: object::new(ctx),
+            value: 0,
+        };
+        transfer::transfer(counter, ctx.sender());
+    }
+
+    /// カウンターの値を1増やす
+    entry fun increment(counter: &mut Counter) {
+        counter.value = counter.value + 1;
+    }
+}
+```
+
+<!-- 画像: コードを貼り付けた後のVSCode画面（Sui Extensionがエラーを出していない状態） -->
+<!-- ![コード入力後のVSCode画面](./img/L14_step2.png) -->
+
+---
+
+## コードのポイントを確認しよう
+
+L13で学んだ概念と対応させながら確認します。
+
+### `entry` キーワード
+
+```rust
+entry fun create(ctx: &mut TxContext) {
+```
+
+`entry` を付けると、この関数はウォレットやCLI（`sui client call`）からトランザクションとして直接呼び出せるようになります。
+
+:::info 関数の可視性（visibility）まとめ
+
+Moveの関数は、先頭に付けるキーワードによって「どこから呼び出せるか」が変わります。
+
+| 書き方 | ウォレット・CLIから | 他のコントラクトから | 使いどころ |
+|--------|:-----------------:|:-----------------:|-----------|
+| `fun` | ❌ | ❌ | 同一module内だけで使う内部ヘルパー |
+| `entry fun` | ✅ | ❌ | ウォレット・CLIから直接呼ぶトランザクションの入り口 |
+| `public(package) fun` | ❌ | ⚠️<br/>同一パッケージのみ | パッケージ内の複数モジュールで共有したい関数（よく使う） |
+| `public fun` | ✅ | ✅ | 誰でも実行できるため、セキュリティを十分考慮した上で真に必要な場合のみ |
+
+今回の `create` と `increment` は「ウォレットから呼ぶだけ、他のコントラクトには使わせない」ので `entry fun` がぴったりです。
+
+なお `entry fun` には以下の制約があります：
+- 戻り値がある場合、その型は `drop` ability を持つ必要がある
+- 同じトランザクション内で `entry fun` に渡したオブジェクトを、後で別の関数に再利用できない
+- 参照（`&T` / `&mut T`）を返す関数はウォレットから呼べない
+:::
+
+### `has key` について
+
+```rust
+public struct Counter has key {
+```
+
+L13では `has key, store` のサンプルを見ました。ここでは `key` だけ付けています。
+
+- `key` → Suiオブジェクトとして存在できる（必須）
+- `store` → 他のオブジェクトのフィールドに入れられる、`public_transfer` で転送できる
+
+このカウンターは他のオブジェクトに格納する予定がないので、`key` だけで十分です。後のレッスンで使い分けが出てきたときに改めて確認します。
+
+### `transfer::transfer` について
+
+```rust
+transfer::transfer(counter, ctx.sender());
+```
+
+作ったオブジェクトを「誰かに渡す」操作です。渡さずに関数を終了しようとするとコンパイルエラーになります（Moveの「Linear Types」という仕組みで、オブジェクトの行方が常に追跡されます）。
+
+`ctx.sender()` はトランザクションを送信したアドレスを返します。自分自身に送ることで、「自分のオブジェクトとして所有する」状態になります。
+
+---
+
+## ビルドで確認しよう
+
+コードを書いたら、ターミナルで以下を実行してビルドエラーがないか確認します。
+
+```bash
+cd ~/sui-projects/my_first_package
+sui move build
+```
+
+成功すると以下のように表示されます：
+
+```
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING my_first_package
+```
+
+<!-- 画像: sui move build が成功した状態のターミナル -->
+<!-- ![ビルド成功のターミナル](./img/L14_step3.png) -->
+
+:::warning エラーが出たら
+Sui Extensionがインストールされていれば、VSCode上でリアルタイムにエラーが赤線で表示されます。エラーの行にカーソルを当てると説明が出ます。
+
+よくある原因：
+- セミコロン（`;`）の書き忘れ
+- カッコの閉じ忘れ
+:::
+
+---
+
+## 成功の確認
+
+以下ができれば、このレッスンは完了です：
+
+- [ ] `struct Counter` を `has key` で実装できた
+- [ ] `create` と `increment` を `entry fun` で実装できた
+- [ ] `sui move build` がエラーなく成功した
+
+---
+
+## このレッスンでやったこと
+
+- [x] `entry fun` を使ってウォレット・CLIから呼び出せる関数を実装した
+- [x] `has key` で Suiオブジェクトとして機能するstructを定義した
+- [x] `transfer::transfer` でオブジェクトを自分自身に送ることを確認した
+- [x] `sui move build` でビルドエラーがないことを確認した

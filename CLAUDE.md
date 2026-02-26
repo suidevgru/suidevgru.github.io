@@ -70,3 +70,24 @@ When adding or updating content:
 
 - **Pull requests**: Runs typecheck + build
 - **Push to main**: Deploys to GitHub Pages via `actions/deploy-pages`
+
+### Move 2024 Function Visibility Guidelines
+
+**Principles:**
+- Minimize public exposure: start with `public(package)`, use `public` only when needed outside package (Move 2024 deprecates `public(friend)`)
+- `entry` functions are thin PTB entry points: handle argument validation, TxContext, events; delegate core logic to `public`/`public(package)` functions
+- Prioritize testability and composability by minimizing side effects in core logic
+
+**Visibility Rules:**
+
+| Modifier | Callable From | PTB Access | Use Case | Constraints |
+|----------|---------------|------------|----------|-------------|
+| (default) | Same module only (private) | ❌ No | Internal helpers | Start here; expand visibility only when needed |
+| `public` | Any module | ✅ Yes | Reusable logic, SDK/wallet/CLI endpoints | No return/argument restrictions; highly composable |
+| `public(package)` | Same package modules only | ⚠️ No (combine with `entry` if needed) | Package-internal APIs | Restricts cross-package composition |
+| `entry` (alone) | Not callable from other modules | ✅ Yes | Transaction entry only | Return types must have `drop` ability; object reuse restrictions in same PTB |
+
+**`entry` Constraints:**
+1. Return values must have `drop` ability
+2. Cannot reuse objects passed to non-`entry` functions within same PTB
+3. Functions returning references are not PTB-callable
