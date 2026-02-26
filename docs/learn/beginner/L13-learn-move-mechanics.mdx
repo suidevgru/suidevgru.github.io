@@ -109,7 +109,7 @@ module my_first_package::counter {
     // Define types and functions used in this Module
 
     /// A struct (type) representing a counter
-    public struct Counter has key {
+    public struct Counter has key, store {
         id: UID,
         value: u64,
     }
