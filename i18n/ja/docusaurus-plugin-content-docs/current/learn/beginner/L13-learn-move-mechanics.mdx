@@ -104,7 +104,7 @@ my_first_package = "0x0"
 
 ### Moduleの例
 
-```move
+```rust
 module my_first_package::counter {
     // このModule内で使う型や関数を定義
 
@@ -147,7 +147,7 @@ Sui Moveでは、Objectに対して以下の制限を設けることで、デジ
 
 Moveでは、structに**Ability（能力）** を付与することで、その型の振る舞いを制御します。
 
-```move
+```rust
 // key = Suiオブジェクトとしてチェーン上に保持できる（SuiではUIDフィールドが必要）
 public struct Counter has key, store {
     id: UID,
@@ -179,7 +179,7 @@ public struct Config has copy, drop {
 
 このコードは概念説明用の簡略版です。実際に実行するには `use` によるモジュールのインポートが必要です。
 
-```move
+```rust
 // Module宣言: Package名::Module名
 module my_first_package::counter {
 
