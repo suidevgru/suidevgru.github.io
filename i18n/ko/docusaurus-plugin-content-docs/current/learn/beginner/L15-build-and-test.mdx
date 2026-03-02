@@ -1,0 +1,174 @@
+---
+sidebar_position: 15
+title: "빌드 및 테스트"
+description: "sui move build와 sui move test로 컨트랙트를 로컬에서 검증합니다"
+---
+
+# 빌드 및 테스트
+
+이번 레슨에서는 `counter.move`에 **테스트 코드를 추가**하여 로컬에서 동작을 확인하는 방법을 배웁니다. **어렵지 않습니다**. 같은 파일에 테스트 함수를 추가하면 바로 확인할 수 있습니다.
+
+---
+
+## 전제 조건
+
+- [최소 컨트랙트 작성하기](/docs/learn/beginner/L14-write-minimal-contract)를 완료한 상태(`counter.move`가 작성되어 있어야 합니다)
+- Sui CLI가 설치되어 있어야 합니다
+
+---
+
+## 왜 테스트를 작성하나요?
+
+블록체인에 배포된 컨트랙트는 기본적으로 수정할 수 없습니다. 배포 전에 버그를 찾기 위해 **로컬에서 테스트를 실행**하는 것이 중요합니다.
+
+Move에는 **내장 테스트 기능**이 있으며, `#[test]` 어노테이션만으로 테스트 함수를 정의할 수 있습니다. 컨트랙트를 배포하지 않고도 로컬에서 몇 번이든 실행할 수 있습니다.
+
+---
+
+## 테스트 코드 추가하기
+
+`sources/counter.move`를 열고, 파일 맨 끝(모듈 닫는 괄호 앞)에 다음 테스트 코드를 추가합니다.
+
+```rust title="sources/counter.move"
+module my_first_package::counter {
+    /// 카운터 오브젝트
+    public struct Counter has key {
+        id: UID,
+        value: u64,
+    }
+
+    /// 카운터를 생성하여 발신자에게 전송
+    entry fun create(ctx: &mut TxContext) {
+        let counter = Counter {
+            id: object::new(ctx),
+            value: 0,
+        };
+        transfer::transfer(counter, ctx.sender());
+    }
+
+    /// 카운터 값을 1 증가
+    entry fun increment(counter: &mut Counter) {
+        counter.value = counter.value + 1;
+    }
+
+    // === 테스트 ===
+
+    #[test]
+    fun test_increment() {
+        // 테스트용 더미 컨텍스트 생성
+        let mut ctx = tx_context::dummy();
+
+        // Counter 오브젝트를 직접 생성 (테스트 내에서는 struct에 직접 접근 가능)
+        let mut counter = Counter {
+            id: object::new(&mut ctx),
+            value: 0,
+        };
+
+        // increment 실행
+        increment(&mut counter);
+
+        // 값이 1이 되었는지 확인
+        assert!(counter.value == 1, 0);
+
+        // 테스트 종료 시 오브젝트 정리
+        let Counter { id, value: _ } = counter;
+        object::delete(id);
+    }
+}
+```
+
+### 테스트 코드 포인트
+
+**`#[test]` 어노테이션**
+
+`#[test]`를 붙인 함수는 `sui move test`를 실행할 때만 동작합니다. 일반 빌드에는 포함되지 않습니다.
+
+**`tx_context::dummy()`**
+
+테스트용 더미 컨텍스트를 생성합니다. 실제 환경에서는 Sui 네트워크가 컨텍스트를 생성하지만, 테스트에서는 이 더미를 사용합니다.
+
+**`assert!(조건, 에러코드)`**
+
+조건이 `false`인 경우 테스트를 실패시킵니다. `assert!(counter.value == 1, 0)`은 "`value`가 1이 아니면 에러"라는 의미입니다.
+
+**후처리 (분해 대입 + `object::delete`)**
+
+Move에서는 `has key`를 가진 오브젝트를 그대로 스코프 밖으로 버릴 수 없습니다. 테스트 내에서는 `object::delete(id)`를 사용하여 마지막에 명시적으로 삭제합니다.
+
+:::info 같은 모듈 내이기 때문에 접근 가능
+테스트 함수는 컨트랙트와 **같은 모듈 내**에 작성하므로, `value` 등의 비공개 필드에 직접 접근할 수 있습니다. 다른 모듈에서 테스트하는 경우에는 접근자 함수나 `test_scenario`를 사용해야 합니다.
+:::
+
+---
+
+## sui move build로 빌드하기
+
+먼저 빌드가 통과되는지 확인합니다. 프로젝트 루트 디렉토리(`Move.toml`이 있는 폴더)에서 실행하세요.
+
+```bash
+sui move build
+```
+
+성공하면 다음과 같이 표시됩니다:
+
+```
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING my_first_package
+```
+
+처음 실행 시 의존성 다운로드로 시간이 걸릴 수 있습니다. `BUILDING my_first_package`까지 진행되면 빌드 자체는 성공입니다.
+
+에러가 발생하면 테스트 코드의 구문을 다시 확인해 보세요. VSCode Sui Extension이 있다면 실시간으로 에러가 표시됩니다.
+
+---
+
+## sui move test로 테스트 실행하기
+
+빌드가 통과되면 테스트를 실행합니다.
+
+```bash
+sui move test
+```
+
+테스트가 성공하면 다음과 같은 출력이 표시됩니다:
+
+```
+BUILDING my_first_package
+Running Move unit tests
+[ PASS    ] my_first_package::counter::test_increment
+Test result: OK. Total tests: 1; passed: 1; failed: 0
+```
+
+`[ PASS ]`가 표시되면 성공입니다! `increment` 함수가 올바르게 동작하는 것을 로컬에서 확인했습니다.
+
+### 테스트가 실패하면?
+
+`assert!` 조건이 충족되지 않으면 다음과 같이 표시됩니다:
+
+```
+[ FAIL    ] my_first_package::counter::test_increment
+Test result: FAILED. Total tests: 1; passed: 0; failed: 1
+```
+
+이 경우에는 `increment` 함수의 로직이나 `assert!` 조건을 다시 확인해 보세요.
+
+---
+
+## 완료 확인
+
+다음을 모두 할 수 있으면 이 레슨은 완료입니다:
+
+- [ ] `counter.move`에 테스트 함수 `test_increment`를 추가했다
+- [ ] `sui move build`가 에러 없이 완료되었다
+- [ ] `sui move test`에서 `[ PASS ]`가 표시되었다
+
+---
+
+## 이번 레슨에서 한 것
+
+- [x] `#[test]` 어노테이션으로 테스트 함수를 정의했다
+- [x] `tx_context::dummy()`로 테스트용 컨텍스트를 생성했다
+- [x] `assert!`로 기댓값을 검증했다
+- [x] `sui move build`와 `sui move test`로 컨트랙트를 로컬에서 검증했다
