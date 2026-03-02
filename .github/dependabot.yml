@@ -1,0 +1,48 @@
+version: 2
+updates:
+  # npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      # Group all Docusaurus packages into one PR
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+      # Group all Mysten/Sui packages into one PR (critical: watch for 1.x → 2.x bumps)
+      mysten-sui:
+        patterns:
+          - "@mysten/*"
+          - "@zktx.io/*"
+      # Group React and related packages
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+          - "@mdx-js/*"
+          - "@tanstack/*"
+    ignore:
+      # Avoid auto-major-version bumps for Docusaurus (breaking changes)
+      - dependency-name: "@docusaurus/*"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    labels:
+      - "dependencies"
+      - "github-actions"
