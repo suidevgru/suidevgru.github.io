@@ -46,12 +46,14 @@ jobs:
             --max-cache-age 1d
             --timeout 20
             --max-retries 3
+            --scheme https
+            --scheme http
+            --accept 301,403,429
             --exclude-all-private
             --exclude "^https://localhost"
             --exclude "^http://localhost"
             --exclude "^https://127\."
             --exclude "^https://github\.com/suidevgru/.*/(edit|blob|tree)/main"
-            --exclude "^https://sui\.io/.*"
             --header "User-Agent: Mozilla/5.0 (compatible; lychee/2.0)"
             './docs/**/*.md'
             './docs/**/*.mdx'
