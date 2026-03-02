@@ -6,23 +6,171 @@ description: "Verify your contract locally with sui move build and sui move test
 
 # Build and Test
 
-:::info
-This lesson is currently available in Japanese. English content coming soon.
-:::
+In this lesson, you'll **add test code** to `my_first_package.move` and learn how to verify its behavior locally. **It's not difficult** — just add a test function to the same file and you can check it right away.
 
-In this lesson, you'll add a `#[test]` function to `counter.move` and run `sui move test` to verify the increment logic locally.
-
-## What you'll do
-
-- Add a `#[test]` function to the counter module
-- Run `sui move build` to confirm no compile errors
-- Run `sui move test` to verify the increment logic passes
+---
 
 ## Prerequisites
 
-- Completed [L14: Write a Minimal Contract](/docs/learn/beginner/L14-write-minimal-contract)
+- Completed [Write a Minimal Contract](/docs/learn/beginner/L14-write-minimal-contract) (`my_first_package.move` should already be written)
 - Sui CLI installed
 
-## Coming Soon
+---
 
-Full English content is in progress. See the Japanese version for the complete lesson.
+## Why write tests?
+
+Contracts deployed to the blockchain are essentially immutable. To catch bugs before deployment, it's important to **run tests locally**.
+
+Move has **built-in testing support** — you just use the `#[test]` annotation to define a test function. You can run it as many times as you want locally, without ever deploying the contract.
+
+---
+
+## Add the test code
+
+Open `sources/my_first_package.move` and add the following test code at the end of the file (before the closing brace of the module).
+
+```rust title="sources/my_first_package.move"
+module my_first_package::counter {
+    /// Counter object
+    public struct Counter has key {
+        id: UID,
+        value: u64,
+    }
+
+    /// Create a counter and transfer it to the sender
+    entry fun create(ctx: &mut TxContext) {
+        let counter = Counter {
+            id: object::new(ctx),
+            value: 0,
+        };
+        transfer::transfer(counter, ctx.sender());
+    }
+
+    /// Increment the counter value by 1
+    entry fun increment(counter: &mut Counter) {
+        counter.value = counter.value + 1;
+    }
+
+    // === Tests ===
+
+    #[test]
+    fun test_increment() {
+        // Create a dummy context for testing
+        let mut ctx = tx_context::dummy();
+
+        // Create a Counter object directly (private fields are accessible within the same module)
+        let mut counter = Counter {
+            id: object::new(&mut ctx),
+            value: 0,
+        };
+
+        // Run increment
+        increment(&mut counter);
+
+        // Verify the value is now 1
+        assert!(counter.value == 1, 0);
+
+        // Clean up the object at the end of the test
+        let Counter { id, value: _ } = counter;
+        object::delete(id);
+    }
+}
+```
+
+### Key points of the test code
+
+**`#[test]` annotation**
+
+Functions marked with `#[test]` only run when you execute `sui move test`. They are not included in a normal build.
+
+**`tx_context::dummy()`**
+
+Creates a dummy context for testing. In production, the Sui network creates the context, but in tests you use this dummy instead.
+
+**`assert!(condition, error_code)`**
+
+Fails the test if the condition is `false`. `assert!(counter.value == 1, 0)` means "error if `value` is not 1".
+
+**Cleanup (destructuring + `object::delete`)**
+
+In Move, you can't simply drop an object with `has key` when it goes out of scope. Inside tests, use `object::delete(id)` to explicitly delete it at the end.
+
+:::info Accessible because it's in the same module
+The test function is written **inside the same module** as the contract, so it can directly access private fields like `value`. If you're testing from a different module, you'll need accessor functions or `test_scenario`.
+:::
+
+---
+
+## Build with sui move build
+
+> The `[environments]` setting in `Move.toml` was configured in L14. If you haven't done it yet, refer to [Verify with a Build](/docs/learn/beginner/L14-write-minimal-contract#verify-with-a-build).
+
+Run the following from the project root directory (the folder containing `Move.toml`).
+
+```bash
+sui move build
+```
+
+A successful build looks like this:
+
+```
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING my_first_package
+```
+
+Once you see `BUILDING my_first_package`, the build itself is successful.
+
+If you get an error, review the syntax of your test code. If you have the VSCode Sui Extension, errors will be highlighted in real time.
+
+---
+
+## Run tests with sui move test
+
+Once the build passes, run the tests.
+
+```bash
+sui move test
+```
+
+A successful test run looks like this:
+
+```
+BUILDING my_first_package
+Running Move unit tests
+[ PASS    ] my_first_package::counter::test_increment
+Test result: OK. Total tests: 1; passed: 1; failed: 0
+```
+
+If you see `[ PASS ]`, you're done! You've confirmed locally that the `increment` function works correctly.
+
+### What if a test fails?
+
+If the `assert!` condition isn't met, you'll see:
+
+```
+[ FAIL    ] my_first_package::counter::test_increment
+Test result: FAILED. Total tests: 1; passed: 0; failed: 1
+```
+
+In that case, review the logic of the `increment` function or the condition in `assert!`.
+
+---
+
+## Success checklist
+
+You've completed this lesson when you can:
+
+- [ ] Added the `test_increment` test function to `my_first_package.move`
+- [ ] `sui move build` completed without errors
+- [ ] `sui move test` showed `[ PASS ]`
+
+---
+
+## What you did in this lesson
+
+- [x] Defined a test function with the `#[test]` annotation
+- [x] Created a test context with `tx_context::dummy()`
+- [x] Verified the expected value with `assert!`
+- [x] Verified the contract locally with `sui move build` and `sui move test`
