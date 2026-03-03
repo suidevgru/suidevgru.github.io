@@ -110,11 +110,7 @@ Move에서는 `has key`를 가진 오브젝트를 그대로 스코프 밖으로 
 
 ### Option A: Move Playground
 
-로컬 환경 불필요. 위의 테스트 코드를 Playground에 붙여넣기하여 컴파일로 확인할 수 있습니다.
-
-:::note
-브라우저 Playground는 컴파일만 지원합니다. `sui move test`를 실행하려면 Option B를 사용하세요.
-:::
+로컬 환경 불필요. 위의 테스트 코드를 Playground에 붙여넣기하고 **Test** 버튼을 클릭하면 브라우저에서 바로 `sui move test`를 실행할 수 있습니다.
 
 <MovePlayground template={MoveTemplate_L14_Counter} />
 
@@ -133,9 +129,8 @@ sui move build
 성공하면 다음과 같이 표시됩니다:
 
 ```
-UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
-INCLUDING DEPENDENCY Sui
 INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
 BUILDING my_first_package
 ```
 
@@ -154,6 +149,8 @@ sui move test
 테스트가 성공하면 다음과 같은 출력이 표시됩니다:
 
 ```
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
 BUILDING my_first_package
 Running Move unit tests
 [ PASS    ] my_first_package::counter::test_increment
@@ -179,7 +176,7 @@ Test result: FAILED. Total tests: 1; passed: 0; failed: 1
 
 - [ ] `my_first_package.move`에 테스트 함수 `test_increment`를 추가했다
 - [ ] 에러 없이 컴파일되었다 (Playground 또는 `sui move build`)
-- [ ] `sui move test`에서 `[ PASS ]`가 표시되었다 (Option B만 해당)
+- [ ] `sui move test`에서 `[ PASS ]`가 표시되었다 (Playground Test 버튼 또는 CLI)
 
 ---
 

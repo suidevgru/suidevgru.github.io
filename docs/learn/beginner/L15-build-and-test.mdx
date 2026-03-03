@@ -110,11 +110,7 @@ You can try this in two ways — pick whichever suits you.
 
 ### Option A: Move Playground
 
-No local setup required. Paste the test code above into the Playground and compile to verify.
-
-:::note
-The browser Playground supports compilation only. To run `sui move test`, use Option B.
-:::
+No local setup required. Paste the test code above into the Playground, then click **Test** to run `sui move test` directly in your browser.
 
 <MovePlayground template={MoveTemplate_L14_Counter} />
 
@@ -133,9 +129,8 @@ sui move build
 A successful build looks like this:
 
 ```
-UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
-INCLUDING DEPENDENCY Sui
 INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
 BUILDING my_first_package
 ```
 
@@ -154,6 +149,8 @@ sui move test
 A successful test run looks like this:
 
 ```
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
 BUILDING my_first_package
 Running Move unit tests
 [ PASS    ] my_first_package::counter::test_increment
@@ -179,7 +176,7 @@ You've completed this lesson when you can:
 
 - [ ] Added the `test_increment` test function to `my_first_package.move`
 - [ ] Compiled without errors (in Playground or via `sui move build`)
-- [ ] `sui move test` showed `[ PASS ]` (Option B only)
+- [ ] `sui move test` showed `[ PASS ]` (Playground Test button or CLI)
 
 ---
 
