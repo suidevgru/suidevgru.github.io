@@ -61,7 +61,7 @@ module my_first_package::counter {
         // テスト用のダミーコンテキストを作成
         let mut ctx = tx_context::dummy();
 
-        // Counter オブジェクトを直接作成（テスト内なのでstructに直接アクセスできる）
+        // Counter オブジェクトを直接作成（同じモジュール内なので非公開フィールドにアクセスできる）
         let mut counter = Counter {
             id: object::new(&mut ctx),
             value: 0,
