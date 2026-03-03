@@ -4,6 +4,9 @@ title: "Write a Minimal Contract"
 description: "Implement a counter with struct and entry functions to understand the basic structure of a Move smart contract"
 ---
 
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L14_Counter } from '@site/src/templates/move/moveTemplate_04_counter';
+
 # Write a Minimal Contract
 
 In this lesson, you'll use the concepts from the previous lesson (Package, Module, Object) to write **a real, working contract**. Don't worry — it's simpler than it sounds. All you need is one `struct` and two `entry fun`s for a counter.
@@ -14,23 +17,13 @@ In this lesson, you'll use the concepts from the previous lesson (Package, Modul
 
 - Completed [Create a Move Project](/docs/learn/beginner/L12-create-move-project)
 - Read [Learn Move Mechanics](/docs/learn/beginner/L13-learn-move-mechanics)
-- [Sui Extension](/docs/getting-started/L04-vscode-sui-extension) installed in VSCode
-
----
-
-## Open the File
-
-Open `my_first_package` in VSCode, then open the `.move` file inside the `sources/` folder.
-
-When you ran `sui move new my_first_package`, the file `sources/my_first_package.move` was auto-generated. That's the file you'll edit.
-
-![File opened in VSCode](./img/L14_vscode-move-file.png)
+- If using VSCode: [Sui Extension](/docs/getting-started/L04-vscode-sui-extension) installed
 
 ---
 
 ## Write the Contract
 
-**Replace the entire contents** of `sources/my_first_package.move` with the following code:
+Here's the complete counter contract. Read through it — then choose how you want to try it out in the next section.
 
 ```rust
 module my_first_package::counter {
@@ -57,7 +50,73 @@ module my_first_package::counter {
 }
 ```
 
+---
+
+## Try It Out
+
+You can try this contract in two ways — pick whichever suits you.
+
+### Option A: Move Playground
+
+No local setup required. Edit, compile, and publish directly in your browser.
+
+<MovePlayground template={MoveTemplate_L14_Counter} />
+
+### Option B: VSCode + CLI
+
+Open `my_first_package` in VSCode, then open the `.move` file inside the `sources/` folder.
+
+When you ran `sui move new my_first_package`, the file `sources/my_first_package.move` was auto-generated. **Replace the entire contents** with the contract above.
+
+![File opened in VSCode](./img/L14_vscode-move-file.png)
+
 ![VSCode after entering the code, no errors](./img/L14_vscode-no-error.png)
+
+Once the code is written, run a build to check for errors.
+
+**1. Check the devnet chain identifier**
+
+```bash
+sui client chain-identifier
+```
+
+**2. Add environment config to the end of `Move.toml`**
+
+Use the ID displayed in the previous step (the value below is an example):
+
+```toml
+[environments]
+devnet = "a63d14dc"
+```
+
+Note: devnet resets periodically, and the chain ID changes with each reset. If you see errors later, repeat this step to get the updated ID.
+
+:::info Not needed for testnet or mainnet
+`testnet` and `mainnet` are recognized by Sui out of the box, so no extra config is needed. The `[environments]` entry is only required for `devnet`.
+:::
+
+**3. Run the build**
+
+```bash
+cd ~/sui-projects/my_first_package
+sui move build
+```
+
+A successful build looks like this:
+
+```
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
+BUILDING my_first_package
+```
+
+:::warning If you see errors
+If the Sui Extension is installed, errors are highlighted in real time with red underlines in VSCode. Hover over the line to see the error message.
+
+Common causes:
+- Missing semicolons (`;`)
+- Unclosed parentheses or braces
+:::
 
 ---
 
@@ -119,61 +178,11 @@ This transfers the newly created object to someone. If you try to end the functi
 
 ---
 
-## Verify with a Build
-
-Once the code is written, run a build to check for errors.
-
-**1. Check the devnet chain identifier**
-
-```bash
-sui client chain-identifier
-```
-
-**2. Add environment config to the end of `Move.toml`**
-
-Use the ID displayed in the previous step (the value below is an example):
-
-```toml
-[environments]
-devnet = "a63d14dc"
-```
-
-Note: devnet resets periodically, and the chain ID changes with each reset. If you see errors later, repeat this step to get the updated ID.
-
-:::info Not needed for testnet or mainnet
-`testnet` and `mainnet` are recognized by Sui out of the box, so no extra config is needed. The `[environments]` entry is only required for `devnet`.
-:::
-
-**3. Run the build**
-
-```bash
-cd ~/sui-projects/my_first_package
-sui move build
-```
-
-A successful build looks like this:
-
-```
-INCLUDING DEPENDENCY MoveStdlib
-INCLUDING DEPENDENCY Sui
-BUILDING my_first_package
-```
-
-:::warning If you see errors
-If the Sui Extension is installed, errors are highlighted in real time with red underlines in VSCode. Hover over the line to see the error message.
-
-Common causes:
-- Missing semicolons (`;`)
-- Unclosed parentheses or braces
-:::
-
----
-
 ## Success Checklist
 
 - [ ] Implemented `struct Counter` with `has key`
 - [ ] Implemented `create` and `increment` as `entry fun`
-- [ ] `sui move build` completed without errors
+- [ ] Compiled without errors (in Playground or via `sui move build`)
 
 ---
 
@@ -182,4 +191,4 @@ Common causes:
 - [x] Implemented functions callable from a wallet or CLI using `entry fun`
 - [x] Defined a Sui object with `has key`
 - [x] Used `transfer::transfer` to send the object to yourself
-- [x] Confirmed the build passes with `sui move build`
+- [x] Confirmed the contract compiles without errors

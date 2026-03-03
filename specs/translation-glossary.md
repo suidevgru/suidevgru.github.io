@@ -49,6 +49,10 @@ This glossary is the source of truth for consistent terminology across English, 
 | Transaction | 트랜잭션 | トランザクション |  |
 | Sign (a transaction) | 서명하다 | 署名する | Verb form. |
 | Signature | 서명 | 署名 | If you need the noun "signature value", use "서명값", "署名値" in Notes on the page. |
+| Publish (a contract) | 배포하다 | パブリッシュする / デプロイする |  |
+| Deploy | 배포하다 | デプロイする |  |
+| Compile | 컴파일하다 | コンパイルする | Accepted loanword in KO/JA dev docs; keep as-is. |
+| Import (code) | 임포트 / 불러오기 | インポート | Both acceptable in KO; prefer "불러오기" in beginner-level docs. |
 
 ## Usage examples
 

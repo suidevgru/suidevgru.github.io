@@ -1,0 +1,116 @@
+name: i18n Coverage Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'i18n/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: i18n-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Detect missing translations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find missing translations
+        id: missing
+        run: |
+          LOCALES=("ja" "ko")
+          DOCS_BASE="docs"
+          I18N_BASE="i18n"
+          CONTENT_DIR="docusaurus-plugin-content-docs/current"
+
+          MISSING_REPORT=""
+
+          for LOCALE in "${LOCALES[@]}"; do
+            LOCALE_DIR="${I18N_BASE}/${LOCALE}/${CONTENT_DIR}"
+            MISSING_FILES=""
+
+            # Find all .md and .mdx files in docs/
+            while IFS= read -r -d '' SRC_FILE; do
+              # Compute relative path from docs/
+              REL_PATH="${SRC_FILE#${DOCS_BASE}/}"
+              TARGET_FILE="${LOCALE_DIR}/${REL_PATH}"
+
+              if [ ! -f "$TARGET_FILE" ]; then
+                MISSING_FILES="${MISSING_FILES}\n  - \`${REL_PATH}\`"
+              fi
+            done < <(find "${DOCS_BASE}" -type f \( -name "*.md" -o -name "*.mdx" \) -print0)
+
+            if [ -n "$MISSING_FILES" ]; then
+              MISSING_REPORT="${MISSING_REPORT}\n### 🌐 \`${LOCALE}\` locale missing files:${MISSING_FILES}\n"
+            fi
+          done
+
+          if [ -n "$MISSING_REPORT" ]; then
+            echo "has_missing=true" >> $GITHUB_OUTPUT
+            # Write report to a file to avoid multiline issues
+            printf "%b" "$MISSING_REPORT" > /tmp/missing_report.txt
+          else
+            echo "has_missing=false" >> $GITHUB_OUTPUT
+            echo "✅ All locales are up to date." > /tmp/missing_report.txt
+          fi
+
+      - name: Post PR comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/missing_report.txt', 'utf8');
+            const hasMissing = '${{ steps.missing.outputs.has_missing }}' === 'true';
+
+            const header = hasMissing
+              ? '## ⚠️ i18n Translation Coverage\n\nThis PR adds or modifies doc files that are **missing translations** in one or more locales:\n'
+              : '## ✅ i18n Translation Coverage\n\n';
+
+            const body = header + report + (hasMissing
+              ? '\n\n> Please add the translated files or mark them as intentionally skipped.\n> Translations do not need to be perfect — a draft is fine!'
+              : '');
+
+            // Find existing bot comment and update, or create new
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('i18n Translation Coverage')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+      - name: Fail if missing translations detected
+        if: steps.missing.outputs.has_missing == 'true'
+        run: |
+          echo "::error::Missing translation files found. See PR comment for details."
+          cat /tmp/missing_report.txt
+          exit 1
