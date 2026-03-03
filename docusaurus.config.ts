@@ -53,7 +53,11 @@ const config: Config = {
     },
   },
 
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['@docusaurus/theme-live-codeblock', '@docusaurus/theme-mermaid'],
+
+  markdown: {
+    mermaid: true,
+  },
 
   presets: [
     [
@@ -75,6 +79,9 @@ const config: Config = {
   ],
 
   themeConfig: {
+    mermaid: {
+      theme: { light: 'default', dark: 'dark' },
+    },
     // Replace with your project's social card
     image: 'img/sui-devgru-banner.png',
     metadata: [
