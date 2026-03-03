@@ -28,6 +28,55 @@ type BuildSuccess = BuildResult & {
 
 type AnsiColorMap = Record<number, string>;
 const ANSI_REGEX = /\x1b\[[0-9;]*m/g;
+
+function parsePackageName(moveToml: string): string | null {
+  const m = moveToml.match(/\[package\][\s\S]*?\bname\s*=\s*["']([^"']+)["']/);
+  return m?.[1] ?? null;
+}
+
+function filterTestOutputByPackage(
+  output: string,
+  packageName: string,
+): { output: string; passed: number; failed: number } {
+  const strip = (s: string) => s.replace(ANSI_REGEX, '');
+  const kept: string[] = [];
+  let passed = 0;
+  let failed = 0;
+
+  for (const line of output.split('\n')) {
+    const plain = strip(line);
+
+    if (plain.includes('Running Move unit tests')) {
+      kept.push(line);
+      continue;
+    }
+
+    const passMatch = plain.match(/\[\s*PASS\s*\]\s+(\S+)/);
+    if (passMatch) {
+      if (passMatch[1].startsWith(`${packageName}::`)) {
+        kept.push(line);
+        passed++;
+      }
+      continue;
+    }
+
+    const failMatch = plain.match(/\[\s*FAIL\s*\]\s+(\S+)/);
+    if (failMatch) {
+      if (failMatch[1].startsWith(`${packageName}::`)) {
+        kept.push(line);
+        failed++;
+      }
+      continue;
+    }
+
+    if (plain.startsWith('Test result:')) continue;
+  }
+
+  const total = passed + failed;
+  const status = failed === 0 ? 'OK' : 'FAILED';
+  kept.push(`Test result: ${status}. Total tests: ${total}; passed: ${passed}; failed: ${failed}`);
+  return { output: kept.join('\n'), passed, failed };
+}
 const ANSI_COLORS_LIGHT: AnsiColorMap = {
   30: '#0f172a',
   31: '#b91c1c',
@@ -503,8 +552,12 @@ export function MovePlayground({ template = MoveTemplate_Intro_HelloWorld }: { t
         appendError(result.error);
         setStatus('Test error.');
       } else {
-        appendOutput(result.output);
-        if (result.passed) {
+        const packageName = parsePackageName(files['Move.toml'] ?? '');
+        const { output: filteredOutput, failed: failedCount } = packageName
+          ? filterTestOutputByPackage(result.output, packageName)
+          : { output: result.output, failed: result.passed ? 0 : 1 };
+        appendOutput(filteredOutput);
+        if (failedCount === 0) {
           appendLog(`All tests passed in ${(end - start).toFixed(2)} ms`);
           setStatus('Tests passed.');
         } else {
