@@ -201,7 +201,7 @@ module my_first_package::counter {
             id: object::new(ctx),
             value: 0,
         };
-        transfer::transfer(counter, ctx.sender());
+        transfer::public_transfer(counter, ctx.sender());
     }
 
     /// 카운터 값을 1 증가
