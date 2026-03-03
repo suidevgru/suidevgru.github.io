@@ -1,0 +1,147 @@
+---
+sidebar_position: 16
+title: "컨트랙트 배포하기"
+description: "Move Playground 또는 sui client publish 명령어로 카운터 컨트랙트를 Devnet에 배포하기"
+---
+
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L16_CounterPublish } from '@site/src/templates/move/moveTemplate_05_publish';
+
+# 컨트랙트 배포하기
+
+드디어 카운터 컨트랙트를 Devnet에 배포합니다. **어렵지 않습니다** — 컴파일하고 배포한 뒤 PackageID를 저장하면 끝입니다.
+
+---
+
+## 사전 조건
+
+- [빌드 및 테스트](/docs/learn/beginner/L15-build-and-test) 완료 (`sui move test`에서 `[ PASS ]` 확인)
+- [Devnet 테스트 토큰 획득](/docs/getting-started/L06-get-test-tokens) (배포 시 가스비가 필요합니다)
+- Option A (Playground): 브라우저 지갑 (Slush 등)이 Devnet에 연결되어 있을 것
+- Option B (CLI): [Sui CLI가 Devnet에 연결되어 있을 것](/docs/getting-started/L05-connect-cli-to-devnet)
+
+---
+
+## 배포(publish)란?
+
+배포(publish)란 로컬에서 작성한 Move 컨트랙트를 **Sui 블록체인에 등록하는** 작업입니다. 배포하면:
+
+- 컨트랙트가 **Package**로 체인에 저장됩니다
+- **PackageID**라는 고유 주소가 발급됩니다
+- PackageID를 사용해 패키지를 체인에서 참조할 수 있게 됩니다. `public` 및 `entry` 함수는 누구나 호출할 수 있지만, 각 함수의 인수와 접근 요건은 그대로 적용됩니다
+
+로컬 테스트에서는 임시 컨텍스트를 사용했지만, 배포 후에는 실제 트랜잭션이 됩니다.
+
+---
+
+## 직접 해보기
+
+두 가지 방법 중 원하는 것을 선택하세요.
+
+### Option A: Move Playground
+
+로컬 환경 불필요. Playground에는 완성된 카운터 코드가 미리 입력되어 있습니다. **Compile** → **Publish** 순서로 클릭하면 브라우저에서 바로 Devnet에 배포할 수 있습니다.
+
+CLI와의 큰 차이점은 **브라우저 지갑의 승인 팝업이 표시된다**는 점입니다. CLI는 로컬 키스토어로 자동 서명하지만, Playground는 지갑 앱이 서명 확인을 요청합니다.
+
+지갑에 연결된 주소에 가스비용으로 쓸 **SUI 테스트 토큰**이 필요합니다. 아직 받지 않았다면 [여기서 받으세요](/docs/getting-started/L06-get-test-tokens).
+
+**순서:**
+
+1. 페이지 우측 상단의 **Connect Wallet**에서 지갑을 연결하고 Devnet을 선택
+2. **Compile** 버튼을 클릭하고 빌드 성공을 기다림
+3. **Publish** 버튼을 클릭 (Compile이 완료되기 전까지는 비활성화)
+4. 지갑 팝업에서 트랜잭션 승인
+5. 완료 후 Playground에 Package ID가 표시됨
+
+<MovePlayground template={MoveTemplate_L16_CounterPublish} />
+
+위에 표시된 **Package ID**를 메모해 두세요 — 다음 단계에서 사용합니다.
+
+### Option B: VSCode + CLI
+
+`Move.toml`이 있는 프로젝트 루트 디렉토리에서 다음 명령어를 실행합니다.
+
+```bash
+cd ~/sui-projects/my_first_package
+sui client publish
+```
+
+:::info `--gas-budget`은 불필요
+최신 Sui CLI는 가스 한도를 자동으로 추정합니다. 오래된 튜토리얼에서 `--gas-budget 10000000` 같은 옵션을 볼 수 있지만, 생략해도 됩니다.
+:::
+
+명령어를 실행하면 CLI가 로컬 키스토어의 활성 주소로 자동으로 서명하여 트랜잭션을 Devnet에 전송합니다. 외부 지갑 팝업은 표시되지 않습니다.
+
+**출력 읽기**
+
+성공하면 터미널에 많은 출력이 표시됩니다. 중요한 부분만 확인합니다.
+
+출력 상단 근처의 `Transaction Status`에서 `Success`가 표시되면 배포 성공입니다.
+
+`Object Changes` 섹션의 `Published Objects` 항목에서 **PackageID**를 찾습니다.
+
+```
+│ Published Objects:                                         │
+│  ┌──                                                       │
+│  │ PackageID: 0x1234abcd...                               │
+│  │ Version: 1                                              │
+│  │ Modules: counter                                        │
+│  └──                                                       │
+```
+
+`PackageID: 0x...` 값이 여러분 컨트랙트의 주소입니다. **이 값을 메모해 두세요** (다음 단계에서 사용합니다).
+
+배포 시 **UpgradeCap** 오브젝트도 함께 생성되어 여러분의 주소로 전송됩니다. 이 오브젝트는 향후 컨트랙트 업그레이드를 관리합니다.
+
+출력 상단 또는 하단에는 **Transaction Digest**도 표시됩니다. Sui Explorer에서 확인할 때 사용합니다.
+
+---
+
+## Sui Explorer에서 확인하기
+
+브라우저에서 [Sui Explorer (Devnet)](https://suiexplorer.com/?network=devnet)를 열고, PackageID 또는 트랜잭션 다이제스트를 검색창에 붙여넣으세요.
+
+<!-- 이미지: Sui Explorer에서 PackageID를 검색하는 화면 -->
+<!-- ![Sui Explorer에서 PackageID 검색](./img/L16_explorer-search.png) -->
+
+Package가 목록에 표시되고 PackageID가 일치하는지 확인합니다.
+
+---
+
+## PackageID 저장하기
+
+PackageID는 이후 단계에서 필요합니다. 메모장 등에 붙여넣어 두세요.
+
+:::warning Devnet의 PackageID는 영구적이지 않습니다
+Devnet은 주기적으로 리셋됩니다. 리셋 후에는 동일한 절차로 재배포가 필요하며 PackageID도 변경됩니다. Mainnet으로 이전할 때도 새로 배포가 필요합니다.
+:::
+
+---
+
+## 오류가 발생했다면
+
+**`InsufficientGas`** / 가스 부족: [Faucet에서 테스트 토큰을 받고](/docs/getting-started/L06-get-test-tokens) 다시 시도하세요. `sui client gas`로 SUI 잔액을 확인할 수 있습니다.
+
+**`Unresolved dependencies`** / 의존성 오류: `Move.toml`의 `[environments]` 설정이 없습니다. [L14](/docs/learn/beginner/L14-write-minimal-contract)를 참고하여 devnet 체인 ID를 추가하세요.
+
+**`Build failed`** / 빌드 오류: 먼저 `sui move build`로 빌드 오류를 확인한 후 다시 배포하세요.
+
+---
+
+## 성공 확인
+
+아래 항목을 달성하면 이 레슨은 완료입니다:
+
+- [ ] 컨트랙트를 컴파일하고 배포했다 (Playground 또는 `sui client publish`)
+- [ ] `PackageID`를 취득하여 메모했다
+- [ ] Sui Explorer에서 Package를 확인했다
+
+---
+
+## 이번 레슨에서 한 것
+
+- [x] 카운터 컨트랙트를 Devnet에 배포했다 (Playground 또는 CLI)
+- [x] `PackageID`를 취득했다
+- [x] Sui Explorer에서 배포된 Package를 확인했다
+- [x] 다음 레슨을 위해 PackageID를 저장했다

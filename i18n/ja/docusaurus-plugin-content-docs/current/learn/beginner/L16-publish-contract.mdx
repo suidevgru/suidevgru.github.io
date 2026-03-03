@@ -1,0 +1,177 @@
+---
+sidebar_position: 16
+title: "コントラクトをパブリッシュする"
+description: "sui client publishコマンドまたはMove PlaygroundでカウンターコントラクトをDevnetにデプロイする"
+---
+
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L16_CounterPublish } from '@site/src/templates/move/moveTemplate_05_publish';
+
+# コントラクトをパブリッシュする
+
+いよいよカウンターコントラクトをDevnetにデプロイします。**難しくありません**。コンパイルしてパブリッシュするだけで、PackageIDを取得すれば完了です。
+
+---
+
+## 前提条件
+
+- [ビルドとテスト](/docs/learn/beginner/L15-build-and-test) が完了していること（`sui move test` で `[ PASS ]` が確認できていること）
+- [Devnetのテストトークンを取得している](/docs/getting-started/L06-get-test-tokens)こと（パブリッシュにはガス代が必要です）
+- Option A（Playground）の場合: ブラウザウォレット（Slushなど）がDevnetに接続されていること
+- Option B（CLI）の場合: [Sui CLIがDevnetに接続されていること](/docs/getting-started/L05-connect-cli-to-devnet)
+
+---
+
+## パブリッシュとは？
+
+「パブリッシュ（publish）」とは、ローカルで書いたMoveコントラクトを**Suiブロックチェーンに登録する**操作です。パブリッシュすると：
+
+- コントラクトが **Package** としてチェーン上に保存される
+- **PackageID** という一意のアドレスが発行される
+- PackageIDを使ってパッケージをチェーン上で参照できるようになる。`public` 関数や `entry` 関数は誰でも呼び出せるが、各関数の引数・アクセス要件は引き続き適用される
+
+ローカルのテストでは仮のコンテキストを使いましたが、パブリッシュ後は本物のトランザクションになります。
+
+---
+
+## 試してみよう
+
+2つの方法から好きな方を選んでください。
+
+### Option A: Move Playground
+
+ローカル環境不要。Playgroundに完成済みのカウンターコードが入っています。**Compile** → **Publish** の順でクリックするだけでDevnetにデプロイできます。
+
+CLIとの大きな違いは、**ブラウザウォレットの承認ポップアップが表示される**点です。CLIはローカルのキーストアで自動署名しますが、Playgroundはウォレットアプリが署名の確認を求めます。
+
+ウォレットに接続しているアドレスに **SUIテストトークン**が必要です。まだ取得していない場合は[こちら](/docs/getting-started/L06-get-test-tokens)から入手してください。
+
+**手順:**
+
+1. ページ右上の **Connect Wallet** からウォレットを接続する（Devnetを選択）
+2. **Compile** ボタンをクリックしてビルドが成功するのを待つ
+3. **Publish** ボタンをクリックする（Compileが完了するまで無効です）
+4. ウォレットの承認ポップアップで確認する
+5. 完了後、PlaygroundにPackage IDが表示される
+
+<MovePlayground template={MoveTemplate_L16_CounterPublish} />
+
+Playgroundに表示された **Package ID** をメモしておきましょう（次のステップで使います）。
+
+### Option B: VSCode + CLI
+
+`Move.toml` があるプロジェクトのルートディレクトリで以下のコマンドを実行します。
+
+```bash
+cd ~/sui-projects/my_first_package
+sui client publish
+```
+
+:::info `--gas-budget` は不要
+最近のSui CLIでは、ガスバジェットは自動で見積もられます。古いチュートリアルで `--gas-budget 10000000` のようなオプションを見かけることがありますが、省略して問題ありません。
+:::
+
+コマンドを実行すると、CLIがローカルのキーストアにある有効なアドレスで自動的に署名し、トランザクションをDevnetに送信します。外部ウォレットへのポップアップは表示されません。
+
+**出力を読もう**
+
+成功すると、ターミナルに大量の出力が表示されます。すべてを読む必要はありません。重要な箇所だけ確認します。
+
+出力の先頭付近に `Transaction Status` が表示されます。`Success` が表示されていれば成功です。
+
+出力の中の `Object Changes` セクションを探します。`Published Objects` という項目に **PackageID** が書いてあります。
+
+```
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Object Changes                                                                                                              │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                                             │
+│ Created Objects:                                                                                                            │
+│  ┌──                                                                                                                        │
+│  │ ObjectID: 0x38791b4f7e7e7dcd9816c0cfd80cc200e3498c33d6c5ea5b96e3e4c0f60e0a63                                           │
+│  │ Sender: 0xabcd...                                                                                                        │
+│  │ Owner: Account Address ( 0xabcd... )                                                                                     │
+│  │ ObjectType: 0x2::package::UpgradeCap                                                                                    │
+│  │ Version: 1                                                                                                               │
+│  └──                                                                                                                        │
+│                                                                                                                             │
+│ Published Objects:                                                                                                          │
+│  ┌──                                                                                                                        │
+│  │ PackageID: 0x1234abcd5678ef901234abcd5678ef901234abcd5678ef901234abcd5678ef90                                          │
+│  │ Version: 1                                                                                                               │
+│  │ Digest: AbCdEfGhIjKl...                                                                                                  │
+│  │ Modules: counter                                                                                                         │
+│  └──                                                                                                                        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+`PackageID: 0x...` の値をメモしておきましょう（次のステップで使います）。
+
+`Created Objects` セクションに表示されている `UpgradeCap` は、コントラクトの将来のアップグレードを管理するオブジェクトです。
+
+出力の先頭または末尾あたりには `Transaction Digest` も表示されます。Sui Explorerでの確認に使えます。
+
+---
+
+## Sui Explorerで確認しよう
+
+ブラウザで [Sui Explorer (Devnet)](https://suiexplorer.com/?network=devnet) を開き、PackageIDまたはトランザクションダイジェストを検索ボックスに貼り付けてください。
+
+<!-- 画像: Sui ExplorerでPackageIDを検索する画面 -->
+<!-- ![Sui ExplorerでPackageIDを検索](./img/L16_explorer-search.png) -->
+
+表示されたページで、パブリッシュが成功したことを確認できます。
+
+<!-- 画像: Sui ExplorerのPackage詳細ページ -->
+<!-- ![Package詳細ページ](./img/L16_explorer-package-detail.png) -->
+
+---
+
+## PackageIDを保存しよう
+
+PackageIDは今後のステップで必要になります。メモ帳などに貼り付けておきましょう。
+
+:::warning devnetのPackageIDは永続しません
+Devnetは定期的にリセットされます。リセット後は同じ手順で再パブリッシュが必要で、PackageIDも変わります。本番（Mainnet）への移行時は改めてデプロイが必要です。
+:::
+
+---
+
+## エラーが出たら
+
+### `InsufficientGas` / ガス不足
+
+テストトークンが不足しています。[Faucetでテストトークンを取得](/docs/getting-started/L06-get-test-tokens)してから再試行してください。
+
+```bash
+sui client gas
+```
+
+でSUIの残高を確認できます。
+
+### `Unresolved dependencies` / 依存関係エラー
+
+`Move.toml` の `[environments]` 設定が不足しています。[L14](/docs/learn/beginner/L14-write-minimal-contract)を参照して、devnetのチェーンIDを追加してください。
+
+### `Build failed` / ビルドエラー
+
+コントラクトのコードに問題があります。まず `sui move build` でビルドエラーを確認してから、再度パブリッシュを試みてください。
+
+---
+
+## 成功の確認
+
+以下ができれば、このレッスンは完了です：
+
+- [ ] コントラクトをコンパイルしてパブリッシュできた（Playground または `sui client publish`）
+- [ ] `PackageID` を取得してメモした
+- [ ] Sui ExplorerでPackageを確認した
+
+---
+
+## このレッスンでやったこと
+
+- [x] カウンターコントラクトをDevnetにパブリッシュした（Playground または CLI）
+- [x] `PackageID` を取得した
+- [x] Sui ExplorerでデプロイされたPackageを確認した
+- [x] PackageIDを次のレッスンのために保存した
