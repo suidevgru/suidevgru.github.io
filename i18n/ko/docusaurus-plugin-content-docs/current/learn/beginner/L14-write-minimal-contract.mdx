@@ -41,7 +41,7 @@ module my_first_package::counter {
         value: u64,
     }
 
-    /// 카운터를 생성하여 송신자에게 전송합니다
+    /// 카운터를 생성하여 트랜잭션의 발신자에게 전송합니다
     entry fun create(ctx: &mut TxContext) {
         let counter = Counter {
             id: object::new(ctx),
