@@ -4,6 +4,9 @@ title: "Build and Test"
 description: "Verify your contract locally with sui move build and sui move test"
 ---
 
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L14_Counter } from '@site/src/templates/move/moveTemplate_04_counter';
+
 # Build and Test
 
 In this lesson, you'll **add test code** to `my_first_package.move` and learn how to verify its behavior locally. **It's not difficult** — just add a test function to the same file and you can check it right away.
@@ -101,9 +104,25 @@ The test function is written **inside the same module** as the contract, so it c
 
 ---
 
-## Build with sui move build
+## Try It Out
+
+You can try this in two ways — pick whichever suits you.
+
+### Option A: Move Playground
+
+No local setup required. Paste the test code above into the Playground and compile to verify.
+
+:::note
+The browser Playground supports compilation only. To run `sui move test`, use Option B.
+:::
+
+<MovePlayground template={MoveTemplate_L14_Counter} />
+
+### Option B: VSCode + CLI
 
 > The `[environments]` setting in `Move.toml` was configured in L14. If you haven't done it yet, refer to [Verify with a Build](/docs/learn/beginner/L14-write-minimal-contract#verify-with-a-build).
+
+**1. Run the build**
 
 Run the following from the project root directory (the folder containing `Move.toml`).
 
@@ -124,9 +143,7 @@ Once you see `BUILDING my_first_package`, the build itself is successful.
 
 If you get an error, review the syntax of your test code. If you have the VSCode Sui Extension, errors will be highlighted in real time.
 
----
-
-## Run tests with sui move test
+**2. Run the tests**
 
 Once the build passes, run the tests.
 
@@ -145,8 +162,6 @@ Test result: OK. Total tests: 1; passed: 1; failed: 0
 
 If you see `[ PASS ]`, you're done! You've confirmed locally that the `increment` function works correctly.
 
-### What if a test fails?
-
 If the `assert!` condition isn't met, you'll see:
 
 ```
@@ -163,8 +178,8 @@ In that case, review the logic of the `increment` function or the condition in `
 You've completed this lesson when you can:
 
 - [ ] Added the `test_increment` test function to `my_first_package.move`
-- [ ] `sui move build` completed without errors
-- [ ] `sui move test` showed `[ PASS ]`
+- [ ] Compiled without errors (in Playground or via `sui move build`)
+- [ ] `sui move test` showed `[ PASS ]` (Option B only)
 
 ---
 
