@@ -4,6 +4,9 @@ title: "최소 컨트랙트 작성하기"
 description: "struct와 entry fun을 구현하여 Move 스마트 컨트랙트의 기본 구조를 이해합니다"
 ---
 
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L14_Counter } from '@site/src/templates/move/moveTemplate_04_counter';
+
 # 최소 컨트랙트 작성하기
 
 이 레슨에서는 이전 레슨에서 배운 개념(Package, Module, Object)을 사용하여 **실제로 동작하는 컨트랙트**를 작성합니다. **어렵지 않습니다**. 카운터용 `struct` 하나와 `entry fun` 두 개만 작성하면 됩니다.
@@ -56,6 +59,8 @@ module my_first_package::counter {
     }
 }
 ```
+
+<MovePlayground template={MoveTemplate_L14_Counter} />
 
 ![코드 입력 후의 VSCode 화면 (에러 없음)](./img/L14_vscode-no-error.png)
 

@@ -4,6 +4,9 @@ title: "Write a Minimal Contract"
 description: "Implement a counter with struct and entry functions to understand the basic structure of a Move smart contract"
 ---
 
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L14_Counter } from '@site/src/templates/move/moveTemplate_04_counter';
+
 # Write a Minimal Contract
 
 In this lesson, you'll use the concepts from the previous lesson (Package, Module, Object) to write **a real, working contract**. Don't worry — it's simpler than it sounds. All you need is one `struct` and two `entry fun`s for a counter.
@@ -56,6 +59,8 @@ module my_first_package::counter {
     }
 }
 ```
+
+<MovePlayground template={MoveTemplate_L14_Counter} />
 
 ![VSCode after entering the code, no errors](./img/L14_vscode-no-error.png)
 

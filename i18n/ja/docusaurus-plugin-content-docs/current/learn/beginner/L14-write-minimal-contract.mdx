@@ -4,6 +4,9 @@ title: "最小コントラクトを書く"
 description: "struct と entry fun を実装して、Moveスマートコントラクトの基本構造を理解する"
 ---
 
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L14_Counter } from '@site/src/templates/move/moveTemplate_04_counter';
+
 # 最小コントラクトを書く
 
 このレッスンでは、前のレッスンで学んだ概念（Package・Module・Object）を使って、**実際に動くコントラクト**を書きます。**身構えなくて大丈夫です**。カウンターの `struct` と `entry fun` を2つ書くだけです。
@@ -56,6 +59,8 @@ module my_first_package::counter {
     }
 }
 ```
+
+<MovePlayground template={MoveTemplate_L14_Counter} />
 
 ![コード入力後のVSCode画面](./img/L14_vscode-no-error.png)
 

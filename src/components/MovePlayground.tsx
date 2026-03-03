@@ -15,6 +15,7 @@ import {
 } from '@zktx.io/sui-move-builder/lite';
 
 import { MoveTemplate_Intro_HelloWorld } from '@site/src/templates/move/moveTemplate_01_hello';
+import type { MoveTemplate } from '@site/src/templates/move/types';
 
 type BuildResult = Awaited<ReturnType<typeof buildMovePackage>>;
 type BuildSuccess = BuildResult & {
@@ -63,8 +64,7 @@ const ANSI_COLORS_DARK: AnsiColorMap = {
   97: '#f8fafc',
 };
 
-export function MovePlayground() {
-  const template = MoveTemplate_Intro_HelloWorld;
+export function MovePlayground({ template = MoveTemplate_Intro_HelloWorld }: { template?: MoveTemplate }) {
   const templateFiles = useMemo(
     () => template.files(template.defaultName ?? 'hello_world'),
     [template],
