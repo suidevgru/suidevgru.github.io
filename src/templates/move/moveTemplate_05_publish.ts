@@ -45,6 +45,11 @@ const moveSource = `module my_first_package::counter {
         counter.value = counter.value + 1;
     }
 
+    /// Return the current value of the counter
+    public fun get_value(counter: &Counter): u64 {
+        counter.value
+    }
+
     // === Tests ===
 
     #[test]
@@ -55,7 +60,7 @@ const moveSource = `module my_first_package::counter {
             value: 0,
         };
         increment(&mut counter);
-        assert!(counter.value == 1, 0);
+        assert!(get_value(&counter) == 1, 0);
         let Counter { id, value: _ } = counter;
         object::delete(id);
     }
