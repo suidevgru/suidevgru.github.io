@@ -48,15 +48,16 @@ CLIとの大きな違いは、**ブラウザウォレットの承認ポップア
 
 **手順:**
 
-1. ページ右上の **Connect Wallet** からウォレットを接続する（Devnetを選択）
-2. **Compile** ボタンをクリックしてビルドが成功するのを待つ
-3. **Publish** ボタンをクリックする（Compileが完了するまで無効です）
-4. ウォレットの承認ポップアップで確認する
-5. 完了後、PlaygroundにPackage IDが表示される
+1. ページ右上の **Connect Wallet** からウォレットを接続する
+2. ウォレットでDevnetに切り替える（[切り替え方法はこちら](/docs/getting-started/L02-switch-devnet)）
+3. **Compile** ボタンをクリックしてビルドが成功するのを待つ
+4. **Publish** ボタンをクリックする（Compileが完了するまで無効です）
+5. ウォレットの承認ポップアップで確認する
+6. 完了後、PlaygroundにPackage IDが表示される
 
 <MovePlayground template={MoveTemplate_L16_CounterPublish} />
 
-Playgroundに表示された **Package ID** をメモしておきましょう（次のステップで使います）。
+Playgroundに表示された **Package ID** をメモしておきましょう（次のレッスンで使います）。
 
 ### Option B: VSCode + CLI
 
@@ -105,7 +106,7 @@ sui client publish
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-`PackageID: 0x...` の値をメモしておきましょう（次のステップで使います）。
+`PackageID: 0x...` の値をメモしておきましょう（次のレッスンで使います）。
 
 `Created Objects` セクションに表示されている `UpgradeCap` は、コントラクトの将来のアップグレードを管理するオブジェクトです。
 

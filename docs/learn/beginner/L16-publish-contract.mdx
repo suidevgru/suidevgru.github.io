@@ -46,15 +46,16 @@ The address connected to your wallet must have **SUI test tokens** for gas. If y
 
 **Steps:**
 
-1. Click **Connect Wallet** in the top-right corner and select Devnet
-2. Click **Compile** and wait for the build to succeed
-3. Click **Publish** (it's disabled until Compile completes)
-4. Approve the transaction in your wallet popup
-5. After confirmation, the Package ID appears in the Playground
+1. Click **Connect Wallet** in the top-right corner
+2. Switch to Devnet in your wallet ([how to switch](/docs/getting-started/L02-switch-devnet))
+3. Click **Compile** and wait for the build to succeed
+4. Click **Publish** (it's disabled until Compile completes)
+5. Approve the transaction in your wallet popup
+6. After confirmation, the Package ID appears in the Playground
 
 <MovePlayground template={MoveTemplate_L16_CounterPublish} />
 
-Copy the **Package ID** shown above — you'll need it in the next step.
+Copy the **Package ID** shown above — you'll need it in the next lesson.
 
 ### Option B: VSCode + CLI
 
@@ -88,7 +89,7 @@ Find the `Published Objects` section under `Object Changes`:
 │  └──                                                        │
 ```
 
-The `PackageID: 0x...` value is your contract's on-chain address. **Save this value** — you'll need it in the next step.
+The `PackageID: 0x...` value is your contract's on-chain address. **Save this value** — you'll need it in the next lesson.
 
 Publishing also creates an **UpgradeCap** object transferred to your address. This object controls future contract upgrades.
 
