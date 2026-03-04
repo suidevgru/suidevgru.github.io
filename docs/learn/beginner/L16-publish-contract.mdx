@@ -57,6 +57,8 @@ The address connected to your wallet must have **SUI test tokens** for gas. If y
 
 Copy the **Package ID** shown above — you'll need it in the next lesson.
 
+---
+
 ### Option B: VSCode + CLI
 
 From the project root directory (where `Move.toml` is located), run:
@@ -66,13 +68,9 @@ cd ~/sui-projects/my_first_package
 sui client publish
 ```
 
-:::info `--gas-budget` is not required
-Recent versions of the Sui CLI automatically estimate the gas budget. You may see `--gas-budget 10000000` in older tutorials, but it can be omitted.
-:::
-
 The CLI signs automatically with your local keystore and submits the transaction to Devnet — no wallet popup appears.
 
-**Reading the output**
+### Reading the output
 
 When successful, a large amount of output is displayed. You only need to find two things.
 
