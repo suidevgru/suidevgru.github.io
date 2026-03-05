@@ -15,7 +15,6 @@ In this lesson, you'll deploy the counter contract to Devnet. **It's not difficu
 
 ## Prerequisites
 
-- Completed [Build and Test](/docs/learn/beginner/L15-build-and-test) (`sui move test` passed)
 - [Obtained Devnet test tokens](/docs/getting-started/L06-get-test-tokens) (gas is required for publishing)
 - Option A (Playground): A browser wallet (e.g. Slush) [connected to Devnet](/docs/getting-started/L02-switch-devnet)
 - Option B (CLI): [Sui CLI connected to Devnet](/docs/getting-started/L05-connect-cli-to-devnet)
@@ -55,7 +54,9 @@ The address connected to your wallet must have **SUI test tokens** for gas. If y
 
 <MovePlayground template={MoveTemplate_L16_CounterPublish} />
 
+:::info
 Copy the **Package ID** shown above — you'll need it in the next lesson.
+:::
 
 ---
 
@@ -88,7 +89,9 @@ Find the `Published Objects` section under `Object Changes`:
 │  └──                                                        │
 ```
 
-The `PackageID: 0x...` value is your contract's on-chain address. **Save this value** — you'll need it in the next lesson.
+:::info
+The `PackageID: 0x...` value is your contract's on-chain address. Save it — you'll need it in the next lesson.
+:::
 
 Publishing also creates an **UpgradeCap** object transferred to your address. This object controls future contract upgrades.
 
@@ -99,16 +102,6 @@ Near the top or bottom of the output you'll also find a **Transaction Digest**, 
 ## Verify on Sui Explorer
 
 Open [Sui Explorer (Devnet)](https://suiexplorer.com/?network=devnet) and paste your PackageID or transaction digest into the search box. Confirm that the Package is listed and the PackageID matches what you received.
-
----
-
-## Save the PackageID
-
-The PackageID is needed in future steps. Copy it somewhere you can find it — a text file or a note is fine.
-
-:::warning Devnet PackageIDs are not permanent
-Devnet resets periodically. After a reset, you'll need to republish and will get a new PackageID.
-:::
 
 ---
 
@@ -125,7 +118,7 @@ Devnet resets periodically. After a reset, you'll need to republish and will get
 ## Success Checklist
 
 - [ ] Compiled and published the contract (Playground or `sui client publish`)
-- [ ] Obtained the `PackageID` and saved it
+- [ ] Obtained the `PackageID`
 - [ ] Verified the Package on Sui Explorer
 
 ---
@@ -135,4 +128,3 @@ Devnet resets periodically. After a reset, you'll need to republish and will get
 - [x] Deployed the counter contract to Devnet (Playground or CLI)
 - [x] Obtained the PackageID
 - [x] Verified the deployed Package on Sui Explorer
-- [x] Saved the PackageID for use in future lessons

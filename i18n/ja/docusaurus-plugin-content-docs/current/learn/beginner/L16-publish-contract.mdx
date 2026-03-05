@@ -15,7 +15,6 @@ import { MoveTemplate_L16_CounterPublish } from '@site/src/templates/move/moveTe
 
 ## 前提条件
 
-- [ビルドとテスト](/docs/learn/beginner/L15-build-and-test) が完了していること（`sui move test` で `[ PASS ]` が確認できていること）
 - [Devnetのテストトークンを取得している](/docs/getting-started/L06-get-test-tokens)こと（パブリッシュにはガス代が必要です）
 - Option A（Playground）の場合: ブラウザウォレット（Slushなど）が[Devnetに接続されていること](/docs/getting-started/L02-switch-devnet)
 - Option B（CLI）の場合: [Sui CLIがDevnetに接続されていること](/docs/getting-started/L05-connect-cli-to-devnet)
@@ -57,7 +56,9 @@ CLIとの大きな違いは、**ブラウザウォレットの承認ポップア
 
 <MovePlayground template={MoveTemplate_L16_CounterPublish} />
 
+:::info
 Playgroundに表示された **Package ID** をメモしておきましょう（次のレッスンで使います）。
+:::
 
 ---
 
@@ -103,7 +104,9 @@ sui client publish
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
+:::info
 `PackageID: 0x...` の値をメモしておきましょう（次のレッスンで使います）。
+:::
 
 `Created Objects` セクションに表示されている `UpgradeCap` は、コントラクトの将来のアップグレードを管理するオブジェクトです。
 
@@ -122,16 +125,6 @@ sui client publish
 
 <!-- 画像: Sui ExplorerのPackage詳細ページ -->
 <!-- ![Package詳細ページ](./img/L16_explorer-package-detail.png) -->
-
----
-
-## PackageIDを保存しよう
-
-PackageIDは今後のステップで必要になります。メモ帳などに貼り付けておきましょう。
-
-:::warning devnetのPackageIDは永続しません
-Devnetは定期的にリセットされます。リセット後は同じ手順で再パブリッシュが必要で、PackageIDも変わります。本番（Mainnet）への移行時は改めてデプロイが必要です。
-:::
 
 ---
 
@@ -162,7 +155,7 @@ sui client gas
 以下ができれば、このレッスンは完了です：
 
 - [ ] コントラクトをコンパイルしてパブリッシュできた（Playground または `sui client publish`）
-- [ ] `PackageID` を取得してメモした
+- [ ] `PackageID` を取得した
 - [ ] Sui ExplorerでPackageを確認した
 
 ---
@@ -172,4 +165,3 @@ sui client gas
 - [x] カウンターコントラクトをDevnetにパブリッシュした（Playground または CLI）
 - [x] `PackageID` を取得した
 - [x] Sui ExplorerでデプロイされたPackageを確認した
-- [x] PackageIDを次のレッスンのために保存した
