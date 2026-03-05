@@ -76,32 +76,31 @@ sui client publish
 
 成功すると、ターミナルに大量の出力が表示されます。すべてを読む必要はありません。重要な箇所だけ確認します。
 
-出力の先頭付近に `Transaction Status` が表示されます。`Success` が表示されていれば成功です。
+`Transaction Effects` セクションに `Status: Success` と表示されていれば成功です。
 
 出力の中の `Object Changes` セクションを探します。`Published Objects` という項目に **PackageID** が書いてあります。
 
 ```
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ Object Changes                                                                                                              │
-├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                                                             │
-│ Created Objects:                                                                                                            │
-│  ┌──                                                                                                                        │
-│  │ ObjectID: 0x38791b4f7e7e7dcd9816c0cfd80cc200e3498c33d6c5ea5b96e3e4c0f60e0a63                                           │
-│  │ Sender: 0xabcd...                                                                                                        │
-│  │ Owner: Account Address ( 0xabcd... )                                                                                     │
-│  │ ObjectType: 0x2::package::UpgradeCap                                                                                    │
-│  │ Version: 1                                                                                                               │
-│  └──                                                                                                                        │
-│                                                                                                                             │
-│ Published Objects:                                                                                                          │
-│  ┌──                                                                                                                        │
-│  │ PackageID: 0x1234abcd5678ef901234abcd5678ef901234abcd5678ef901234abcd5678ef90                                          │
-│  │ Version: 1                                                                                                               │
-│  │ Digest: AbCdEfGhIjKl...                                                                                                  │
-│  │ Modules: counter                                                                                                         │
-│  └──                                                                                                                        │
-╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Object Changes                                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Created Objects:                                                                                 │
+│  ┌──                                                                                             │
+│  │ ObjectID: 0x38791b4f7e7e7dcd9816c0cfd80cc200e3498c33d6c5ea5b96e3e4c0f60e0a63                  │
+│  │ Sender: 0xabcd...                                                                             │
+│  │ Owner: Account Address ( 0xabcd... )                                                          │
+│  │ ObjectType: 0x2::package::UpgradeCap                                                          │
+│  │ Version: 4                                                                                    │
+│  │ Digest: AbCdEfGhIjKl...                                                                       │
+│  └──                                                                                             │
+│ Published Objects:                                                                               │
+│  ┌──                                                                                             │
+│  │ PackageID: 0x1234abcd5678ef901234abcd5678ef901234abcd5678ef901234abcd5678ef90                 │
+│  │ Version: 1                                                                                    │
+│  │ Digest: AbCdEfGhIjKl...                                                                       │
+│  │ Modules: counter                                                                              │
+│  └──                                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 `PackageID: 0x...` の値をメモしておきましょう（次のレッスンで使います）。

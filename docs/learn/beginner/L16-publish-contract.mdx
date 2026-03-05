@@ -74,7 +74,7 @@ The CLI signs automatically with your local keystore and submits the transaction
 
 When successful, a large amount of output is displayed. You only need to find two things.
 
-Look for `Transaction Status` near the top — `Success` means the publish worked.
+Look for `Status: Success` in the `Transaction Effects` section — this confirms the publish worked.
 
 Find the `Published Objects` section under `Object Changes`:
 
@@ -83,6 +83,7 @@ Find the `Published Objects` section under `Object Changes`:
 │  ┌──                                                        │
 │  │ PackageID: 0x1234abcd...                                │
 │  │ Version: 1                                               │
+│  │ Digest: AbCdEf...                                        │
 │  │ Modules: counter                                         │
 │  └──                                                        │
 ```

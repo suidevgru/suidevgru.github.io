@@ -76,7 +76,7 @@ sui client publish
 
 성공하면 터미널에 많은 출력이 표시됩니다. 중요한 부분만 확인합니다.
 
-출력 상단 근처의 `Transaction Status`에서 `Success`가 표시되면 배포 성공입니다.
+`Transaction Effects` 섹션에서 `Status: Success`가 표시되면 배포 성공입니다.
 
 `Object Changes` 섹션의 `Published Objects` 항목에서 **PackageID**를 찾습니다.
 
@@ -85,6 +85,7 @@ sui client publish
 │  ┌──                                                       │
 │  │ PackageID: 0x1234abcd...                               │
 │  │ Version: 1                                              │
+│  │ Digest: AbCdEf...                                       │
 │  │ Modules: counter                                        │
 │  └──                                                       │
 ```
