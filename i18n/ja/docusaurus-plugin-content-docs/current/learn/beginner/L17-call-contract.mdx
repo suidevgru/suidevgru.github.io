@@ -1,0 +1,119 @@
+---
+sidebar_position: 17
+title: "Explorerから関数を呼び出す"
+description: "SuiscanのGUIを使って、publishしたカウンターコントラクトの関数を実行する"
+---
+
+# Explorerから関数を呼び出す
+
+前のレッスンでDevnetにpublishしたカウンターコントラクトを、**SuiscanのGUIから呼び出してみましょう**。ターミナルもコードも不要です。ブラウザだけで完結します。**難しくありません**。
+
+---
+
+## 前提条件
+
+- [コントラクトをパブリッシュする](/docs/learn/beginner/L16-publish-contract) を完了し、**PackageIDを手元にメモしてある**こと
+- Slushウォレットが[Devnetに接続されている](/docs/getting-started/L02-switch-devnet)こと
+- ウォレットに[テストトークンがある](/docs/getting-started/L06-get-test-tokens)こと（関数呼び出しにガス代が必要です）
+
+---
+
+## 1. SuiscanでPackageを開く
+
+ブラウザで [Suiscan (Devnet)](https://suiscan.xyz/devnet/home) を開きます。
+
+<!-- 画像: SuiscanのDevnetトップページ -->
+<!-- ![Suiscan Devnet](./img/L17_step1_suiscan-top.png) -->
+
+検索ボックスに前のレッスンで取得した **PackageID** を貼り付けて検索します。
+
+<!-- 画像: 検索ボックスにPackageIDを入力している状態 -->
+<!-- ![PackageID検索](./img/L17_step2_search-package.png) -->
+
+検索結果のPackageページが開きます。ページ内に **Modules** セクションがあり、`counter` というモジュール名が見えるはずです。
+
+<!-- 画像: PackageページのModulesセクション -->
+<!-- ![PackageページのModulesセクション](./img/L17_step3_package-page.png) -->
+
+---
+
+## 2. `create` 関数でカウンターを作成する
+
+`counter` モジュールをクリックして展開します。関数の一覧が表示されます。
+
+- `create` ── カウンターオブジェクトを作成して自分のウォレットに送る（`entry fun`）
+- `increment` ── カウンターの値を1増やす（`entry fun`）
+- `get_value` ── カウンターの現在値を返す（`public fun`）
+
+`entry fun` の関数だけ **Execute** ボタンが表示されます。`get_value` は `public fun` なので、Explorerから直接実行することはできません。
+
+まず **`create`** を実行して、カウンターオブジェクトを手に入れます。
+
+`create` の右にある **Execute** ボタンをクリックします。
+
+<!-- 画像: counterモジュールの関数一覧とcreateのExecuteボタン -->
+<!-- ![create関数のExecuteボタン](./img/L17_step4_create-execute.png) -->
+
+`create` は引数が不要です（`TxContext` は自動的に付与されます）。そのままウォレットの署名ポップアップが表示されます。
+
+Slushで内容を確認して **Approve** をクリックします。
+
+<!-- 画像: Slushの署名承認ポップアップ -->
+<!-- ![Slushの承認ポップアップ](./img/L17_step5_slush-approve.png) -->
+
+トランザクションが成功すると、Suiscan上にトランザクションの詳細リンクが表示されます。リンクをクリックして確認しましょう。
+
+**Changes** セクションに `Counter` というオブジェクトが作成されたことが分かります。この **ObjectID** が次のステップで必要になります。コピーしておいてください。
+
+<!-- 画像: トランザクション詳細のChangesセクションでCounterオブジェクトを確認 -->
+<!-- ![ChangesのCounter](./img/L17_step6_counter-object.png) -->
+
+---
+
+## 3. `increment` 関数でカウンターを増やす
+
+SuiscanのPackageページに戻り（ブラウザの「戻る」ボタンまたは再度PackageIDを検索）、再び `counter` モジュールを展開します。
+
+今度は **`increment`** の **Execute** ボタンをクリックします。
+
+<!-- 画像: incrementのExecuteボタン -->
+<!-- ![increment関数のExecuteボタン](./img/L17_step7_increment-execute.png) -->
+
+`increment` には引数が1つあります：
+
+| 引数名 | 型 | 入力する値 |
+|--------|-----|-----------|
+| `counter` | `Counter` (object ID) | 手順2でコピーした Counter の ObjectID |
+
+入力フォームに Counter の ObjectID を貼り付けます。
+
+<!-- 画像: incrementの引数入力フォームにObjectIDを入力した状態 -->
+<!-- ![increment引数入力](./img/L17_step8_increment-args.png) -->
+
+**Execute** をクリックして、Slushの署名ポップアップで **Approve** します。
+
+トランザクションが成功すれば完了です。
+
+<!-- 画像: incrementトランザクション成功画面 -->
+<!-- ![increment成功](./img/L17_step9_increment-success.png) -->
+
+---
+
+## 成功の確認
+
+以下ができれば、このレッスンは完了です：
+
+- [ ] Sui ExplorerでPackageIDを検索してPackageページを開けた
+- [ ] `create` 関数を実行して Counter オブジェクトを作成できた
+- [ ] `increment` 関数を実行してカウンターを増やせた
+
+Unit 3「Moveをpublishする」はここで完了です。次の Unit 4 では TypeScript SDK を使って、同じコントラクトをコードから呼び出す方法を学びます。
+
+---
+
+## このレッスンでやったこと
+
+- [x] SuiscanのGUIからコントラクトのPackageを検索した
+- [x] `create` 関数を実行してカウンターオブジェクトを作成した
+- [x] `increment` 関数にオブジェクトIDを渡して実行した
+- [x] Unit 3のゴール「Explorerからコントラクト呼び出し成功」を達成した
