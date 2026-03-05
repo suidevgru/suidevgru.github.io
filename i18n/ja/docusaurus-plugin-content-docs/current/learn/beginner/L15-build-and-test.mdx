@@ -1,0 +1,188 @@
+---
+sidebar_position: 15
+title: "ビルドとテスト"
+description: "sui move build と sui move test でコントラクトをローカルで検証する"
+---
+
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L14_Counter } from '@site/src/templates/move/moveTemplate_04_counter';
+
+# ビルドとテスト
+
+今回は `my_first_package.move` に **テストコードを追加**して、ローカルで動作を確認する方法を学びます。**難しくありません**。同じファイルにテスト関数を追加して、手元ですぐに確認できます。
+
+---
+
+## 前提条件
+
+- [最小コントラクトを書く](/docs/learn/beginner/L14-write-minimal-contract) を完了していること（`my_first_package.move` が書けていること）
+- [Sui CLI がインストールされていること](/docs/getting-started/L03-install-sui-cli)
+
+---
+
+## なぜテストを書くの？
+
+ブロックチェーンにデプロイしたコントラクトは、基本的に書き換えられません。デプロイ前にバグを見つけるために、**ローカルでテストを実行する**ことが重要です。
+
+Move には **組み込みのテスト機能**があり、`#[test]` アノテーションを使うだけでテスト関数を定義できます。コントラクトをデプロイせずに、手元で何度でも実行できます。
+
+---
+
+## テストコードを追加しよう
+
+`sources/my_first_package.move` を開いて、ファイルの末尾（モジュールの閉じ括弧の前）に以下のテストコードを追加します。
+
+```rust title="sources/my_first_package.move"
+module my_first_package::counter {
+    /// カウンターオブジェクト
+    public struct Counter has key {
+        id: UID,
+        value: u64,
+    }
+
+    /// カウンターを作成して送信者に転送
+    entry fun create(ctx: &mut TxContext) {
+        let counter = Counter {
+            id: object::new(ctx),
+            value: 0,
+        };
+        transfer::transfer(counter, ctx.sender());
+    }
+
+    /// カウンターの値を1増やす
+    entry fun increment(counter: &mut Counter) {
+        counter.value = counter.value + 1;
+    }
+
+    // === テスト ===
+
+    #[test]
+    fun test_increment() {
+        // テスト用のダミーコンテキストを作成
+        let mut ctx = tx_context::dummy();
+
+        // Counter オブジェクトを直接作成（同じモジュール内なので非公開フィールドにアクセスできる）
+        let mut counter = Counter {
+            id: object::new(&mut ctx),
+            value: 0,
+        };
+
+        // increment を実行
+        increment(&mut counter);
+
+        // 値が 1 になっていることを確認
+        assert!(counter.value == 1, 0);
+
+        // テスト終了時にオブジェクトを後処理する
+        let Counter { id, value: _ } = counter;
+        object::delete(id);
+    }
+}
+```
+
+### テストコードのポイント
+
+**`#[test]` アノテーション**
+
+`#[test]` を付けた関数は、`sui move test` を実行したときだけ動きます。通常のビルドには含まれません。
+
+**`tx_context::dummy()`**
+
+テスト用のダミーコンテキストを作ります。本番では Sui ネットワークがコンテキストを作りますが、テストではこのダミーを使います。
+
+**`assert!(条件, エラーコード)`**
+
+条件が `false` の場合にテストを失敗させます。`assert!(counter.value == 1, 0)` は「`value` が 1 でなければエラー」という意味です。
+
+**後処理（分解代入 + `object::delete`）**
+
+Move では、`has key` を持つオブジェクトをそのままスコープの外に捨てることはできません。テスト内では `object::delete(id)` を使って、最後に明示的に削除します。
+
+:::info 同じモジュール内だからアクセスできる
+テスト関数はコントラクトと**同じモジュール内**に書いているので、`value` などの非公開フィールドに直接アクセスできます。別モジュールからテストする場合は、アクセサ関数や `test_scenario` を使う必要があります。
+:::
+
+---
+
+## 試してみよう
+
+2つの方法から好きな方を選んでください。
+
+### Option A: Move Playground
+
+ローカル環境不要。上のテストコードを Playground に貼り付けて、**Test** ボタンをクリックするとブラウザ上で `sui move test` を実行できます。
+
+<MovePlayground template={MoveTemplate_L14_Counter} />
+
+### Option B: VSCode + CLI
+
+> `Move.toml` の `[environments]` 設定は L14 で行っています。まだの場合は [ビルドで確認しよう](/docs/learn/beginner/L14-write-minimal-contract#ビルドで確認しよう) を参照してください。
+
+**1. ビルドを実行する**
+
+プロジェクトのルートディレクトリ（`Move.toml` があるフォルダ）で実行してください。
+
+```bash
+sui move build
+```
+
+成功すると以下のように表示されます：
+
+```
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
+BUILDING my_first_package
+```
+
+`BUILDING my_first_package` まで進めば、ビルド自体は成功です。
+
+エラーが出た場合は、テストコードの構文を見直してみてください。VSCode の Sui Extension があればリアルタイムでエラーが表示されます。
+
+**2. テストを実行する**
+
+ビルドが通ったら、テストを実行します。
+
+```bash
+sui move test
+```
+
+テストが成功すると、以下のような出力が表示されます：
+
+```
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
+BUILDING my_first_package
+Running Move unit tests
+[ PASS    ] my_first_package::counter::test_increment
+Test result: OK. Total tests: 1; passed: 1; failed: 0
+```
+
+`[ PASS ]` と表示されていれば成功です！`increment` 関数が正しく動いていることがローカルで確認できました。
+
+`assert!` の条件が満たされない場合、以下のように表示されます：
+
+```
+[ FAIL    ] my_first_package::counter::test_increment
+Test result: FAILED. Total tests: 1; passed: 0; failed: 1
+```
+
+この場合は `increment` 関数のロジックや `assert!` の条件を見直してみましょう。
+
+---
+
+## 成功の確認
+
+以下ができれば、このレッスンは完了です：
+
+- [ ] `my_first_package.move` にテスト関数 `test_increment` を追加できた
+- [ ] エラーなくコンパイルできた（Playground または `sui move build`）
+- [ ] `sui move test` で `[ PASS ]` が表示された（Playground の Test ボタンまたは CLI）
+
+---
+
+## このレッスンでやったこと
+
+- [x] `#[test]` アノテーションでテスト関数を定義した
+- [x] `tx_context::dummy()` でテスト用コンテキストを作成した
+- [x] `assert!` で期待する値を検証した
+- [x] `sui move build` と `sui move test` でコントラクトをローカル検証した
