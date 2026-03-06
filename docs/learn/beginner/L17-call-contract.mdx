@@ -1,29 +1,142 @@
 ---
 sidebar_position: 17
-title: "[DRAFT] call-contract"
-description: "Placeholder page generated while drafting Japanese."
+title: "Call a Contract from Explorer"
+description: "Use Suiscan's GUI to call functions on the counter contract you published to Devnet"
 ---
 
-# [DRAFT] call-contract
+# Call a Contract from Explorer
 
-In this lesson, you'll TODO. It's not difficult—follow the steps and you’ll be done in a few minutes.
-
----
-
-## Steps
-
-### 1. TODO
-
-TODO
+In the previous lesson you published the counter contract to Devnet. Now let's **call its functions directly from Suiscan's GUI** — no terminal, no code. Just a browser.
 
 ---
 
-## Verify Success
+## Prerequisites
 
-TODO
+- Completed [Publish a Contract](/docs/learn/beginner/L16-publish-contract) and have the **PackageID** on hand
+- Slush wallet [connected to Devnet](/docs/getting-started/L02-switch-devnet)
+- [Test tokens in your wallet](/docs/getting-started/L06-get-test-tokens) (gas is required for function calls)
+
+---
+
+## 1. Open the Package in Suiscan
+
+Open [Suiscan (Devnet)](https://suiscan.xyz/devnet/home) in your browser.
+
+<!-- Image: Suiscan Devnet top page -->
+![Suiscan Devnet](./img/L17_step1_suiscan-top.png)
+
+Paste the **PackageID** from the previous lesson into the search box and search.
+
+<!-- Image: PackageID entered in the search box -->
+![Search PackageID](./img/L17_step2_search-package.png)
+
+The Package page opens. You'll see a **Contracts** section listing the `counter` module.
+
+<!-- Image: Modules section on the Package page -->
+![Package page Modules section](./img/L17_step3a_package-page.png)
+
+<!-- Image: Expanded view after clicking Contracts -->
+![Contracts expanded](./img/L17_step3b_contracts-expanded.png)
+
+---
+
+## 2. Create a Counter with `create`
+
+Click the `counter` module to expand it. You'll see a list of functions:
+
+- `create` — creates a Counter object and sends it to your wallet (`entry fun`)
+- `increment` — increments the counter by 1 (`entry fun`)
+- `get_value` — returns the current counter value (`public fun`)
+
+In Suiscan's UI, only `entry fun` functions show an **Execute** button. `get_value` is a `public fun`, so it has no button — it's intended to be called programmatically from the SDK or other Move modules. You'll verify the value in step 4.
+
+First, run **`create`** to get a Counter object.
+
+Click the **Execute** button next to `create`. (If your wallet isn't connected, click **Connect** and connect with Slush.)
+
+<!-- Image: Function list with Execute button for create -->
+![Execute button for create](./img/L17_step4_create-execute.png)
+
+`create` takes no arguments (`TxContext` is provided automatically). The wallet signing popup appears right away.
+
+Review the details in Slush and click **Approve**.
+
+<!-- Image: Slush approval popup -->
+![Slush approval popup](./img/L17_step5_slush-approve.png)
+
+Once the transaction succeeds, **Transaction applied** appears in the Execute panel. Under **Created** you'll see the Counter object's **ObjectID** (`0x...`).
+
+<!-- Image: Transaction applied result with ObjectID under Created -->
+![Transaction applied](./img/L17_step6_transaction-applied.png)
+
+Click the `0x...` address under **Created** to open the Counter object's detail page. It's handy to **right-click → Open in new tab** so you can come back later. Click the **Fields** section to expand it — you'll see `value: 0`, the initial value right after creation.
+
+<!-- Image: Clicking the Fields section -->
+![Click Fields section](./img/L17_step7_fields-click.png)
+
+<!-- Image: Fields expanded showing value=0 -->
+![Counter object value=0](./img/L17_step8_counter-value-0.png)
+
+You'll need the ObjectID in the next step. Copy it using the copy icon.
+
+---
+
+## 3. Increment the Counter with `increment`
+
+Go back to the Package page in Suiscan (use your browser's back button or search for the PackageID again) and expand the `counter` module.
+
+This time click the **Execute** button next to **`increment`**.
+
+<!-- Image: Execute button for increment -->
+![Execute button for increment](./img/L17_step7_increment-execute.png)
+
+`increment` takes one argument:
+
+| Argument | Type | Value to enter |
+|----------|------|----------------|
+| `counter` | `Counter` (object ID) | The Counter ObjectID you copied in step 2 |
+
+Paste the Counter ObjectID into the input field.
+
+Click **Execute** and **Approve** in the Slush popup.
+
+Once the transaction succeeds, you're done.
+
+<!-- Image: Successful increment transaction -->
+![Increment success](./img/L17_step8_increment-success.png)
+
+---
+
+## 4. Verify the Value Changed in the Counter Object
+
+Return to the Counter object page (or search for its ObjectID again) and check the **Fields** section.
+
+The `value` should have changed from `0` to `1`.
+
+<!-- Image: Counter object Fields section showing value=1 -->
+![Counter object value=1](./img/L17_step9_counter-value-1.png)
+
+The value that was `0` in step 2 is now `1` after running `increment`.
+
+:::info Refresh the page
+If you kept the page open, refresh your browser (F5 or ⌘R). Without a refresh, you may still see the old cached value.
+:::
+
+---
+
+## Success Checklist
+
+- [ ] Searched for the PackageID in Suiscan and opened the Package page
+- [ ] Ran `create` and verified the Counter object with `value: 0`
+- [ ] Ran `increment` and incremented the counter
+- [ ] Confirmed the Counter object's `value` changed to `1`
 
 ---
 
 ## What You Did in This Lesson
 
-- [x] TODO
+- [x] Searched for a contract Package by PackageID in Suiscan
+- [x] Ran `create` to create a Counter object
+- [x] Passed an ObjectID as an argument to `increment` and ran it
+- [x] Verified the value change directly on the Counter object's Fields
+- [x] Successfully called a contract from the Explorer
