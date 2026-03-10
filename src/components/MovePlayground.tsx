@@ -12,7 +12,8 @@ import {
   getSuiMoveVersion,
   initMoveCompiler,
   resolveDependencies,
-} from '@zktx.io/sui-move-builder/lite';
+  testMovePackage,
+} from '@zktx.io/sui-move-builder';
 
 import { MoveTemplate_Intro_HelloWorld } from '@site/src/templates/move/moveTemplate_01_hello';
 import type { MoveTemplate } from '@site/src/templates/move/types';
@@ -27,6 +28,55 @@ type BuildSuccess = BuildResult & {
 
 type AnsiColorMap = Record<number, string>;
 const ANSI_REGEX = /\x1b\[[0-9;]*m/g;
+
+function parsePackageName(moveToml: string): string | null {
+  const m = moveToml.match(/\[package\][\s\S]*?\bname\s*=\s*["']([^"']+)["']/);
+  return m?.[1] ?? null;
+}
+
+function filterTestOutputByPackage(
+  output: string,
+  packageName: string,
+): { output: string; passed: number; failed: number } {
+  const strip = (s: string) => s.replace(ANSI_REGEX, '');
+  const kept: string[] = [];
+  let passed = 0;
+  let failed = 0;
+
+  for (const line of output.split('\n')) {
+    const plain = strip(line);
+
+    if (plain.includes('Running Move unit tests')) {
+      kept.push(line);
+      continue;
+    }
+
+    const passMatch = plain.match(/\[\s*PASS\s*\]\s+(\S+)/);
+    if (passMatch) {
+      if (passMatch[1].startsWith(`${packageName}::`)) {
+        kept.push(line);
+        passed++;
+      }
+      continue;
+    }
+
+    const failMatch = plain.match(/\[\s*FAIL\s*\]\s+(\S+)/);
+    if (failMatch) {
+      if (failMatch[1].startsWith(`${packageName}::`)) {
+        kept.push(line);
+        failed++;
+      }
+      continue;
+    }
+
+    if (plain.startsWith('Test result:')) continue;
+  }
+
+  const total = passed + failed;
+  const status = failed === 0 ? 'OK' : 'FAILED';
+  kept.push(`Test result: ${status}. Total tests: ${total}; passed: ${passed}; failed: ${failed}`);
+  return { output: kept.join('\n'), passed, failed };
+}
 const ANSI_COLORS_LIGHT: AnsiColorMap = {
   30: '#0f172a',
   31: '#b91c1c',
@@ -455,6 +505,76 @@ export function MovePlayground({ template = MoveTemplate_Intro_HelloWorld }: { t
     );
   };
 
+  const onTest = async () => {
+    setOutput('');
+    setWarnings('');
+    setErrors('');
+    setActiveConsoleTab('output');
+    setBusy(true);
+    setStatus('Resolving dependencies...');
+
+    const start = performance.now();
+
+    try {
+      appendLog('[MovePlayground] Test started');
+      await ensureCompiler();
+      try {
+        await logCompilerVersion();
+      } catch {
+        // version logging already reported
+      }
+      appendLog('[MovePlayground] Resolving dependencies...');
+      const resolvedDependencies = await resolveDependencies({
+        files,
+        ansiColor: true,
+        network: 'devnet',
+      });
+      appendLog('[MovePlayground] Dependency resolution complete');
+
+      const sourceFiles = {
+        ...Object.fromEntries(
+          Object.entries(files).filter(([path]) => path === 'Move.toml' || path.endsWith('.move')),
+        ),
+      };
+
+      setStatus('Running tests...');
+      appendLog('[MovePlayground] Running Move tests...');
+      const result = await testMovePackage({
+        files: sourceFiles,
+        resolvedDependencies,
+        ansiColor: true,
+        network: 'devnet',
+      });
+      const end = performance.now();
+
+      if ('error' in result) {
+        appendError('Tests failed to run.');
+        appendError(result.error);
+        setStatus('Test error.');
+      } else {
+        const packageName = parsePackageName(files['Move.toml'] ?? '');
+        const { output: filteredOutput, failed: failedCount } = packageName
+          ? filterTestOutputByPackage(result.output, packageName)
+          : { output: result.output, failed: result.passed ? 0 : 1 };
+        appendOutput(filteredOutput);
+        if (failedCount === 0) {
+          appendLog(`All tests passed in ${(end - start).toFixed(2)} ms`);
+          setStatus('Tests passed.');
+        } else {
+          appendError('Some tests failed.');
+          setActiveConsoleTab('errors');
+          setStatus('Tests failed.');
+        }
+      }
+    } catch (error) {
+      appendError('Runtime error:');
+      appendError(String(error));
+      setStatus('Error.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <div ref={containerRef} style={{ width: 'min(100%, 1100px)', margin: '0 auto' }}>
       <div
@@ -544,6 +664,9 @@ export function MovePlayground({ template = MoveTemplate_Intro_HelloWorld }: { t
         >
           <button className="button button--primary" onClick={onCompile} disabled={busy}>
             {busy ? 'Compiling…' : 'Compile'}
+          </button>
+          <button className="button button--info" onClick={onTest} disabled={busy}>
+            {busy ? 'Testing…' : 'Test'}
           </button>
           <button
             className="button button--warning"
