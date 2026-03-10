@@ -1,0 +1,130 @@
+---
+sidebar_position: 16
+title: "Publish a Contract"
+description: "Deploy the counter contract to Devnet using Move Playground or the sui client publish command"
+---
+
+import { MovePlayground } from '@site/src/components/MovePlayground';
+import { MoveTemplate_L16_CounterPublish } from '@site/src/templates/move/moveTemplate_05_publish';
+
+# Publish a Contract
+
+In this lesson, you'll deploy the counter contract to Devnet. **It's not difficult** — compile the code, publish it, find the PackageID, and you're done.
+
+---
+
+## Prerequisites
+
+- [Obtained Devnet test tokens](/docs/getting-started/L06-get-test-tokens) (gas is required for publishing)
+- Option A (Playground): A browser wallet (e.g. Slush) [connected to Devnet](/docs/getting-started/L02-switch-devnet)
+- Option B (CLI): [Sui CLI connected to Devnet](/docs/getting-started/L05-connect-cli-to-devnet)
+
+---
+
+## What is Publishing?
+
+Publishing means registering your locally written Move contract **on the Sui blockchain**. After publishing:
+
+- The contract is stored on-chain as a **Package**
+- A unique address called a **PackageID** is assigned
+- The PackageID lets clients reference the package on-chain; its `public` and `entry` functions can be called by anyone, subject to each function's argument and access requirements
+
+---
+
+## Try It Out
+
+Choose whichever method works for you.
+
+### Option A: Move Playground
+
+No local setup required. The Playground comes pre-loaded with the complete counter code. Click **Compile**, then **Publish** to deploy to Devnet right in your browser.
+
+The key difference from the CLI: the Playground uses your **browser wallet**, which shows an approval popup before signing. The CLI signs automatically using your local keystore with no popup.
+
+The address connected to your wallet must have **SUI test tokens** for gas. If you haven't obtained them yet, [get them here](/docs/getting-started/L06-get-test-tokens).
+
+**Steps:**
+
+1. Click **Connect Wallet** in the top-right corner
+2. Switch to Devnet in your wallet ([how to switch](/docs/getting-started/L02-switch-devnet))
+3. Click **Compile** and wait for the build to succeed
+4. Click **Publish** (it's disabled until Compile completes)
+5. Approve the transaction in your wallet popup
+6. After confirmation, the Package ID appears in the Playground
+
+<MovePlayground template={MoveTemplate_L16_CounterPublish} />
+
+:::info
+Copy the **Package ID** shown above — you'll need it in the next lesson.
+:::
+
+---
+
+### Option B: VSCode + CLI
+
+From the project root directory (where `Move.toml` is located), run:
+
+```bash
+cd ~/sui-projects/my_first_package
+sui client publish
+```
+
+The CLI signs automatically with your local keystore and submits the transaction to Devnet — no wallet popup appears.
+
+### Reading the output
+
+When successful, a large amount of output is displayed. You only need to find two things.
+
+Look for `Status: Success` in the `Transaction Effects` section — this confirms the publish worked.
+
+Find the `Published Objects` section under `Object Changes`:
+
+```
+│ Published Objects:                                          │
+│  ┌──                                                        │
+│  │ PackageID: 0x1234abcd...                                │
+│  │ Version: 1                                               │
+│  │ Digest: AbCdEf...                                        │
+│  │ Modules: counter                                         │
+│  └──                                                        │
+```
+
+:::info
+The `PackageID: 0x...` value is your contract's on-chain address. Save it — you'll need it in the next lesson.
+:::
+
+Publishing also creates an **UpgradeCap** object transferred to your address. This object controls future contract upgrades.
+
+Near the top or bottom of the output you'll also find a **Transaction Digest**, which you can use to look up the transaction in Sui Explorer.
+
+---
+
+## Verify on Sui Explorer
+
+Open [Sui Explorer (Devnet)](https://suiexplorer.com/?network=devnet) and paste your PackageID or transaction digest into the search box. Confirm that the Package is listed and the PackageID matches what you received.
+
+---
+
+## If You Get an Error
+
+**`InsufficientGas`** / **`No valid gas coins found for the transaction`**: You don't have enough test tokens. Get more from the [faucet](/docs/getting-started/L06-get-test-tokens). Check your balance with `sui client gas`.
+
+**`Unresolved dependencies`**: The `[environments]` section is missing from `Move.toml`. See [L14](/docs/learn/beginner/L14-write-minimal-contract) to add the devnet chain ID.
+
+**`Build failed`**: Run `sui move build` first to diagnose the error.
+
+---
+
+## Success Checklist
+
+- [ ] Compiled and published the contract (Playground or `sui client publish`)
+- [ ] Obtained the `PackageID`
+- [ ] Verified the Package on Sui Explorer
+
+---
+
+## What You Did in This Lesson
+
+- [x] Deployed the counter contract to Devnet (Playground or CLI)
+- [x] Obtained the PackageID
+- [x] Verified the deployed Package on Sui Explorer

@@ -18,7 +18,7 @@ const moveToml = (pkg: string) =>
 [package]
 name = "${pkg}"
 version = "0.0.1"
-edition = "2024.beta"
+edition = "2024"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
