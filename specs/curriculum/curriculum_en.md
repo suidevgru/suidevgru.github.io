@@ -85,17 +85,19 @@ Success if a tx combining 2 operations in PTB Builder is successful.
 | L14 | Beginner | Write Minimal Contract | Implement struct + entry function | 1. Implement a counter<br/>2. Verify syntax | No build errors | **Sui Extension** | Build and test |
 | L15 | Beginner | Build & Test | Verify locally | 1. sui move build<br/>2. sui move test | Tests pass | CLI, **Sui Extension** | Deploy to Devnet |
 | L16 | Beginner | Publish to Devnet | Deploy the contract | 1. sui client publish<br/>2. Obtain Package ID | Package ID found on Explorer | CLI, Explorer | Call from Explorer |
-| L17 | Beginner | Call Function from Explorer | Operate contract via GUI | 1. Search Package ID<br/>2. Execute<br/>3. Verify result | Function executes normally | Explorer, Slush | Unit 3 Clear! Next: TS operation |
+| L17 | Beginner | Call Function from Explorer | Operate contract via GUI | 1. Search Package ID<br/>2. Execute<br/>3. Verify result | Function executes normally | Explorer, Slush | Upgrade the package |
+| L18 | Beginner | Upgrade a Package | Understand how to upgrade a package | 1. Check UpgradeCap<br/>2. Update version in Move.toml<br/>3. Run sui client upgrade | Upgraded Package ID is confirmed in Explorer | CLI, Explorer | Unit 3 Clear! Next: TS operation |
 
 ### Checkpoint
 
-Success if your own contract is published and called successfully from the Explorer.
+Success if your own contract is published, called successfully from the Explorer, and the upgraded Package ID is confirmed in Explorer.
 
 ### Pitfalls
 
 - **Build Error**: Check the Sui Extension error display.
 - **Publish Failure**: Check gas balance and code syntax.
 - **Lost Package ID**: Can be searched via Explorer history.
+- **Upgrade Failure**: Verify the UpgradeCap ID and confirm the version is updated in Move.toml.
 
 ---
 
@@ -107,13 +109,13 @@ Success if your own contract is published and called successfully from the Explo
 
 | ID | Level | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|:--|
-| L18 | Beginner | Learn SDK Structure | Roles of @mysten/sui & @mysten/dapp-kit | 1. Check packages<br/>2. Refer to docs | Can explain both roles | Reading | Connect with SuiClient |
-| L19 | Beginner | Connect with SuiClient | Network connection & data fetch | 1. Run getBalance<br/>2. Verify result | Balance is retrieved | TS | Build PTB in TS |
-| L20 | Beginner | Use Transaction Class | Construct PTB with TS | 1. Recreate Unit 2 PTB in TS<br/>2. Execute | Obtain same result | TS, **PTB Builder Ref** | Setup dapp-kit |
-| L21 | Beginner | Setup dapp-kit Provider | Build frontend foundation | 1. Set Provider hierarchy<br/>2. Verify operation | Boots without errors | dapp-kit | Create wallet connection |
-| L22 | Beginner | Create Wallet Connect Button | Wallet linkage with ConnectButton | 1. Place ConnectButton<br/>2. Test connection | Wallet is connected | dapp-kit, Slush | Sign & execute tx |
-| L23 | Beginner | Sign and Execute tx | Sign/send tx from frontend | 1. useSignAndExecuteTransaction<br/>2. Call L16 contract | Tx is successful | dapp-kit, Slush | Display results in UI |
-| L24 | Beginner | Display Results in UI | Reflect tx result in UI | 1. Success/Fail logic<br/>2. Display | Result appears on UI | dapp-kit | Unit 4 Clear! Next: Integration |
+| L19 | Beginner | Learn SDK Structure | Roles of @mysten/sui & @mysten/dapp-kit | 1. Check packages<br/>2. Refer to docs | Can explain both roles | Reading | Connect with SuiClient |
+| L20 | Beginner | Connect with SuiClient | Network connection & data fetch | 1. Run getBalance<br/>2. Verify result | Balance is retrieved | TS | Build PTB in TS |
+| L21 | Beginner | Use Transaction Class | Construct PTB with TS | 1. Recreate Unit 2 PTB in TS<br/>2. Execute | Obtain same result | TS, **PTB Builder Ref** | Setup dapp-kit |
+| L22 | Beginner | Setup dapp-kit Provider | Build frontend foundation | 1. Set Provider hierarchy<br/>2. Verify operation | Boots without errors | dapp-kit | Create wallet connection |
+| L23 | Beginner | Create Wallet Connect Button | Wallet linkage with ConnectButton | 1. Place ConnectButton<br/>2. Test connection | Wallet is connected | dapp-kit, Slush | Sign & execute tx |
+| L24 | Beginner | Sign and Execute tx | Sign/send tx from frontend | 1. useSignAndExecuteTransaction<br/>2. Call L16 contract | Tx is successful | dapp-kit, Slush | Display results in UI |
+| L25 | Beginner | Display Results in UI | Reflect tx result in UI | 1. Success/Fail logic<br/>2. Display | Result appears on UI | dapp-kit | Unit 4 Clear! Next: Integration |
 
 ### Checkpoint
 
@@ -135,9 +137,9 @@ Success if the tx built in TS works through Wallet Signing -> Execution -> Resul
 
 | ID | Level | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|:--|
-| L25 | Beginner | Overall Project Design (Opt) | Organize Move + Frontend integration | 1. Check directory structure<br/>2. Verify dependencies | Grasp the big picture | Reading | Move to integration |
-| L26 | Beginner | Integrate Contract & Frontend | Link L16 contract + L24 frontend | 1. Set Package ID<br/>2. Test calling | Works locally | dapp-kit, **Sui Extension** | Finalize UI |
-| L27 | Beginner | Finalize UI | Refine User Experience | 1. Adjust styles<br/>2. Error handling | UI is easy to use | dapp-kit | Unit 5 Clear! Next: Deploy |
+| L26 | Beginner | Overall Project Design (Opt) | Organize Move + Frontend integration | 1. Check directory structure<br/>2. Verify dependencies | Grasp the big picture | Reading | Move to integration |
+| L27 | Beginner | Integrate Contract & Frontend | Link L16 contract + L25 frontend | 1. Set Package ID<br/>2. Test calling | Works locally | dapp-kit, **Sui Extension** | Finalize UI |
+| L28 | Beginner | Finalize UI | Refine User Experience | 1. Adjust styles<br/>2. Error handling | UI is easy to use | dapp-kit | Unit 5 Clear! Next: Deploy |
 
 ### Checkpoint
 
@@ -159,13 +161,13 @@ Success if the UI works from wallet connection to result display.
 
 | ID | Level | Title | Goal | Do | Success Check | Tools | Next |
 |:--|:--|:--|:--|:--|:--|:--|:--|
-| L28 | Beginner | Choose Hosting Method | Decide where to publish | 1. GitHub Pages (Fast/Rec)<br/>2. Walrus Sites (Web3/Opt)<br/>3. Select | Strategy decided | Reading | Let's deploy |
-| L29 | Beginner | Build and Deploy | Publish the frontend | 1. Build<br/>2. Deploy<br/>3. Verify URL | Accessible via public URL | site-builder or GitHub | Verify operation |
-| L30 | Beginner | Operation Verification | Test the live dApp | 1. Connect wallet<br/>2. Execute tx<br/>3. Verify result | All functions work | Live dApp, Slush | Reflection |
-| L31 | Beginner | Reflection | Organize learned content | 1. Check checklist<br/>2. Verify achievements | All items cleared | Reading | To next steps |
-| L32 | Beginner | Next Steps | Guidance to Advanced Course | 1. Check Advanced Course<br/>2. Choose field of interest | Next goal decided | Reading | Join the community |
-| L33 | Beginner | About Contributors | Learn credit policy & contribution | 1. Check Contributors<br/>2. Check contribution guide | Understand how to contribute | Reading | See community resources |
-| L34 | Beginner | Community Resources | Japanese community & event info | 1. Check community links<br/>2. Check event info | Know next learning resources | Reading | Beginner Course Complete! |
+| L29 | Beginner | Choose Hosting Method | Decide where to publish | 1. GitHub Pages (Fast/Rec)<br/>2. Walrus Sites (Web3/Opt)<br/>3. Select | Strategy decided | Reading | Let's deploy |
+| L30 | Beginner | Build and Deploy | Publish the frontend | 1. Build<br/>2. Deploy<br/>3. Verify URL | Accessible via public URL | site-builder or GitHub | Verify operation |
+| L31 | Beginner | Operation Verification | Test the live dApp | 1. Connect wallet<br/>2. Execute tx<br/>3. Verify result | All functions work | Live dApp, Slush | Reflection |
+| L32 | Beginner | Reflection | Organize learned content | 1. Check checklist<br/>2. Verify achievements | All items cleared | Reading | To next steps |
+| L33 | Beginner | Next Steps | Guidance to Advanced Course | 1. Check Advanced Course<br/>2. Choose field of interest | Next goal decided | Reading | Join the community |
+| L34 | Beginner | About Contributors | Learn credit policy & contribution | 1. Check Contributors<br/>2. Check contribution guide | Understand how to contribute | Reading | See community resources |
+| L35 | Beginner | Community Resources | Japanese community & event info | 1. Check community links<br/>2. Check event info | Know next learning resources | Reading | Beginner Course Complete! |
 
 ### Hosting Options
 
@@ -235,7 +237,7 @@ Each Lesson consists of the following fields:
 
 | Field | Description |
 |:--|:--|
-| ID | Lesson Number (L1–L34) |
+| ID | Lesson Number (L1–L35) |
 | Level | Course Level (Beginner / Advanced) |
 | Title | Lesson Title |
 | Goal | One-line goal |
@@ -249,7 +251,7 @@ Each Lesson consists of the following fields:
 | Level | Description |
 |:--|:--|
 | getting-started | Environment Setup (L1–L6) |
-| Beginner | Beginner Course (L7–L34) |
+| Beginner | Beginner Course (L7–L35) |
 | Advanced | Advanced Track |
 
 ### Tool List
