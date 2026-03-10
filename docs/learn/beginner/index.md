@@ -30,3 +30,5 @@ By the end of this section, you'll have:
 14. [**Write a Minimal Contract**](./L14-write-minimal-contract.mdx) – Implement a counter with struct and entry functions
 15. [**Build and Test**](./L15-build-and-test.mdx) – Verify your contract locally with `sui move build` and `sui move test`
 16. [**Publish a Contract**](./L16-publish-contract.mdx) – Deploy the counter contract to Devnet with `sui client publish`
+17. [**[DRAFT] call-contract**](./L17-call-contract.mdx)
+

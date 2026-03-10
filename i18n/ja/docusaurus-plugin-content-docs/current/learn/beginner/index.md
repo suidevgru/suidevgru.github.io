@@ -30,3 +30,5 @@ description: "ウォレット、CLI、そして初めてのスマートコント
 14. [**ミニマムコントラクトを書く**](./L14-write-minimal-contract.mdx) – structとentry funでカウンターを実装する
 15. [**ビルドとテスト**](./L15-build-and-test.mdx) – `sui move build` と `sui move test` でコントラクトをローカル検証する
 16. [**コントラクトをパブリッシュする**](./L16-publish-contract.mdx) – `sui client publish` でカウンターをDevnetにデプロイする
+17. [**Explorerから関数を呼び出す**](./L17-call-contract.mdx) – ExplorerのGUIでコントラクト関数を実行する
+
