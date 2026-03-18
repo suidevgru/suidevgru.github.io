@@ -49,7 +49,7 @@ upgrade-capability = "0xe569f7ab..."
 
 ## コードを修正する
 
-アップグレードの例として、`reset` 関数を追加してみましょう。L16 で作成した `counter` モジュールに以下の関数を追加します。
+アップグレードの例として、`reset` 関数を追加してみましょう。[L16](./L16-publish-contract) で作成した `counter` モジュールに以下の関数を追加します。
 
 ```rust
 entry fun reset(counter: &mut Counter, _ctx: &mut TxContext) {
@@ -78,7 +78,6 @@ sui client upgrade
 ```
 
 `UpgradeCap` を持つアドレスがアクティブアドレスであれば、このコマンドだけでアップグレードできます。
-
 
 ---
 
