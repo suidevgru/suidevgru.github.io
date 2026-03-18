@@ -53,6 +53,8 @@ This glossary is the source of truth for consistent terminology across English, 
 | Deploy | 배포하다 | デプロイする |  |
 | Compile | 컴파일하다 | コンパイルする | Accepted loanword in KO/JA dev docs; keep as-is. |
 | Import (code) | 임포트 / 불러오기 | インポート | Both acceptable in KO; prefer "불러오기" in beginner-level docs. |
+| Package | 패키지 | パッケージ |  |
+| Upgrade (a package) | 업그레이드하다 | アップグレードする |  |
 
 ## Usage examples
 
